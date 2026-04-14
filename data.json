@@ -1,0 +1,30 @@
+{
+  "currentSession": 0,
+  "pts": {
+    "amm": 0,
+    "fin": 0,
+    "mkt": 0,
+    "rim": 0
+  },
+  "reps": {
+    "amm": "",
+    "fin": "",
+    "mkt": "",
+    "rim": ""
+  },
+  "dashItems": [],
+  "sessions": [
+    {"day":"Lun 20/4","time":"mat","squad":"amm","title":"Kick-off: il cliente e il progetto","desc":"Presentazione del progetto Hotel Futuro. Le squadre prendono vita.","challenge":"Scrivi un prompt per chiedere a Claude di presentarsi come consulente AI dell'Hotel Futuro e di descrivere come può aiutare le 4 aree aziendali.","hint":"Più contesto date (tipo hotel, camere, location), più utile sarà la risposta."},
+    {"day":"Lun 20/4","time":"pom","squad":"fin","title":"Analisi SWOT dell'hotel","desc":"Prima analisi strategica con supporto AI.","challenge":"Chiedi a Claude di fare una completa analisi SWOT per l'Hotel Futuro.","hint":"Specificate tipo clientela e location per un'analisi più mirata."},
+    {"day":"Mar 21/4","time":"mat","squad":"mkt","title":"Segmentazione clienti e piano marketing","desc":"Definire chi sono i clienti è il primo passo di ogni strategia.","challenge":"Chiedi a Claude di identificare i 3 segmenti di clientela principali e per ognuno proporre il messaggio marketing più efficace.","hint":"Chiedete anche quale canale è più adatto per ogni segmento."},
+    {"day":"Mar 21/4","time":"pom","squad":"rim","title":"Descrizione hotel in italiano e inglese","desc":"Il modulo internazionale inizia con la comunicazione fondamentale.","challenge":"Chiedi a Claude di scrivere una descrizione professionale dell'hotel in italiano E in inglese, ottimizzata per Booking.com.","hint":"Versione breve (150 parole) per sommario e lunga (400 parole) per la pagina completa."},
+    {"day":"Mer 22/4","time":"mat","squad":"fin","title":"Budget annuale dell'hotel","desc":"Costruire un budget realistico con l'AI.","challenge":"Chiedi a Claude di costruire un budget annuale semplificato con le principali voci di ricavo e costo.","hint":"Include ricavi camere e costi (personale 35%, OTA 15%, utenze, manutenzione)."},
+    {"day":"Mer 22/4","time":"pom","squad":"amm","title":"KPI principali dell'hotel","desc":"Senza indicatori non si gestisce un hotel.","challenge":"Chiedi a Claude di spiegare i 5 KPI più importanti per un hotel, con formula e valore target.","hint":"Chiedete esempi numerici concreti, non solo definizioni."},
+    {"day":"Gio 23/4","time":"mat","squad":"rim","title":"Email professionale in inglese","desc":"La comunicazione scritta internazionale è il cuore del RIM.","challenge":"Chiedi a Claude di scrivere un'email professionale in inglese per rispondere a un cliente che si lamenta della stanza non pulita.","hint":"Claude risponderà in inglese con nota esplicativa in italiano."},
+    {"day":"Gio 23/4","time":"pom","squad":"mkt","title":"Risposta alle recensioni negative","desc":"Gestire la reputazione online è marketing puro.","challenge":"Chiedi a Claude di rispondere a: \"Camera rumorosa, colazione mediocre, personale scortese. Non tornerò mai più.\"","hint":"Risposta non difensiva che riconosce il problema e invita a ritornare."},
+    {"day":"Ven 24/4","time":"mat","squad":"amm","title":"Profilo ospite ideale e CRM","desc":"Il CRM è il cuore operativo di ogni hotel moderno.","challenge":"Chiedi a Claude di creare il profilo dettagliato dell'ospite ideale e suggerire come strutturare un database clienti.","hint":"Includete dati demografici, comportamentali e info da raccogliere al check-in."},
+    {"day":"Ven 24/4","time":"pom","squad":"mkt","title":"Programma fedeltà (Loyalty)","desc":"La sfida più creativa: progettare un loyalty program con l'AI.","challenge":"Chiedi a Claude di progettare un programma fedeltà con livelli, benefit e meccanismo di accumulo punti.","hint":"Chiedete anche come comunicarlo e come misurarne l'efficacia."},
+    {"day":"Sab 25/4","time":"mat","squad":"fin","title":"Pitch: analisi finanziaria finale","desc":"Finanza prepara il pitch con supporto AI.","challenge":"Chiedi a Claude di strutturare un pitch di 5 minuti per presentare la situazione finanziaria al proprietario.","hint":"Schema: apertura 30s, dati chiave 2min, raccomandazioni 2min, chiusura 30s."},
+    {"day":"Sab 25/4","time":"pom","squad":"rim","title":"Pitch finale internazionale","desc":"L'ultima sfida. RIM presenta il progetto in versione internazionale.","challenge":"Chiedi a Claude di scrivere l'apertura del pitch finale in inglese (2 minuti) che presenti Hotel Futuro come progetto PCTO.","hint":"Ultima sfida: siate ambiziosi con il prompt!"}
+  ]
+}
