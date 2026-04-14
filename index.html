@@ -6,24 +6,14 @@
 <title>Hotel Futuro · PCTO Live</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --gold:#c9a84c; --gold-l:#f5e9c8;
-  --dark:#0f0e0c; --dark2:#1a1916; --dark3:#232220;
-  --text:#f0ece4; --text2:#9a9590; --text3:#5a5752;
-  --amm:#4a90d9; --amm-l:#1a2d42;
-  --fin:#d4843a; --fin-l:#3a2510;
-  --mkt:#5aaa3a; --mkt-l:#1a2e10;
-  --rim:#d45a3a; --rim-l:#3a1a10;
-  --border:rgba(201,168,76,0.15);
-}
+:root{--gold:#c9a84c;--dark:#0f0e0c;--dark2:#1a1916;--dark3:#232220;--text:#f0ece4;--text2:#9a9590;--text3:#5a5752;--amm:#4a90d9;--amm-l:#1a2d42;--fin:#d4843a;--fin-l:#3a2510;--mkt:#5aaa3a;--mkt-l:#1a2e10;--rim:#d45a3a;--rim-l:#3a1a10;--border:rgba(201,168,76,0.15);}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;padding-bottom:40px;}
-
 .hero{background:var(--dark2);border-bottom:1px solid var(--border);padding:28px 20px 20px;text-align:center;position:relative;overflow:hidden;}
 .hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
 .hero-eyebrow{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
 .hero-title{font-family:'Playfair Display',serif;font-size:34px;font-weight:600;color:var(--text);line-height:1.1;margin-bottom:4px;}
-.hero-sub{font-size:12px;color:var(--text2);letter-spacing:.04em;}
+.hero-sub{font-size:12px;color:var(--text2);}
 .live-dot{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.1);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:500;color:var(--gold);margin-top:12px;}
 .live-dot::before{content:'';width:6px;height:6px;background:#4caf50;border-radius:50%;animation:blink 1.4s ease-in-out infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
@@ -32,11 +22,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);m
 .section-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;}
 
 .session-card{background:var(--dark2);border:1px solid var(--border);border-radius:14px;padding:18px;position:relative;overflow:hidden;}
-.session-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);border-radius:3px 0 0 3px;}
+.session-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);}
 .session-day{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
 .session-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--text);margin-bottom:6px;line-height:1.3;}
 .session-desc{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:12px;}
-.session-time-badge{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;letter-spacing:.06em;text-transform:uppercase;}
+.time-badge{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;letter-spacing:.06em;text-transform:uppercase;}
 .badge-mat{background:#1a3a5c;color:#7ab8f0;}
 .badge-pom{background:#3a250a;color:#f0b040;}
 
@@ -49,14 +39,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);m
 .days-row{display:flex;gap:4px;margin-top:10px;}
 .day-dot{flex:1;height:4px;border-radius:2px;background:var(--dark3);transition:background .4s;}
 .day-dot.done{background:var(--gold);}
-.day-dot.current{background:#e8c86a;animation:pulse-gold .8s ease-in-out infinite alternate;}
-@keyframes pulse-gold{from{opacity:.6}to{opacity:1}}
+.day-dot.current{background:#e8c86a;animation:pg .8s ease-in-out infinite alternate;}
+@keyframes pg{from{opacity:.6}to{opacity:1}}
 
 .squads-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
 .squad-tile{border-radius:12px;padding:14px;position:relative;overflow:hidden;}
 .squad-tile.leader{box-shadow:0 0 0 1.5px var(--gold);}
-.leader-crown{display:none;position:absolute;top:8px;right:8px;font-size:14px;}
-.squad-tile.leader .leader-crown{display:block;}
+.crown{display:none;position:absolute;top:8px;right:8px;font-size:14px;}
+.squad-tile.leader .crown{display:block;}
 .sq-amm{background:var(--amm-l);} .sq-fin{background:var(--fin-l);}
 .sq-mkt{background:var(--mkt-l);} .sq-rim{background:var(--rim-l);}
 .tile-name{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
@@ -76,15 +66,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);m
 
 .dash-item{background:var(--dark2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;}
 .dash-item-tag{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;}
-.dash-amm .dash-item-tag{color:var(--amm);} .dash-fin .dash-item-tag{color:var(--fin);}
-.dash-mkt .dash-item-tag{color:var(--mkt);} .dash-rim .dash-item-tag{color:var(--rim);}
+.d-amm .dash-item-tag{color:var(--amm);} .d-fin .dash-item-tag{color:var(--fin);}
+.d-mkt .dash-item-tag{color:var(--mkt);} .d-rim .dash-item-tag{color:var(--rim);}
 .dash-item-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;}
 .dash-item-text{font-size:11px;color:var(--text2);line-height:1.6;}
 .dash-empty{font-size:12px;color:var(--text3);font-style:italic;text-align:center;padding:20px 0;}
 
 .footer{text-align:center;padding:32px 20px 0;font-size:11px;color:var(--text3);line-height:1.8;}
 .footer-gold{color:var(--gold);font-weight:500;}
-
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--dark2);border:1px solid var(--border);border-radius:20px;padding:8px 20px;font-size:12px;color:var(--gold);transition:transform .3s ease;z-index:999;white-space:nowrap;}
 .toast.show{transform:translateX(-50%) translateY(0);}
 </style>
@@ -104,7 +93,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);m
     <div class="session-day" id="sess-day">—</div>
     <div class="session-title" id="sess-title">In attesa di avvio...</div>
     <div class="session-desc" id="sess-desc">Il corso inizierà lunedì 20 aprile.</div>
-    <span class="session-time-badge badge-mat" id="sess-badge">Mattina</span>
+    <span class="time-badge badge-mat" id="sess-badge">Mattina</span>
   </div>
 </div>
 
@@ -123,34 +112,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);m
 <div class="section">
   <div class="section-label">Classifica squadre</div>
   <div class="squads-grid">
-    <div class="squad-tile sq-amm" id="tile-amm">
-      <span class="leader-crown">👑</span>
-      <div class="tile-name">Amministrazione</div>
-      <div class="tile-pts" id="pts-amm">0</div>
-      <div class="tile-pts-label">punti</div>
-      <div class="tile-rep"><div class="tile-rep-label">Rep. di turno</div><div id="rep-amm">—</div></div>
-    </div>
-    <div class="squad-tile sq-fin" id="tile-fin">
-      <span class="leader-crown">👑</span>
-      <div class="tile-name">Finanza</div>
-      <div class="tile-pts" id="pts-fin">0</div>
-      <div class="tile-pts-label">punti</div>
-      <div class="tile-rep"><div class="tile-rep-label">Rep. di turno</div><div id="rep-fin">—</div></div>
-    </div>
-    <div class="squad-tile sq-mkt" id="tile-mkt">
-      <span class="leader-crown">👑</span>
-      <div class="tile-name">Marketing</div>
-      <div class="tile-pts" id="pts-mkt">0</div>
-      <div class="tile-pts-label">punti</div>
-      <div class="tile-rep"><div class="tile-rep-label">Rep. di turno</div><div id="rep-mkt">—</div></div>
-    </div>
-    <div class="squad-tile sq-rim" id="tile-rim">
-      <span class="leader-crown">👑</span>
-      <div class="tile-name">RIM</div>
-      <div class="tile-pts" id="pts-rim">0</div>
-      <div class="tile-pts-label">punti</div>
-      <div class="tile-rep"><div class="tile-rep-label">Rep. di turno</div><div id="rep-rim">—</div></div>
-    </div>
+    <div class="squad-tile sq-amm" id="tile-amm"><span class="crown">👑</span><div class="tile-name">Amministrazione</div><div class="tile-pts" id="pts-amm">0</div><div class="tile-pts-label">punti</div><div class="tile-rep"><div class="tile-rep-label">Rep. di turno</div><div id="rep-amm">—</div></div></div>
+    <div class="squad-tile sq-fin" id="tile-fin"><span class="crown">👑</span><div class="tile-name">Finanza</div><div class="tile-pts" id="pts-fin">0</div><div class="tile-pts-label">punti</div><div class="tile-rep"><div class="tile-rep-label">Rep. di turno</div><div id="rep-fin">—</div></div></div>
+    <div class="squad-tile sq-mkt" id="tile-mkt"><span class="crown">👑</span><div class="tile-name">Marketing</div><div class="tile-pts" id="pts-mkt">0</div><div class="tile-pts-label">punti</div><div class="tile-rep"><div class="tile-rep-label">Rep. di turno</div><div id="rep-mkt">—</div></div></div>
+    <div class="squad-tile sq-rim" id="tile-rim"><span class="crown">👑</span><div class="tile-name">RIM</div><div class="tile-pts" id="pts-rim">0</div><div class="tile-pts-label">punti</div><div class="tile-rep"><div class="tile-rep-label">Rep. di turno</div><div id="rep-rim">—</div></div></div>
   </div>
 </div>
 
@@ -165,92 +130,86 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);m
 
 <div class="section">
   <div class="section-label">Dashboard Hotel Futuro — costruita in tempo reale</div>
-  <div id="dash-container">
-    <div class="dash-empty">La dashboard si costruirà durante il corso man mano che le squadre completano le sfide.</div>
-  </div>
+  <div id="dash-container"><div class="dash-empty">La dashboard si costruirà durante il corso man mano che le squadre completano le sfide.</div></div>
 </div>
 
 <div class="footer">
   <div class="footer-gold">Hotel Futuro · PCTO 2026</div>
   Istituto AFM/RIM · Gallarate<br>Powered by Claude AI · Anthropic
 </div>
-
 <div class="toast" id="toast">Aggiornato ✓</div>
 
 <script>
-const BLOB_ID = '019d8da7-1ba7-774b-a33e-91c848d8939f';
-const API = 'https://jsonblob.com/api/jsonBlob/' + BLOB_ID;
-const DAYS = ['Lun 20/4','Mar 21/4','Mer 22/4','Gio 23/4','Ven 24/4','Sab 25/4'];
+const API = 'https://script.google.com/macros/s/AKfycbws7J0ZMiFBMSCqZYwjVtzHvGCTBwaPeaS5qbtwPOqe6iK1XjOmTCdyoarMxF-T9wcr/exec';
+const DAYS = 6;
 let lastHash = '';
 
 function buildDaysRow(cur) {
   const row = document.getElementById('days-row');
   row.innerHTML = '';
-  DAYS.forEach((_,i) => {
-    const si = i*2;
-    const dot = document.createElement('div');
-    dot.className = 'day-dot' + (cur>si+1?' done':(cur===si||cur===si+1?' current':''));
-    row.appendChild(dot);
-  });
+  for(let i=0;i<DAYS;i++){
+    const si=i*2;
+    const d=document.createElement('div');
+    d.className='day-dot'+(cur>si+1?' done':(cur===si||cur===si+1?' current':''));
+    row.appendChild(d);
+  }
 }
 
-function showToast() {
-  const t = document.getElementById('toast');
+function showToast(){
+  const t=document.getElementById('toast');
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
+  setTimeout(()=>t.classList.remove('show'),2000);
 }
 
-async function fetchData() {
-  try {
-    const r = await fetch(API + '?t=' + Date.now());
-    if (!r.ok) return;
-    const data = await r.json();
-    const hash = JSON.stringify(data);
-    if (hash === lastHash) return;
-    lastHash = hash;
+async function fetchData(){
+  try{
+    const r=await fetch(API+'?t='+Date.now());
+    const data=await r.json();
+    const hash=JSON.stringify(data);
+    if(hash===lastHash)return;
+    lastHash=hash;
     render(data);
     showToast();
-  } catch(e) {}
+  }catch(e){}
 }
 
-function render(d) {
-  const sessions = d.sessions || [];
-  const s = sessions[d.currentSession] || {};
+function render(d){
+  const sessions=d.sessions||[];
+  const s=sessions[d.currentSession]||{};
+  document.getElementById('sess-day').textContent=s.day||'—';
+  document.getElementById('sess-title').textContent=s.title||'In attesa...';
+  document.getElementById('sess-desc').textContent=s.desc||'';
+  const badge=document.getElementById('sess-badge');
+  badge.textContent=s.time==='pom'?'Pomeriggio':'Mattina';
+  badge.className='time-badge '+(s.time==='pom'?'badge-pom':'badge-mat');
 
-  document.getElementById('sess-day').textContent = s.day || '—';
-  document.getElementById('sess-title').textContent = s.title || 'In attesa...';
-  document.getElementById('sess-desc').textContent = s.desc || '';
-  const badge = document.getElementById('sess-badge');
-  badge.textContent = s.time==='pom' ? 'Pomeriggio' : 'Mattina';
-  badge.className = 'session-time-badge ' + (s.time==='pom'?'badge-pom':'badge-mat');
-
-  const pct = Math.round((d.currentSession/12)*100);
-  document.getElementById('prog-val').textContent = d.currentSession + ' / 12';
-  document.getElementById('prog-fill').style.width = pct + '%';
+  const pct=Math.round((d.currentSession/12)*100);
+  document.getElementById('prog-val').textContent=d.currentSession+' / 12';
+  document.getElementById('prog-fill').style.width=pct+'%';
   buildDaysRow(d.currentSession);
 
-  ['amm','fin','mkt','rim'].forEach(sq => {
-    document.getElementById('pts-'+sq).textContent = d.pts[sq] || 0;
-    document.getElementById('rep-'+sq).textContent = d.reps[sq] || '—';
+  ['amm','fin','mkt','rim'].forEach(sq=>{
+    document.getElementById('pts-'+sq).textContent=d.pts[sq]||0;
+    document.getElementById('rep-'+sq).textContent=d.reps[sq]||'—';
   });
 
-  const maxPts = Math.max(...['amm','fin','mkt','rim'].map(sq => d.pts[sq]||0));
-  ['amm','fin','mkt','rim'].forEach(sq => {
+  const maxPts=Math.max(...['amm','fin','mkt','rim'].map(sq=>d.pts[sq]||0));
+  ['amm','fin','mkt','rim'].forEach(sq=>{
     document.getElementById('tile-'+sq).classList.toggle('leader',(d.pts[sq]||0)===maxPts&&maxPts>0);
   });
 
-  const hint = document.getElementById('challenge-hint');
-  document.getElementById('challenge-text').textContent = s.challenge || 'Nessuna sfida attiva.';
-  if (s.hint) { hint.textContent = s.hint; hint.style.display='block'; }
-  else { hint.style.display='none'; }
+  const hint=document.getElementById('challenge-hint');
+  document.getElementById('challenge-text').textContent=s.challenge||'Nessuna sfida attiva.';
+  if(s.hint){hint.textContent=s.hint;hint.style.display='block';}
+  else{hint.style.display='none';}
 
-  const container = document.getElementById('dash-container');
-  const items = d.dashItems || [];
-  if (!items.length) {
-    container.innerHTML = '<div class="dash-empty">La dashboard si costruirà durante il corso man mano che le squadre completano le sfide.</div>';
-  } else {
-    container.innerHTML = items.map(item => `
-      <div class="dash-item dash-${item.squad}">
+  const container=document.getElementById('dash-container');
+  const items=d.dashItems||[];
+  if(!items.length){
+    container.innerHTML='<div class="dash-empty">La dashboard si costruirà durante il corso man mano che le squadre completano le sfide.</div>';
+  }else{
+    container.innerHTML=items.map(item=>`
+      <div class="dash-item d-${item.squad}">
         <div class="dash-item-tag">${item.squadName} · ${item.label}</div>
         <div class="dash-item-title">${item.sessionTitle}</div>
         <div class="dash-item-text">${item.text}</div>
@@ -259,7 +218,7 @@ function render(d) {
 }
 
 fetchData();
-setInterval(fetchData, 10000);
+setInterval(fetchData,10000);
 </script>
 </body>
 </html>
