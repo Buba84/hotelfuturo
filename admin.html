@@ -21,232 +21,135 @@
 body { font-family:'DM Sans',sans-serif; background:var(--dark); color:var(--text); min-height:100vh; }
 
 .topbar {
-  background:var(--dark2);
-  border-bottom:1px solid var(--border);
-  padding:14px 24px;
-  display:flex; align-items:center; justify-content:space-between;
+  background:var(--dark2); border-bottom:1px solid var(--border);
+  padding:14px 24px; display:flex; align-items:center; justify-content:space-between;
   position:sticky; top:0; z-index:100;
 }
 .topbar-logo { font-family:'Playfair Display',serif; font-size:20px; color:var(--gold); }
-.topbar-badge {
-  font-size:11px; font-weight:600;
-  background:rgba(76,175,80,.15);
-  color:var(--green);
-  border:1px solid rgba(76,175,80,.3);
-  border-radius:20px; padding:4px 14px;
+.status-pill {
+  font-size:11px; font-weight:600; border-radius:20px; padding:5px 16px;
+  border:1px solid; transition:all .3s;
 }
-.btn-export {
-  font-size:12px; font-weight:600;
-  background:var(--gold); color:var(--dark);
-  border:none; border-radius:8px;
-  padding:8px 18px; cursor:pointer;
-  transition:opacity .15s;
-}
-.btn-export:hover { opacity:.85; }
+.status-ok { background:rgba(76,175,80,.15); color:var(--green); border-color:rgba(76,175,80,.3); }
+.status-saving { background:rgba(201,168,76,.15); color:var(--gold); border-color:rgba(201,168,76,.3); }
+.status-err { background:rgba(229,57,53,.15); color:#ef5350; border-color:rgba(229,57,53,.3); }
 
 .main { padding:24px; max-width:860px; margin:0 auto; }
 .grid2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.card { background:var(--dark2); border:1px solid var(--border); border-radius:14px; padding:20px; }
+.card-title { font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--text3); margin-bottom:14px; }
 
-.card {
-  background:var(--dark2);
-  border:1px solid var(--border);
-  border-radius:14px; padding:20px;
-}
-.card-title {
-  font-size:10px; font-weight:700;
-  letter-spacing:.12em; text-transform:uppercase;
-  color:var(--text3); margin-bottom:14px;
-}
-
-/* SESSION NAVIGATOR */
-.sess-nav {
-  display:flex; flex-direction:column; gap:6px;
-  max-height:400px; overflow-y:auto;
-}
+.sess-nav { display:flex; flex-direction:column; gap:6px; max-height:420px; overflow-y:auto; }
 .sess-btn {
-  display:flex; align-items:center; gap:10px;
-  padding:10px 12px;
-  background:var(--dark3);
-  border:1px solid transparent;
-  border-radius:8px; cursor:pointer;
-  transition:all .15s; text-align:left;
+  display:flex; align-items:center; gap:10px; padding:10px 12px;
+  background:var(--dark3); border:1px solid transparent;
+  border-radius:8px; cursor:pointer; transition:all .15s; text-align:left;
 }
 .sess-btn:hover { border-color:var(--border); }
 .sess-btn.active { border-color:var(--gold); background:rgba(201,168,76,.08); }
 .sess-btn.done { opacity:.5; }
 .sess-num {
-  width:24px; height:24px;
-  background:var(--dark);
-  border-radius:50%;
+  width:24px; height:24px; background:var(--dark); border-radius:50%;
   display:flex; align-items:center; justify-content:center;
-  font-size:11px; font-weight:600;
-  color:var(--text3); flex-shrink:0;
+  font-size:11px; font-weight:600; color:var(--text3); flex-shrink:0;
 }
 .sess-btn.active .sess-num { background:var(--gold); color:var(--dark); }
 .sess-btn.done .sess-num { background:var(--green); color:#fff; }
 .sess-info { flex:1; }
 .sess-day { font-size:9px; color:var(--gold); font-weight:600; letter-spacing:.06em; }
 .sess-title { font-size:12px; color:var(--text); font-weight:500; }
-.sess-squad {
-  font-size:9px; font-weight:700;
-  text-transform:uppercase; letter-spacing:.06em;
-  padding:2px 8px; border-radius:4px;
-  flex-shrink:0;
-}
+.sess-squad { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; padding:2px 8px; border-radius:4px; flex-shrink:0; }
 .sq-amm { background:var(--amm-l); color:var(--amm); }
-.sq-fin  { background:var(--fin-l);  color:var(--fin); }
+.sq-fin  { background:var(--fin-l); color:var(--fin); }
 .sq-mkt  { background:var(--mkt-l); color:var(--mkt); }
-.sq-rim  { background:var(--rim-l);  color:var(--rim); }
+.sq-rim  { background:var(--rim-l); color:var(--rim); }
 
-/* SCOREBOARD */
 .scores-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
 .score-tile { border-radius:10px; padding:14px; }
-.sq-amm-t { background:var(--amm-l); }
-.sq-fin-t  { background:var(--fin-l); }
-.sq-mkt-t  { background:var(--mkt-l); }
-.sq-rim-t  { background:var(--rim-l); }
+.sq-amm-t { background:var(--amm-l); } .sq-fin-t { background:var(--fin-l); }
+.sq-mkt-t { background:var(--mkt-l); } .sq-rim-t { background:var(--rim-l); }
 .score-name { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:6px; }
-.sq-amm-t .score-name { color:var(--amm); }
-.sq-fin-t  .score-name { color:var(--fin); }
-.sq-mkt-t  .score-name { color:var(--mkt); }
-.sq-rim-t  .score-name { color:var(--rim); }
+.sq-amm-t .score-name { color:var(--amm); } .sq-fin-t .score-name { color:var(--fin); }
+.sq-mkt-t .score-name { color:var(--mkt); } .sq-rim-t .score-name { color:var(--rim); }
 .score-val { font-family:'Playfair Display',serif; font-size:32px; font-weight:600; }
-.sq-amm-t .score-val { color:var(--amm); }
-.sq-fin-t  .score-val { color:var(--fin); }
-.sq-mkt-t  .score-val { color:var(--mkt); }
-.sq-rim-t  .score-val { color:var(--rim); }
+.sq-amm-t .score-val { color:var(--amm); } .sq-fin-t .score-val { color:var(--fin); }
+.sq-mkt-t .score-val { color:var(--mkt); } .sq-rim-t .score-val { color:var(--rim); }
 .score-btns { display:flex; gap:6px; margin-top:8px; }
 .sc-btn {
-  flex:1; font-size:14px; font-weight:700;
-  padding:6px 0; border-radius:6px;
-  border:1px solid rgba(255,255,255,.1);
-  background:rgba(0,0,0,.1);
+  flex:1; font-size:14px; font-weight:700; padding:6px 0; border-radius:6px;
+  border:1px solid rgba(255,255,255,.1); background:rgba(0,0,0,.1);
   cursor:pointer; color:inherit; transition:background .15s;
 }
 .sc-btn:hover { background:rgba(0,0,0,.2); }
 .rep-input {
-  width:100%; margin-top:8px;
-  background:rgba(0,0,0,.15);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:6px; padding:5px 8px;
-  color:var(--text); font-family:'DM Sans',sans-serif;
+  width:100%; margin-top:8px; background:rgba(0,0,0,.15);
+  border:1px solid rgba(255,255,255,.08); border-radius:6px;
+  padding:5px 8px; color:var(--text); font-family:'DM Sans',sans-serif;
   font-size:11px; outline:none;
 }
 .rep-input::placeholder { color:rgba(255,255,255,.3); }
 
-/* DASHBOARD SAVER */
-.dash-form { display:flex; flex-direction:column; gap:10px; }
 .form-label { font-size:11px; color:var(--text2); margin-bottom:4px; }
 .form-input, .form-textarea, .form-select {
-  width:100%;
-  background:var(--dark3);
-  border:1px solid var(--border);
-  border-radius:8px; padding:10px 12px;
-  color:var(--text);
-  font-family:'DM Sans',sans-serif; font-size:13px;
-  outline:none; transition:border-color .2s;
+  width:100%; background:var(--dark3); border:1px solid var(--border);
+  border-radius:8px; padding:10px 12px; color:var(--text);
+  font-family:'DM Sans',sans-serif; font-size:13px; outline:none; transition:border-color .2s;
 }
 .form-input:focus, .form-textarea:focus, .form-select:focus { border-color:var(--gold); }
 .form-textarea { min-height:80px; resize:vertical; }
 .form-select option { background:var(--dark2); }
 .btn-save {
-  background:var(--gold); color:var(--dark);
-  border:none; border-radius:8px;
-  padding:12px; font-family:'DM Sans',sans-serif;
-  font-size:14px; font-weight:600; cursor:pointer;
-  transition:opacity .15s;
+  background:var(--gold); color:var(--dark); border:none; border-radius:8px;
+  padding:12px; font-family:'DM Sans',sans-serif; font-size:14px;
+  font-weight:600; cursor:pointer; transition:opacity .15s;
 }
 .btn-save:hover { opacity:.85; }
 
-/* SAVED ITEMS */
 .saved-item {
-  background:var(--dark3);
-  border:1px solid var(--border);
-  border-radius:8px; padding:10px 12px;
-  margin-bottom:6px;
-  display:flex; align-items:flex-start; gap:10px;
+  background:var(--dark3); border:1px solid var(--border); border-radius:8px;
+  padding:10px 12px; margin-bottom:6px; display:flex; align-items:flex-start; gap:10px;
 }
 .saved-tag {
-  font-size:9px; font-weight:700;
-  letter-spacing:.08em; text-transform:uppercase;
-  padding:2px 8px; border-radius:4px; flex-shrink:0;
-  margin-top:1px;
+  font-size:9px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  padding:2px 8px; border-radius:4px; flex-shrink:0; margin-top:1px;
 }
 .saved-text { font-size:12px; color:var(--text2); flex:1; line-height:1.5; }
-.saved-del {
-  background:none; border:none;
-  color:var(--text3); cursor:pointer;
-  font-size:16px; padding:0 4px;
-  flex-shrink:0; transition:color .15s;
-}
+.saved-del { background:none; border:none; color:var(--text3); cursor:pointer; font-size:16px; padding:0 4px; flex-shrink:0; transition:color .15s; }
 .saved-del:hover { color:#e57373; }
-
-/* STATUS BAR */
-.status-bar {
-  background:var(--dark2);
-  border:1px solid var(--border);
-  border-radius:10px; padding:12px 16px;
-  display:flex; align-items:center; gap:10px;
-  margin-bottom:16px;
-}
-.status-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-.status-dot.ok { background:var(--green); }
-.status-dot.warn { background:#f5a623; }
-.status-text { font-size:12px; color:var(--text2); }
-.status-text strong { color:var(--text); }
-
-/* INSTRUCTIONS */
-.instr-card {
-  background:rgba(201,168,76,.05);
-  border:1px solid var(--border);
-  border-radius:14px; padding:20px;
-  margin-bottom:16px;
-}
-.instr-title { font-size:13px; font-weight:600; color:var(--gold); margin-bottom:10px; }
-.instr-step {
-  display:flex; gap:10px; margin-bottom:8px;
-  font-size:12px; color:var(--text2); line-height:1.6;
-}
-.instr-n {
-  width:20px; height:20px; border-radius:50%;
-  background:var(--gold); color:var(--dark);
-  font-size:10px; font-weight:700;
-  display:flex; align-items:center; justify-content:center;
-  flex-shrink:0; margin-top:1px;
-}
 
 .mt16 { margin-top:16px; }
 .mt8  { margin-top:8px; }
+
+.sync-bar {
+  display:flex; align-items:center; gap:10px;
+  background:rgba(201,168,76,.05); border:1px solid var(--border);
+  border-radius:10px; padding:12px 16px; margin-bottom:16px;
+  font-size:12px; color:var(--text2);
+}
+.sync-dot { width:8px; height:8px; border-radius:50%; background:var(--green); flex-shrink:0; animation:blink 2s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <div class="topbar-logo">Hotel Futuro · Admin</div>
-  <div class="topbar-badge" id="status-badge">Pronto</div>
-  <button class="btn-export" onclick="exportJSON()">Scarica data.json</button>
+  <div class="status-pill status-ok" id="status-pill">Connesso ✓</div>
 </div>
 
 <div class="main">
 
-  <!-- ISTRUZIONI SETUP -->
-  <div class="instr-card">
-    <div class="instr-title">Come funziona il sistema</div>
-    <div class="instr-step"><div class="instr-n">1</div><div>Gestisci tutto da questo pannello: sessioni, punteggi, dashboard hotel.</div></div>
-    <div class="instr-step"><div class="instr-n">2</div><div>Quando aggiorni qualcosa, clicca <strong>"Scarica data.json"</strong> in alto a destra.</div></div>
-    <div class="instr-step"><div class="instr-n">3</div><div>Carica il file <strong>data.json</strong> scaricato nella cartella del tuo repository GitHub (sostituisce il precedente).</div></div>
-    <div class="instr-step"><div class="instr-n">4</div><div>Entro 30–60 secondi la landing page dei ragazzi si aggiorna automaticamente sul telefono.</div></div>
+  <div class="sync-bar">
+    <div class="sync-dot"></div>
+    <div>Ogni modifica viene salvata <strong>automaticamente</strong> online — i telefoni dei ragazzi si aggiornano entro 10 secondi. Nessun file da scaricare.</div>
   </div>
 
   <div class="grid2">
-
-    <!-- SESSIONI -->
     <div class="card">
       <div class="card-title">Sessione attiva</div>
       <div class="sess-nav" id="sess-nav"></div>
     </div>
 
-    <!-- PUNTEGGI -->
     <div class="card">
       <div class="card-title">Punteggi squadre</div>
       <div class="scores-grid">
@@ -258,7 +161,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--dark); color:var(--tex
             <button class="sc-btn" onclick="addPts('amm',2)">+2</button>
             <button class="sc-btn" onclick="addPts('amm',-1)">−1</button>
           </div>
-          <input class="rep-input" id="rep-amm" placeholder="Nome rep. di turno" oninput="saveState()">
+          <input class="rep-input" id="rep-amm" placeholder="Nome rep. di turno" oninput="debounceSave()">
         </div>
         <div class="score-tile sq-fin-t">
           <div class="score-name">Finanza</div>
@@ -268,7 +171,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--dark); color:var(--tex
             <button class="sc-btn" onclick="addPts('fin',2)">+2</button>
             <button class="sc-btn" onclick="addPts('fin',-1)">−1</button>
           </div>
-          <input class="rep-input" id="rep-fin" placeholder="Nome rep. di turno" oninput="saveState()">
+          <input class="rep-input" id="rep-fin" placeholder="Nome rep. di turno" oninput="debounceSave()">
         </div>
         <div class="score-tile sq-mkt-t">
           <div class="score-name">Marketing</div>
@@ -278,7 +181,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--dark); color:var(--tex
             <button class="sc-btn" onclick="addPts('mkt',2)">+2</button>
             <button class="sc-btn" onclick="addPts('mkt',-1)">−1</button>
           </div>
-          <input class="rep-input" id="rep-mkt" placeholder="Nome rep. di turno" oninput="saveState()">
+          <input class="rep-input" id="rep-mkt" placeholder="Nome rep. di turno" oninput="debounceSave()">
         </div>
         <div class="score-tile sq-rim-t">
           <div class="score-name">RIM</div>
@@ -288,17 +191,16 @@ body { font-family:'DM Sans',sans-serif; background:var(--dark); color:var(--tex
             <button class="sc-btn" onclick="addPts('rim',2)">+2</button>
             <button class="sc-btn" onclick="addPts('rim',-1)">−1</button>
           </div>
-          <input class="rep-input" id="rep-rim" placeholder="Nome rep. di turno" oninput="saveState()">
+          <input class="rep-input" id="rep-rim" placeholder="Nome rep. di turno" oninput="debounceSave()">
         </div>
       </div>
     </div>
   </div>
 
-  <!-- DASHBOARD HOTEL -->
   <div class="card mt16">
     <div class="card-title">Aggiungi contenuto alla Dashboard Hotel</div>
     <div class="grid2">
-      <div class="dash-form">
+      <div style="display:flex;flex-direction:column;gap:10px;">
         <div>
           <div class="form-label">Squadra</div>
           <select class="form-select" id="dash-squad">
@@ -313,13 +215,13 @@ body { font-family:'DM Sans',sans-serif; background:var(--dark); color:var(--tex
           <input class="form-input" id="dash-label" placeholder="Titolo del contenuto">
         </div>
         <div>
-          <div class="form-label">Testo (sintesi della risposta di Claude)</div>
-          <textarea class="form-textarea" id="dash-text" placeholder="Incolla qui il contenuto da salvare nella dashboard hotel..."></textarea>
+          <div class="form-label">Testo — sintesi risposta Claude</div>
+          <textarea class="form-textarea" id="dash-text" placeholder="Incolla qui il contenuto da salvare..."></textarea>
         </div>
-        <button class="btn-save" onclick="addDashItem()">Aggiungi alla Dashboard ✦</button>
+        <button class="btn-save" onclick="addDashItem()">Aggiungi alla Dashboard Hotel ✦</button>
       </div>
       <div>
-        <div class="form-label mt8">Elementi salvati nella dashboard</div>
+        <div class="form-label mt8">Elementi salvati</div>
         <div id="saved-list" class="mt8">
           <div style="font-size:12px;color:var(--text3);font-style:italic">Nessun elemento ancora.</div>
         </div>
@@ -330,23 +232,27 @@ body { font-family:'DM Sans',sans-serif; background:var(--dark); color:var(--tex
 </div>
 
 <script>
+const BLOB_ID = '019d8da7-1ba7-774b-a33e-91c848d8939f';
+const API = 'https://jsonblob.com/api/jsonBlob/' + BLOB_ID;
+
 const SESSIONS = [
-  {day:'Lun 20/4',time:'mat',squad:'amm',title:'Kick-off: il cliente e il progetto',desc:'Presentazione del progetto Hotel Futuro. Le squadre prendono vita.',challenge:'Scrivi un prompt per chiedere a Claude di presentarsi come consulente AI dell\'Hotel Futuro e di descrivere come può aiutare le 4 aree aziendali.',hint:'Più contesto date (tipo hotel, camere, location), più utile sarà la risposta.'},
+  {day:'Lun 20/4',time:'mat',squad:'amm',title:'Kick-off: il cliente e il progetto',desc:'Presentazione del progetto Hotel Futuro. Le squadre prendono vita.',challenge:'Scrivi un prompt per chiedere a Claude di presentarsi come consulente AI dell\'Hotel Futuro e descrivere come può aiutare le 4 aree aziendali.',hint:'Più contesto date (tipo hotel, camere, location), più utile sarà la risposta.'},
   {day:'Lun 20/4',time:'pom',squad:'fin',title:'Analisi SWOT dell\'hotel',desc:'Prima analisi strategica con supporto AI.',challenge:'Chiedi a Claude di fare una completa analisi SWOT per l\'Hotel Futuro.',hint:'Specificate tipo clientela e location per un\'analisi più mirata.'},
   {day:'Mar 21/4',time:'mat',squad:'mkt',title:'Segmentazione clienti e piano marketing',desc:'Definire chi sono i clienti è il primo passo di ogni strategia.',challenge:'Chiedi a Claude di identificare i 3 segmenti di clientela principali e per ognuno proporre il messaggio marketing più efficace.',hint:'Chiedete anche quale canale è più adatto per ogni segmento.'},
   {day:'Mar 21/4',time:'pom',squad:'rim',title:'Descrizione hotel in italiano e inglese',desc:'Il modulo internazionale inizia con la comunicazione fondamentale.',challenge:'Chiedi a Claude di scrivere una descrizione professionale dell\'hotel in italiano E in inglese, ottimizzata per Booking.com.',hint:'Versione breve (150 parole) per sommario e lunga (400 parole) per la pagina completa.'},
   {day:'Mer 22/4',time:'mat',squad:'fin',title:'Budget annuale dell\'hotel',desc:'Costruire un budget realistico con l\'AI.',challenge:'Chiedi a Claude di costruire un budget annuale semplificato con le principali voci di ricavo e costo.',hint:'Include ricavi camere e costi (personale 35%, OTA 15%, utenze, manutenzione).'},
-  {day:'Mer 22/4',time:'pom',squad:'amm',title:'KPI principali dell\'hotel',desc:'Senza indicatori non si gestisce un hotel.',challenge:'Chiedi a Claude di spiegare i 5 KPI più importanti per un hotel 4 stelle, con formula e valore target.',hint:'Chiedete esempi numerici concreti, non solo definizioni.'},
+  {day:'Mer 22/4',time:'pom',squad:'amm',title:'KPI principali dell\'hotel',desc:'Senza indicatori non si gestisce un hotel.',challenge:'Chiedi a Claude di spiegare i 5 KPI più importanti per un hotel, con formula e valore target.',hint:'Chiedete esempi numerici concreti, non solo definizioni.'},
   {day:'Gio 23/4',time:'mat',squad:'rim',title:'Email professionale in inglese',desc:'La comunicazione scritta internazionale è il cuore del RIM.',challenge:'Chiedi a Claude di scrivere un\'email professionale in inglese per rispondere a un cliente che si lamenta della stanza non pulita.',hint:'Claude risponderà in inglese con nota esplicativa in italiano.'},
   {day:'Gio 23/4',time:'pom',squad:'mkt',title:'Risposta alle recensioni negative',desc:'Gestire la reputazione online è marketing puro.',challenge:'Chiedi a Claude di rispondere a: "Camera rumorosa, colazione mediocre, personale scortese. Non tornerò mai più."',hint:'Risposta non difensiva che riconosce il problema e invita a ritornare.'},
   {day:'Ven 24/4',time:'mat',squad:'amm',title:'Profilo ospite ideale e CRM',desc:'Il CRM è il cuore operativo di ogni hotel moderno.',challenge:'Chiedi a Claude di creare il profilo dettagliato dell\'ospite ideale e suggerire come strutturare un database clienti.',hint:'Includete dati demografici, comportamentali e info da raccogliere al check-in.'},
-  {day:'Ven 24/4',time:'pom',squad:'mkt',title:'Programma fedeltà (Loyalty)',desc:'La sfida più creativa: progettare un loyalty program con l\'AI.',challenge:'Chiedi a Claude di progettare un programma fedeltà con livelli, benefit e meccanismo di accumulo punti.',hint:'Chiedete anche come comunicarlo ai clienti e come misurarne l\'efficacia.'},
+  {day:'Ven 24/4',time:'pom',squad:'mkt',title:'Programma fedeltà (Loyalty)',desc:'La sfida più creativa: progettare un loyalty program con l\'AI.',challenge:'Chiedi a Claude di progettare un programma fedeltà con livelli, benefit e meccanismo di accumulo punti.',hint:'Chiedete anche come comunicarlo e come misurarne l\'efficacia.'},
   {day:'Sab 25/4',time:'mat',squad:'fin',title:'Pitch: analisi finanziaria finale',desc:'Finanza prepara il pitch con supporto AI.',challenge:'Chiedi a Claude di strutturare un pitch di 5 minuti per presentare la situazione finanziaria al proprietario.',hint:'Schema: apertura 30s, dati chiave 2min, raccomandazioni 2min, chiusura 30s.'},
-  {day:'Sab 25/4',time:'pom',squad:'rim',title:'Pitch finale internazionale',desc:'L\'ultima sfida. RIM presenta il progetto in versione internazionale.',challenge:'Chiedi a Claude di scrivere l\'apertura del pitch finale in inglese (2 minuti) che presenti Hotel Futuro come progetto PCTO.',hint:'Ultima sfida: siate ambiziosi con il prompt!'},
+  {day:'Sab 25/4',time:'pom',squad:'rim',title:'Pitch finale internazionale',desc:'L\'ultima sfida. RIM presenta in versione internazionale.',challenge:'Chiedi a Claude di scrivere l\'apertura del pitch finale in inglese (2 minuti) che presenti Hotel Futuro come progetto PCTO.',hint:'Ultima sfida: siate ambiziosi con il prompt!'},
 ];
 
 const squadNames = {amm:'Amministrazione',fin:'Finanza',mkt:'Marketing',rim:'RIM'};
 const squadColors = {amm:'#4a90d9',fin:'#d4843a',mkt:'#5aaa3a',rim:'#d45a3a'};
+
 let state = {
   currentSession: 0,
   pts: {amm:0,fin:0,mkt:0,rim:0},
@@ -355,41 +261,101 @@ let state = {
   sessions: SESSIONS
 };
 
+let saveTimer = null;
+
+function setStatus(type, msg) {
+  const p = document.getElementById('status-pill');
+  p.className = 'status-pill status-' + type;
+  p.textContent = msg;
+}
+
+async function saveToBlob() {
+  setStatus('saving', 'Salvataggio...');
+  ['amm','fin','mkt','rim'].forEach(sq => {
+    state.reps[sq] = document.getElementById('rep-'+sq).value;
+  });
+  state.sessions = SESSIONS;
+  try {
+    const r = await fetch(API, {
+      method: 'PUT',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(state)
+    });
+    if (r.ok) setStatus('ok', 'Salvato ✓ — live sui telefoni');
+    else setStatus('err', 'Errore salvataggio');
+  } catch(e) {
+    setStatus('err', 'Connessione assente');
+  }
+}
+
+function debounceSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveToBlob, 800);
+}
+
+async function loadFromBlob() {
+  setStatus('saving', 'Caricamento...');
+  try {
+    const r = await fetch(API + '?t=' + Date.now());
+    if (!r.ok) throw new Error();
+    const data = await r.json();
+    state.currentSession = data.currentSession || 0;
+    state.pts = data.pts || {amm:0,fin:0,mkt:0,rim:0};
+    state.reps = data.reps || {amm:'',fin:'',mkt:'',rim:''};
+    state.dashItems = data.dashItems || [];
+    ['amm','fin','mkt','rim'].forEach(sq => {
+      document.getElementById('sc-'+sq).textContent = state.pts[sq] || 0;
+      document.getElementById('rep-'+sq).value = state.reps[sq] || '';
+    });
+    buildSessNav();
+    renderSavedList();
+    setStatus('ok', 'Connesso ✓');
+  } catch(e) {
+    setStatus('err', 'Errore caricamento');
+  }
+}
+
 function buildSessNav() {
   const nav = document.getElementById('sess-nav');
   nav.innerHTML = '';
   SESSIONS.forEach((s,i) => {
     const btn = document.createElement('div');
-    btn.className = 'sess-btn' + (i === state.currentSession ? ' active' : '') + (i < state.currentSession ? ' done' : '');
+    btn.className = 'sess-btn' + (i===state.currentSession?' active':'') + (i<state.currentSession?' done':'');
     btn.innerHTML = `
-      <div class="sess-num">${i < state.currentSession ? '✓' : i+1}</div>
+      <div class="sess-num">${i<state.currentSession?'✓':i+1}</div>
       <div class="sess-info">
-        <div class="sess-day">${s.day} · ${s.time === 'mat' ? 'Mattina' : 'Pomeriggio'}</div>
+        <div class="sess-day">${s.day} · ${s.time==='mat'?'Mattina':'Pomeriggio'}</div>
         <div class="sess-title">${s.title}</div>
       </div>
       <span class="sess-squad sq-${s.squad}">${squadNames[s.squad]}</span>`;
-    btn.onclick = () => { state.currentSession = i; saveState(); buildSessNav(); };
+    btn.onclick = () => { state.currentSession = i; buildSessNav(); saveToBlob(); };
     nav.appendChild(btn);
   });
 }
 
 function addPts(sq, n) {
-  state.pts[sq] = Math.max(0, (state.pts[sq] || 0) + n);
-  document.getElementById('sc-' + sq).textContent = state.pts[sq];
-  saveState();
+  state.pts[sq] = Math.max(0, (state.pts[sq]||0) + n);
+  document.getElementById('sc-'+sq).textContent = state.pts[sq];
+  saveToBlob();
 }
 
 function addDashItem() {
   const squad = document.getElementById('dash-squad').value;
   const label = document.getElementById('dash-label').value.trim();
-  const text = document.getElementById('dash-text').value.trim();
+  const text  = document.getElementById('dash-text').value.trim();
   if (!label || !text) { alert('Compila etichetta e testo.'); return; }
   const s = SESSIONS[state.currentSession];
-  state.dashItems.push({ squad, squadName: squadNames[squad], label, text, sessionTitle: s.title });
+  state.dashItems.push({squad, squadName:squadNames[squad], label, text, sessionTitle:s.title});
   document.getElementById('dash-label').value = '';
   document.getElementById('dash-text').value = '';
   renderSavedList();
-  saveState();
+  saveToBlob();
+}
+
+function delDashItem(i) {
+  state.dashItems.splice(i,1);
+  renderSavedList();
+  saveToBlob();
 }
 
 function renderSavedList() {
@@ -400,44 +366,13 @@ function renderSavedList() {
   }
   el.innerHTML = state.dashItems.map((item,i) => `
     <div class="saved-item">
-      <span class="saved-tag sq-${item.squad}" style="background:${item.squad === 'amm' ? 'var(--amm-l)' : item.squad === 'fin' ? 'var(--fin-l)' : item.squad === 'mkt' ? 'var(--mkt-l)' : 'var(--rim-l)'};color:${squadColors[item.squad]}">${item.squadName}</span>
+      <span class="saved-tag sq-${item.squad}" style="background:var(--${item.squad}-l);color:${squadColors[item.squad]}">${item.squadName}</span>
       <div class="saved-text"><strong>${item.label}</strong> — ${item.text.substring(0,80)}...</div>
       <button class="saved-del" onclick="delDashItem(${i})">×</button>
     </div>`).join('');
 }
 
-function delDashItem(i) {
-  state.dashItems.splice(i, 1);
-  renderSavedList();
-  saveState();
-}
-
-function saveState() {
-  ['amm','fin','mkt','rim'].forEach(sq => {
-    state.reps[sq] = document.getElementById('rep-' + sq).value;
-    document.getElementById('sc-' + sq).textContent = state.pts[sq] || 0;
-  });
-  document.getElementById('status-badge').textContent = '● Non salvato — clicca "Scarica data.json"';
-  document.getElementById('status-badge').style.background = 'rgba(245,166,35,.15)';
-  document.getElementById('status-badge').style.color = '#f5a623';
-  document.getElementById('status-badge').style.borderColor = 'rgba(245,166,35,.3)';
-}
-
-function exportJSON() {
-  ['amm','fin','mkt','rim'].forEach(sq => { state.reps[sq] = document.getElementById('rep-'+sq).value; });
-  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'data.json';
-  a.click();
-  document.getElementById('status-badge').textContent = 'data.json scaricato ✓';
-  document.getElementById('status-badge').style.background = 'rgba(76,175,80,.15)';
-  document.getElementById('status-badge').style.color = 'var(--green)';
-  document.getElementById('status-badge').style.borderColor = 'rgba(76,175,80,.3)';
-}
-
-buildSessNav();
-renderSavedList();
+loadFromBlob();
 </script>
 </body>
 </html>
