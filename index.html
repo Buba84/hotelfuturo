@@ -546,7 +546,24 @@ function renderSavedList() {
 
 /* ── INIT ── */
 loadState();
+
+// Se URL contiene ?ragazzi → nasconde tutto l'admin
+const isStudentOnly = window.location.search.includes('ragazzi');
+if (isStudentOnly) {
+  document.getElementById('btn-admin').style.display   = 'none';
+  document.getElementById('btn-student').style.display = 'none';
+  document.getElementById('status-pill').style.display = 'none';
+}
+
 setMode('student');
+
+// Aggiornamento automatico ogni 3 secondi per i ragazzi
+if (isStudentOnly) {
+  setInterval(() => {
+    const saved = localStorage.getItem('hf_state');
+    if (saved) { try { const s = JSON.parse(saved); state = s; renderStudent(); } catch(e){} }
+  }, 3000);
+}
 </script>
 </body>
 </html>
