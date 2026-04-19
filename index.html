@@ -530,6 +530,13 @@ window.setMode = function(mode) {
 
 window.debounceSave = debounceSave;
 
+// Se URL contiene ?ragazzi nascondi tutto il pannello admin
+if(window.location.search.includes('ragazzi')) {
+  document.getElementById('btn-admin').style.display  = 'none';
+  document.getElementById('btn-student').style.display = 'none';
+  document.getElementById('status-dot').style.display  = 'none';
+}
+
 setMode('student');
 </script>
 </body>
