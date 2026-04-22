@@ -168,7 +168,7 @@ function loadRound() {
 }
 
 function renderAll(scores) {
-  // Team totals
+  // Team totals - MEDIA per giocatore (proporzionale)
   const teams = {amm:{pts:0,count:0},fin:{pts:0,count:0},mkt:{pts:0,count:0},rim:{pts:0,count:0}};
   scores.forEach(s => {
     if (teams[s.squad]) {
@@ -177,11 +177,16 @@ function renderAll(scores) {
     }
   });
 
-  const maxTeamPts = Math.max(...Object.values(teams).map(t => t.pts));
+  const teamAvgs = {};
   ['amm','fin','mkt','rim'].forEach(sq => {
-    document.getElementById('ts-' + sq).textContent = teams[sq].pts;
-    document.getElementById('td-' + sq).textContent = teams[sq].count + ' giocator' + (teams[sq].count === 1 ? 'e' : 'i');
-    document.getElementById('tc-' + sq).classList.toggle('leader', teams[sq].pts === maxTeamPts && maxTeamPts > 0);
+    teamAvgs[sq] = teams[sq].count > 0 ? Math.round(teams[sq].pts / teams[sq].count) : 0;
+  });
+
+  const maxTeamPts = Math.max(...Object.values(teamAvgs));
+  ['amm','fin','mkt','rim'].forEach(sq => {
+    document.getElementById('ts-' + sq).textContent = teamAvgs[sq];
+    document.getElementById('td-' + sq).textContent = teams[sq].count + ' giocator' + (teams[sq].count === 1 ? 'e' : 'i') + ' · media';
+    document.getElementById('tc-' + sq).classList.toggle('leader', teamAvgs[sq] === maxTeamPts && maxTeamPts > 0);
   });
 
   // Podium
