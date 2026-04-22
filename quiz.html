@@ -135,7 +135,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);m
     <span class="q-counter" id="q-counter">1 / 10</span>
     <span class="q-score" id="q-score">0 punti</span>
   </div>
-  <div class="timer-text" id="timer-text">6</div>
+  <div class="timer-text" id="timer-text">12</div>
   <div class="timer-wrap">
     <div class="timer-bar"><div class="timer-fill" id="timer-fill" style="width:100%"></div></div>
   </div>
@@ -263,6 +263,24 @@ const ALL_QUESTIONS = {
   ],
 };
 
+const QUESTIONS_FACILI = [
+  {q:"Un hotel è un posto dove si...",a:["Fa la spesa","Dorme durante un viaggio","Va a scuola","Gioca a calcio"],c:1},
+  {q:"Gallipoli si trova in...",a:["Lombardia","Puglia","Toscana","Piemonte"],c:1},
+  {q:"Cosa si vede dalla finestra di una suite vista mare?",a:["Le montagne","Il mare","Un parcheggio","La neve"],c:1},
+  {q:"Booking.com serve per...",a:["Comprare libri","Prenotare hotel e alloggi","Ordinare cibo","Comprare vestiti"],c:1},
+  {q:"Una vasca idromassaggio ha...",a:["Acqua fredda e ghiaccio","Acqua calda con bolle","Sabbia","Terra"],c:1},
+  {q:"Il cliente di un hotel si chiama anche...",a:["Studente","Ospite","Professore","Dottore"],c:1},
+  {q:"La reception di un hotel è dove...",a:["Si cucina","Si accolgono gli ospiti al loro arrivo","Si lava la biancheria","Si parcheggia"],c:1},
+  {q:"Cosa fa un hotel in estate a Gallipoli?",a:["Chiude perché fa troppo caldo","Ha tanti clienti perché è alta stagione","Diventa una scuola","Si trasforma in ristorante"],c:1},
+  {q:"Come si dice 'hotel' in inglese?",a:["House","Hotel","Home","Hospital"],c:1},
+  {q:"Cosa è più importante per un ospite in hotel?",a:["Che la stanza sia pulita e accogliente","Che ci sia un campo da calcio","Che non ci sia la reception","Che non ci siano finestre"],c:0},
+];
+
+const TIMER_NORMAL = 12;
+const TIMER_SPECIAL = 24;
+
+let isSpecialStudent = false;
+
 const QUESTIONS = ALL_QUESTIONS[ROUND] || ALL_QUESTIONS['1'];
 
 let currentStudent = null;
@@ -273,7 +291,7 @@ let correctCount = 0;
 let wrongCount = 0;
 let totalTime = 0;
 let timer = null;
-let timeLeft = 6;
+let timeLeft = 12;
 let answered = false;
 
 window.selectSquad = function(sq) {
@@ -302,6 +320,12 @@ window.startQuiz = async function() {
   } catch(e) {}
 
   currentStudent = { name: name, squad: selectedSquad, key: nameKey };
+  isSpecialStudent = name.toLowerCase().includes('ferrari') && name.toLowerCase().includes('marco');
+  if (isSpecialStudent) {
+    currentStudent.questions = QUESTIONS_FACILI;
+  } else {
+    currentStudent.questions = QUESTIONS;
+  }
   currentQ = 0;
   score = 0;
   correctCount = 0;
@@ -318,8 +342,8 @@ function showScreen(id) {
 
 function loadQuestion() {
   answered = false;
-  const q = QUESTIONS[currentQ];
-  document.getElementById('q-counter').textContent = (currentQ+1)+' / '+QUESTIONS.length;
+  const q = currentStudent.questions[currentQ];
+  document.getElementById('q-counter').textContent = (currentQ+1)+' / '+currentStudent.questions.length;
   document.getElementById('q-score').textContent = score+' punti';
   document.getElementById('q-text').textContent = q.q;
   document.getElementById('feedback').style.display = 'none';
@@ -336,7 +360,8 @@ function loadQuestion() {
     container.appendChild(btn);
   });
 
-  timeLeft = 6;
+  const TIMER = isSpecialStudent ? TIMER_SPECIAL : TIMER_NORMAL;
+  timeLeft = TIMER;
   updateTimerDisplay();
   clearInterval(timer);
   timer = setInterval(() => {
@@ -349,15 +374,17 @@ function loadQuestion() {
   }, 100);
 }
 
+function getTimer() { return isSpecialStudent ? TIMER_SPECIAL : TIMER_NORMAL; }
+
 function updateTimerDisplay() {
   const t = Math.max(0, timeLeft);
-  const pct = (t / 6) * 100;
+  const pct = (t / getTimer()) * 100;
   const el = document.getElementById('timer-text');
   const fill = document.getElementById('timer-fill');
   el.textContent = Math.ceil(t);
-  el.className = 'timer-text' + (t <= 2 ? ' danger' : '');
+  el.className = 'timer-text' + (t <= 3 ? ' danger' : '');
   fill.style.width = pct + '%';
-  fill.className = 'timer-fill' + (t <= 2 ? ' danger' : '');
+  fill.className = 'timer-fill' + (t <= 3 ? ' danger' : '');
 }
 
 function selectAnswer(idx) {
@@ -365,9 +392,9 @@ function selectAnswer(idx) {
   answered = true;
   clearInterval(timer);
 
-  const q = QUESTIONS[currentQ];
+  const q = currentStudent.questions[currentQ];
   const btns = document.querySelectorAll('.answer-btn');
-  const responseTime = 6 - timeLeft;
+  const responseTime = getTimer() - timeLeft;
   totalTime += responseTime;
 
   btns.forEach((btn, i) => {
@@ -400,7 +427,7 @@ function selectAnswer(idx) {
 
   setTimeout(() => {
     currentQ++;
-    if (currentQ < QUESTIONS.length) {
+    if (currentQ < currentStudent.questions.length) {
       loadQuestion();
     } else {
       endQuiz();
@@ -413,7 +440,7 @@ function timeUp() {
   answered = true;
   wrongCount++;
 
-  const q = QUESTIONS[currentQ];
+  const q = currentStudent.questions[currentQ];
   const btns = document.querySelectorAll('.answer-btn');
   btns.forEach((btn, i) => {
     if (i === q.c) btn.classList.add('correct','show-correct');
@@ -427,11 +454,11 @@ function timeUp() {
   fb.className = 'feedback timeout';
   fb.textContent = 'Tempo scaduto!';
   pe.textContent = '+0 punti';
-  totalTime += 6;
+  totalTime += getTimer();
 
   setTimeout(() => {
     currentQ++;
-    if (currentQ < QUESTIONS.length) {
+    if (currentQ < currentStudent.questions.length) {
       loadQuestion();
     } else {
       endQuiz();
@@ -443,7 +470,7 @@ async function endQuiz() {
   document.getElementById('r-score').textContent = score;
   document.getElementById('r-correct').textContent = correctCount;
   document.getElementById('r-wrong').textContent = wrongCount;
-  document.getElementById('r-time').textContent = (totalTime / QUESTIONS.length).toFixed(1)+'s';
+  document.getElementById('r-time').textContent = (totalTime / currentStudent.questions.length).toFixed(1)+'s';
 
   showScreen('screen-results');
 
@@ -454,7 +481,7 @@ async function endQuiz() {
       score: score,
       correct: correctCount,
       wrong: wrongCount,
-      avgTime: parseFloat((totalTime / QUESTIONS.length).toFixed(1)),
+      avgTime: parseFloat((totalTime / currentStudent.questions.length).toFixed(1)),
       timestamp: Date.now()
     });
   } catch(e) { console.error(e); }
