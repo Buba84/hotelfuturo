@@ -135,7 +135,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);m
     <span class="q-counter" id="q-counter">1 / 10</span>
     <span class="q-score" id="q-score">0 punti</span>
   </div>
-  <div class="timer-text" id="timer-text">12</div>
+  <div class="timer-text" id="timer-text">8</div>
   <div class="timer-wrap">
     <div class="timer-bar"><div class="timer-fill" id="timer-fill" style="width:100%"></div></div>
   </div>
@@ -221,21 +221,21 @@ const ALL_QUESTIONS = {
     {q:"In alta stagione l'Hotel Futuro quanto potrebbe chiedere a notte?",a:["€50-80","€120-150","€280-400","€1000-2000"],c:2},
     {q:"Qual è il modo migliore per rispondere a una recensione negativa?",a:["Ignorarla","Rispondere aggressivamente","Riconoscere il problema e offrire una soluzione","Cancellare la recensione"],c:2},
     {q:"Cosa significa CRM?",a:["Camera Room Management","Customer Relationship Management","Central Revenue Model","Cost Reduction Method"],c:1},
-    {q:"Un cliente prenota 5 notti a €280 su Booking (commissione 15%). Quanto resta all'hotel?",a:["€1.400","€1.190","€980","€1.050"],c:1},
-    {q:"Qual è il vantaggio principale delle prenotazioni dirette rispetto a Booking?",a:["I clienti sono più gentili","Non si pagano commissioni","Le camere sono più grandi","Il check-in è più veloce"],c:1},
+    {q:"Perché le prenotazioni dirette sono migliori per l'hotel rispetto a Booking?",a:["I clienti sono più gentili","L'hotel non paga commissioni","Le camere sono più grandi","Il check-in è più veloce"],c:1},
     {q:"In che regione si trova Gallipoli?",a:["Calabria","Sardegna","Puglia","Sicilia"],c:2},
+    {q:"Cosa significa OTA nel turismo?",a:["Organizzazione Turistica Autonoma","Online Travel Agency","Offerta Tariffa Alberghiera","Operatore Trasporto Aereo"],c:1},
   ],
   '2': [
     {q:"Qual è la voce di costo più alta per un hotel di lusso?",a:["Utenze (luce e gas)","Personale (stipendi)","Commissioni OTA","Manutenzione"],c:1},
-    {q:"Se una suite costa €300 e l'occupancy è al 60%, qual è il RevPAR?",a:["€300","€180","€120","€60"],c:1},
     {q:"Cosa significa ADR?",a:["Average Daily Rate","Annual Discount Rate","Automatic Door Response","Additional Daily Revenue"],c:0},
-    {q:"L'hotel ha 30 suite. In agosto ne sono occupate 28. Qual è l'occupancy rate?",a:["28%","93%","30%","82%"],c:1},
     {q:"Quale di questi NON è un costo variabile per un hotel?",a:["Lavanderia biancheria","Prodotti per la colazione","Affitto dell'edificio","Commissioni Booking"],c:2},
-    {q:"Se l'hotel vuole guadagnare €2M annui con 30 suite, quante notti deve vendere circa?",a:["2.000 notti","5.000 notti","7.000 notti","15.000 notti"],c:2},
-    {q:"In bassa stagione conviene abbassare il prezzo del 50%. Perché?",a:["Per far felici i clienti","Meglio guadagnare poco che niente — i costi fissi li paghi comunque","Per fare concorrenza a Booking","Perché lo fanno tutti"],c:1},
+    {q:"In bassa stagione conviene abbassare il prezzo. Perché?",a:["Per far felici i clienti","Meglio guadagnare poco che niente — i costi fissi li paghi comunque","Per fare concorrenza a Booking","Perché lo fanno tutti"],c:1},
     {q:"Cosa sono le OTA?",a:["Organizzazioni Turistiche Autonome","Online Travel Agencies — agenzie di viaggio online","Operatori Trasporto Aereo","Offerte Tariffe Alberghiere"],c:1},
     {q:"Il break-even point di un hotel è quando...",a:["I ricavi superano i costi — inizi a guadagnare","Tutte le suite sono occupate","Il direttore va in vacanza","Le recensioni sono tutte positive"],c:0},
-    {q:"Su €1.000 di fatturato, quanto rimane di margine netto tipicamente in un hotel?",a:["80-90%","50-60%","15-25%","1-5%"],c:2},
+    {q:"Cosa si intende per 'alta stagione' a Gallipoli?",a:["Gennaio-febbraio","Luglio-agosto","Ottobre-novembre","Marzo-aprile"],c:1},
+    {q:"Un hotel di lusso spende circa quanto del fatturato in personale?",a:["5-10%","15-20%","35-45%","80-90%"],c:2},
+    {q:"Cosa significa RevPAR?",a:["Revenue Per Available Room","Review Per Average Rating","Reception Per All Rooms","Return Per Annual Revenue"],c:0},
+    {q:"Quale costo sparisce se l'hotel riceve prenotazioni dal sito diretto?",a:["Stipendi del personale","Commissioni delle OTA","Bolletta della luce","Costo della colazione"],c:1},
   ],
   '3': [
     {q:"Come si dice 'vasca idromassaggio' in inglese?",a:["Hot tub / Jacuzzi","Water box","Bath machine","Bubble sink"],c:0},
@@ -263,21 +263,21 @@ const ALL_QUESTIONS = {
   ],
 };
 
-const QUESTIONS_FACILI = [
-  {q:"Un hotel è un posto dove si...",a:["Fa la spesa","Dorme durante un viaggio","Va a scuola","Gioca a calcio"],c:1},
-  {q:"Gallipoli si trova in...",a:["Lombardia","Puglia","Toscana","Piemonte"],c:1},
-  {q:"Cosa si vede dalla finestra di una suite vista mare?",a:["Le montagne","Il mare","Un parcheggio","La neve"],c:1},
-  {q:"Booking.com serve per...",a:["Comprare libri","Prenotare hotel e alloggi","Ordinare cibo","Comprare vestiti"],c:1},
-  {q:"Una vasca idromassaggio ha...",a:["Acqua fredda e ghiaccio","Acqua calda con bolle","Sabbia","Terra"],c:1},
-  {q:"Il cliente di un hotel si chiama anche...",a:["Studente","Ospite","Professore","Dottore"],c:1},
-  {q:"La reception di un hotel è dove...",a:["Si cucina","Si accolgono gli ospiti al loro arrivo","Si lava la biancheria","Si parcheggia"],c:1},
-  {q:"Cosa fa un hotel in estate a Gallipoli?",a:["Chiude perché fa troppo caldo","Ha tanti clienti perché è alta stagione","Diventa una scuola","Si trasforma in ristorante"],c:1},
-  {q:"Come si dice 'hotel' in inglese?",a:["House","Hotel","Home","Hospital"],c:1},
-  {q:"Cosa è più importante per un ospite in hotel?",a:["Che la stanza sia pulita e accogliente","Che ci sia un campo da calcio","Che non ci sia la reception","Che non ci siano finestre"],c:0},
+const QUESTIONS_MEDIE = [
+  {q:"Dove si trova l'Hotel Futuro?",a:["Milano","Gallipoli, in Puglia","Roma","Firenze"],c:1},
+  {q:"Cosa significa 'check-in' in un hotel?",a:["Pagare il conto","Registrarsi e ricevere la chiave della stanza","Pulire la camera","Prenotare un taxi"],c:1},
+  {q:"Booking.com è un sito per...",a:["Comprare libri","Cercare lavoro","Prenotare hotel e alloggi","Guardare film"],c:2},
+  {q:"Un cliente lascia una recensione negativa. Cosa è meglio fare?",a:["Ignorarla","Rispondere con educazione e offrire una soluzione","Cancellare la recensione","Insultare il cliente"],c:1},
+  {q:"Cosa vuol dire 'suite' in un hotel?",a:["Una stanza piccola e economica","Una camera grande e di lusso","Il ristorante dell'hotel","La piscina"],c:1},
+  {q:"L'alta stagione a Gallipoli è in...",a:["Inverno","Estate (luglio-agosto)","Autunno","Primavera"],c:1},
+  {q:"Come si dice 'benvenuto' in inglese?",a:["Goodbye","Thank you","Welcome","Sorry"],c:2},
+  {q:"Cosa fa un hotel per far tornare i clienti?",a:["Aumenta i prezzi ogni anno","Offre un servizio eccellente e programmi fedeltà","Chiude in bassa stagione","Toglie la colazione"],c:1},
+  {q:"Instagram è utile per un hotel perché...",a:["Si possono fare telefonate gratis","Si possono mostrare foto belle dell'hotel e attirare clienti","Si può ordinare la cena","Si possono pagare le bollette"],c:1},
+  {q:"Cosa vuol dire 'vista mare'?",a:["La stanza è sotto il mare","Dalla finestra si vede il mare","L'hotel è una nave","C'è una piscina in camera"],c:1},
 ];
 
-const TIMER_NORMAL = 12;
-const TIMER_SPECIAL = 24;
+const TIMER_NORMAL = 8;
+const TIMER_SPECIAL = 12;
 
 let isSpecialStudent = false;
 
@@ -291,7 +291,7 @@ let correctCount = 0;
 let wrongCount = 0;
 let totalTime = 0;
 let timer = null;
-let timeLeft = 12;
+let timeLeft = 8;
 let answered = false;
 
 window.selectSquad = function(sq) {
@@ -322,7 +322,7 @@ window.startQuiz = async function() {
   currentStudent = { name: name, squad: selectedSquad, key: nameKey };
   isSpecialStudent = name.toLowerCase().includes('ferrari') && name.toLowerCase().includes('marco');
   if (isSpecialStudent) {
-    currentStudent.questions = QUESTIONS_FACILI;
+    currentStudent.questions = QUESTIONS_MEDIE;
   } else {
     currentStudent.questions = QUESTIONS;
   }
@@ -475,6 +475,7 @@ async function endQuiz() {
   showScreen('screen-results');
 
   try {
+    // Salva punteggio individuale
     await setDoc(doc(db, SCORES_COLLECTION, currentStudent.key), {
       name: currentStudent.name,
       squad: currentStudent.squad,
@@ -482,8 +483,22 @@ async function endQuiz() {
       correct: correctCount,
       wrong: wrongCount,
       avgTime: parseFloat((totalTime / currentStudent.questions.length).toFixed(1)),
+      round: ROUND,
       timestamp: Date.now()
     });
+
+    // Aggiorna punteggio squadra sul tabellone principale
+    const { getDoc: gd, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const statoRef = doc(db, 'corso', 'stato');
+    const statoSnap = await gd(statoRef);
+    if (statoSnap.exists()) {
+      const stato = statoSnap.data();
+      const pts = stato.pts || {amm:0,fin:0,mkt:0,rim:0};
+      // Ogni quiz completato aggiunge punti alla squadra: 1 punto base + 1 bonus se 7+ corrette
+      const teamBonus = correctCount >= 7 ? 2 : 1;
+      pts[currentStudent.squad] = (pts[currentStudent.squad] || 0) + teamBonus;
+      await updateDoc(statoRef, { pts: pts });
+    }
   } catch(e) { console.error(e); }
 
   loadLeaderboard();

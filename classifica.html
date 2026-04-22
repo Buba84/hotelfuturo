@@ -97,7 +97,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);m
 
 <div class="main">
 
-  <div class="sec-title">Punteggio squadre dal quiz</div>
+  <div class="sec-title" id="sec-teams">Punteggio squadre dal quiz</div>
   <div class="teams-bar">
     <div class="team-card t-amm" id="tc-amm"><span class="team-crown">👑</span><div class="team-name">Amministrazione</div><div class="team-score" id="ts-amm">0</div><div class="team-detail" id="td-amm">0 giocatori</div></div>
     <div class="team-card t-fin" id="tc-fin"><span class="team-crown">👑</span><div class="team-name">Finanza</div><div class="team-score" id="ts-fin">0</div><div class="team-detail" id="td-fin">0 giocatori</div></div>
@@ -105,7 +105,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);m
     <div class="team-card t-rim" id="tc-rim"><span class="team-crown">👑</span><div class="team-name">RIM</div><div class="team-score" id="ts-rim">0</div><div class="team-detail" id="td-rim">0 giocatori</div></div>
   </div>
 
-  <div class="sec-title">Podio</div>
+  <div class="sec-title" id="sec-podio">Podio</div>
   <div class="podium" id="podium"></div>
 
   <div class="sec-title">Classifica completa</div>
@@ -146,12 +146,52 @@ let currentRound = '1';
 function buildRoundButtons() {
   const sel = document.getElementById('round-sel');
   sel.innerHTML = '';
+  // Pulsante GENERALE
+  const btnGen = document.createElement('button');
+  btnGen.className = 'round-btn' + (currentRound === 'all' ? ' active' : '');
+  btnGen.textContent = 'Generale';
+  btnGen.style.background = currentRound === 'all' ? '#c9a84c' : '';
+  btnGen.style.color = currentRound === 'all' ? '#0f0e0c' : '';
+  btnGen.onclick = () => { currentRound = 'all'; buildRoundButtons(); loadAllRounds(); };
+  sel.appendChild(btnGen);
   for (let i = 1; i <= 10; i++) {
     const btn = document.createElement('button');
     btn.className = 'round-btn' + (i == currentRound ? ' active' : '');
     btn.textContent = 'R' + i;
     btn.onclick = () => { currentRound = '' + i; buildRoundButtons(); loadRound(); };
     sel.appendChild(btn);
+  }
+}
+
+function loadAllRounds() {
+  const allScores = {};
+  let loadedRounds = 0;
+  const totalRounds = 10;
+
+  for (let r = 1; r <= totalRounds; r++) {
+    const colName = 'quiz_round_' + r;
+    const q = query(collection(db, colName));
+    onSnapshot(q, (snap) => {
+      snap.forEach(d => {
+        const s = d.data();
+        const key = s.name;
+        if (!allScores[key]) {
+          allScores[key] = { name: s.name, squad: s.squad, score: 0, correct: 0, wrong: 0, rounds: 0, totalTime: 0 };
+        }
+        allScores[key].score += s.score || 0;
+        allScores[key].correct += s.correct || 0;
+        allScores[key].wrong += s.wrong || 0;
+        allScores[key].rounds++;
+        allScores[key].totalTime += (s.avgTime || 0);
+      });
+      loadedRounds++;
+      if (loadedRounds >= totalRounds) {
+        const scores = Object.values(allScores);
+        scores.forEach(s => { s.avgTime = s.rounds > 0 ? parseFloat((s.totalTime / s.rounds).toFixed(1)) : 0; });
+        scores.sort((a, b) => b.score - a.score);
+        renderAll(scores);
+      }
+    });
   }
 }
 
@@ -168,6 +208,11 @@ function loadRound() {
 }
 
 function renderAll(scores) {
+  const isGeneral = currentRound === 'all';
+  const label = isGeneral ? 'Classifica generale — tutti i round' : 'Round ' + currentRound;
+  document.getElementById('sec-teams').textContent = isGeneral ? 'Punteggio squadre — classifica generale' : 'Punteggio squadre — Round ' + currentRound;
+  document.getElementById('sec-podio').textContent = isGeneral ? 'Miglior studente del corso' : 'Podio Round ' + currentRound;
+
   // Team totals - MEDIA per giocatore (proporzionale)
   const teams = {amm:{pts:0,count:0},fin:{pts:0,count:0},mkt:{pts:0,count:0},rim:{pts:0,count:0}};
   scores.forEach(s => {
@@ -203,7 +248,7 @@ function renderAll(scores) {
         '<div class="podium-name">' + s.name + '</div>' +
         '<span class="podium-squad ' + SQ_CSS[s.squad] + '">' + SQ_NAMES[s.squad] + '</span>' +
         '<div class="podium-pts">' + s.score + '</div>' +
-        '<div class="podium-detail">' + s.correct + '/10 corrette · ' + (s.avgTime || 0) + 's media</div>' +
+        '<div class="podium-detail">' + s.correct + (isGeneral ? ' corrette' : '/10 corrette') + ' · ' + (s.avgTime || 0) + 's media</div>' +
       '</div>'
     ).join('');
   }
@@ -222,7 +267,7 @@ function renderAll(scores) {
       '<span class="lb-rank">' + rank + '</span>' +
       '<span class="lb-name">' + s.name + '</span>' +
       '<span class="lb-sq ' + SQ_CSS[s.squad] + '">' + SQ_NAMES[s.squad] + '</span>' +
-      '<span class="lb-correct">' + s.correct + '/10</span>' +
+      '<span class="lb-correct">' + s.correct + (isGeneral ? '' : '/10') + '</span>' +
       '<span class="lb-time">' + (s.avgTime || 0) + 's</span>' +
       '<span class="lb-pts">' + s.score + '</span>' +
     '</div>';
