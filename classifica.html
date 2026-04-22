@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel Futuro · Classifica Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#c9a84c;--dark:#0f0e0c;--dark2:#1a1916;--dark3:#232220;--dark4:#2a2825;
+  --text:#f0ece4;--text2:#9a9590;--text3:#5a5752;
+  --amm:#4a90d9;--amm-l:#1a2d42;
+  --fin:#d4843a;--fin-l:#3a2510;
+  --mkt:#5aaa3a;--mkt-l:#1a2e10;
+  --rim:#d45a3a;--rim-l:#3a1a10;
+  --green:#4caf50;--border:rgba(201,168,76,.15);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;}
+
+.header{background:var(--dark2);border-bottom:1px solid var(--border);padding:20px 36px;display:flex;align-items:center;justify-content:space-between;}
+.header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.4;}
+.logo{font-family:'Playfair Display',serif;font-size:28px;color:var(--gold);}
+.logo-sub{font-size:14px;color:var(--text2);margin-top:2px;}
+.round-sel{display:flex;align-items:center;gap:8px;}
+.round-btn{font-size:16px;font-weight:600;padding:8px 20px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif;}
+.round-btn:hover{background:var(--dark3);color:var(--text);}
+.round-btn.active{background:var(--gold);color:var(--dark);border-color:var(--gold);}
+.live-badge{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--green);background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.2);border-radius:20px;padding:6px 16px;}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:blink 1.5s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.main{padding:24px 36px;max-width:1200px;margin:0 auto;}
+
+/* TEAM TOTALS */
+.teams-bar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:28px;}
+.team-card{border-radius:14px;padding:20px 22px;text-align:center;position:relative;}
+.team-card.leader{box-shadow:0 0 0 2px var(--gold);}
+.t-amm{background:var(--amm-l);} .t-fin{background:var(--fin-l);}
+.t-mkt{background:var(--mkt-l);} .t-rim{background:var(--rim-l);}
+.team-name{font-size:16px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
+.t-amm .team-name{color:var(--amm);} .t-fin .team-name{color:var(--fin);}
+.t-mkt .team-name{color:var(--mkt);} .t-rim .team-name{color:var(--rim);}
+.team-score{font-family:'Playfair Display',serif;font-size:52px;font-weight:600;line-height:1;margin-bottom:4px;}
+.t-amm .team-score{color:var(--amm);} .t-fin .team-score{color:var(--fin);}
+.t-mkt .team-score{color:var(--mkt);} .t-rim .team-score{color:var(--rim);}
+.team-detail{font-size:14px;color:var(--text3);}
+.team-crown{position:absolute;top:10px;right:12px;font-size:24px;display:none;}
+.team-card.leader .team-crown{display:block;}
+
+/* SECTION TITLE */
+.sec-title{font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:14px;}
+
+/* INDIVIDUAL LEADERBOARD */
+.lb-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.podium{display:flex;gap:12px;margin-bottom:20px;align-items:flex-end;justify-content:center;}
+.podium-card{background:var(--dark2);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center;flex:1;max-width:220px;}
+.podium-card.first{transform:scale(1.08);border-color:var(--gold);order:2;}
+.podium-card.second{order:1;}
+.podium-card.third{order:3;}
+.podium-medal{font-size:36px;margin-bottom:8px;}
+.podium-name{font-size:18px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.podium-squad{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 10px;border-radius:10px;display:inline-block;margin-bottom:8px;}
+.sq-amm{background:var(--amm-l);color:var(--amm);}
+.sq-fin{background:var(--fin-l);color:var(--fin);}
+.sq-mkt{background:var(--mkt-l);color:var(--mkt);}
+.sq-rim{background:var(--rim-l);color:var(--rim);}
+.podium-pts{font-family:'Playfair Display',serif;font-size:32px;font-weight:600;color:var(--gold);}
+.podium-detail{font-size:12px;color:var(--text3);margin-top:4px;}
+
+.lb-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;margin-bottom:6px;background:var(--dark2);border:1px solid var(--border);}
+.lb-rank{font-size:20px;font-weight:700;color:var(--text3);width:32px;text-align:center;}
+.lb-name{flex:1;font-size:17px;font-weight:500;color:var(--text);}
+.lb-sq{font-size:11px;font-weight:700;text-transform:uppercase;padding:3px 10px;border-radius:10px;flex-shrink:0;}
+.lb-correct{font-size:14px;color:var(--green);min-width:40px;text-align:center;}
+.lb-time{font-size:14px;color:var(--text3);min-width:50px;text-align:center;}
+.lb-pts{font-size:20px;font-weight:700;color:var(--gold);min-width:50px;text-align:right;}
+
+.lb-header{display:flex;align-items:center;gap:12px;padding:8px 16px;margin-bottom:8px;font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.08em;}
+.lb-header .lb-rank{font-size:12px;}
+.lb-header .lb-name{font-size:12px;}
+.lb-header .lb-pts{font-size:12px;}
+
+.empty{text-align:center;padding:40px;font-size:18px;color:var(--text3);}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="logo">Hotel Futuro · Classifica Quiz</div>
+    <div class="logo-sub">Risultati individuali e per squadra</div>
+  </div>
+  <div class="round-sel" id="round-sel"></div>
+  <div class="live-badge"><div class="live-dot"></div>Aggiornamento live</div>
+</div>
+
+<div class="main">
+
+  <div class="sec-title">Punteggio squadre dal quiz</div>
+  <div class="teams-bar">
+    <div class="team-card t-amm" id="tc-amm"><span class="team-crown">👑</span><div class="team-name">Amministrazione</div><div class="team-score" id="ts-amm">0</div><div class="team-detail" id="td-amm">0 giocatori</div></div>
+    <div class="team-card t-fin" id="tc-fin"><span class="team-crown">👑</span><div class="team-name">Finanza</div><div class="team-score" id="ts-fin">0</div><div class="team-detail" id="td-fin">0 giocatori</div></div>
+    <div class="team-card t-mkt" id="tc-mkt"><span class="team-crown">👑</span><div class="team-name">Marketing</div><div class="team-score" id="ts-mkt">0</div><div class="team-detail" id="td-mkt">0 giocatori</div></div>
+    <div class="team-card t-rim" id="tc-rim"><span class="team-crown">👑</span><div class="team-name">RIM</div><div class="team-score" id="ts-rim">0</div><div class="team-detail" id="td-rim">0 giocatori</div></div>
+  </div>
+
+  <div class="sec-title">Podio</div>
+  <div class="podium" id="podium"></div>
+
+  <div class="sec-title">Classifica completa</div>
+  <div class="lb-header">
+    <span class="lb-rank">#</span>
+    <span class="lb-name">Studente</span>
+    <span class="lb-sq">Squadra</span>
+    <span class="lb-correct">Corrette</span>
+    <span class="lb-time">Tempo</span>
+    <span class="lb-pts">Punti</span>
+  </div>
+  <div id="leaderboard"><div class="empty">In attesa che i ragazzi completino il quiz...</div></div>
+
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, collection, onSnapshot, query } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCzDnRq7_Tfq7uktNfy2r8tFu0qTdrE-88",
+  authDomain: "hotelfuturo.firebaseapp.com",
+  projectId: "hotelfuturo",
+  storageBucket: "hotelfuturo.firebasestorage.app",
+  messagingSenderId: "349688895596",
+  appId: "1:349688895596:web:81b1e5f3c993099c9b6049"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const SQ_NAMES = {amm:'Amministrazione',fin:'Finanza',mkt:'Marketing',rim:'RIM'};
+const SQ_CSS = {amm:'sq-amm',fin:'sq-fin',mkt:'sq-mkt',rim:'sq-rim'};
+
+let currentRound = '1';
+
+// Build round buttons
+function buildRoundButtons() {
+  const sel = document.getElementById('round-sel');
+  sel.innerHTML = '';
+  for (let i = 1; i <= 10; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'round-btn' + (i == currentRound ? ' active' : '');
+    btn.textContent = 'R' + i;
+    btn.onclick = () => { currentRound = '' + i; buildRoundButtons(); loadRound(); };
+    sel.appendChild(btn);
+  }
+}
+
+function loadRound() {
+  const colName = 'quiz_round_' + currentRound;
+  const q = query(collection(db, colName));
+
+  onSnapshot(q, (snap) => {
+    const scores = [];
+    snap.forEach(d => scores.push(d.data()));
+    scores.sort((a, b) => b.score - a.score);
+    renderAll(scores);
+  });
+}
+
+function renderAll(scores) {
+  // Team totals
+  const teams = {amm:{pts:0,count:0},fin:{pts:0,count:0},mkt:{pts:0,count:0},rim:{pts:0,count:0}};
+  scores.forEach(s => {
+    if (teams[s.squad]) {
+      teams[s.squad].pts += s.score;
+      teams[s.squad].count++;
+    }
+  });
+
+  const maxTeamPts = Math.max(...Object.values(teams).map(t => t.pts));
+  ['amm','fin','mkt','rim'].forEach(sq => {
+    document.getElementById('ts-' + sq).textContent = teams[sq].pts;
+    document.getElementById('td-' + sq).textContent = teams[sq].count + ' giocator' + (teams[sq].count === 1 ? 'e' : 'i');
+    document.getElementById('tc-' + sq).classList.toggle('leader', teams[sq].pts === maxTeamPts && maxTeamPts > 0);
+  });
+
+  // Podium
+  const podium = document.getElementById('podium');
+  if (scores.length === 0) {
+    podium.innerHTML = '';
+  } else {
+    const top3 = scores.slice(0, 3);
+    const medals = ['🥇','🥈','🥉'];
+    const classes = ['first','second','third'];
+    podium.innerHTML = top3.map((s, i) =>
+      '<div class="podium-card ' + classes[i] + '">' +
+        '<div class="podium-medal">' + medals[i] + '</div>' +
+        '<div class="podium-name">' + s.name + '</div>' +
+        '<span class="podium-squad ' + SQ_CSS[s.squad] + '">' + SQ_NAMES[s.squad] + '</span>' +
+        '<div class="podium-pts">' + s.score + '</div>' +
+        '<div class="podium-detail">' + s.correct + '/10 corrette · ' + (s.avgTime || 0) + 's media</div>' +
+      '</div>'
+    ).join('');
+  }
+
+  // Full leaderboard
+  const lb = document.getElementById('leaderboard');
+  if (scores.length === 0) {
+    lb.innerHTML = '<div class="empty">In attesa che i ragazzi completino il quiz...</div>';
+    return;
+  }
+
+  lb.innerHTML = scores.map((s, i) => {
+    const medals = ['🥇','🥈','🥉'];
+    const rank = i < 3 ? medals[i] : (i + 1);
+    return '<div class="lb-row">' +
+      '<span class="lb-rank">' + rank + '</span>' +
+      '<span class="lb-name">' + s.name + '</span>' +
+      '<span class="lb-sq ' + SQ_CSS[s.squad] + '">' + SQ_NAMES[s.squad] + '</span>' +
+      '<span class="lb-correct">' + s.correct + '/10</span>' +
+      '<span class="lb-time">' + (s.avgTime || 0) + 's</span>' +
+      '<span class="lb-pts">' + s.score + '</span>' +
+    '</div>';
+  }).join('');
+}
+
+buildRoundButtons();
+loadRound();
+</script>
+</body>
+</html>
