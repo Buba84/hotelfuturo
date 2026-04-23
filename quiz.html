@@ -419,10 +419,11 @@ function loadQuestion() {
 
   const container = document.getElementById('answers');
   container.innerHTML = '';
+  container.style.display = 'none';
   const letters = ['A','B','C','D'];
   indices.forEach((origIdx, newIdx) => {
     const btn = document.createElement('button');
-    btn.className = 'answer-btn disabled-start';
+    btn.className = 'answer-btn';
     btn.innerHTML = '<span class="answer-letter">'+letters[newIdx]+'</span>'+q.a[origIdx];
     btn.dataset.origIdx = origIdx;
     btn.onclick = () => { if(answersEnabled) selectAnswer(origIdx, newCorrect, indices); };
@@ -430,15 +431,15 @@ function loadQuestion() {
   });
   currentCorrectIdx = q.c;
 
-  // Show question for 2 seconds before enabling answers
+  // Show question for 3 seconds before revealing answers
   const TIMER = isSpecialStudent ? TIMER_SPECIAL : TIMER_NORMAL;
-  document.getElementById('timer-text').textContent = '⏳';
+  document.getElementById('timer-text').textContent = 'Leggi...';
   document.getElementById('timer-fill').style.width = '100%';
   document.getElementById('timer-fill').className = 'timer-fill';
 
   setTimeout(() => {
+    container.style.display = 'flex';
     answersEnabled = true;
-    document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('disabled-start'));
     timeLeft = TIMER;
     updateTimerDisplay();
     clearInterval(timer);
@@ -489,7 +490,9 @@ function selectAnswer(origIdx, newCorrect, indices) {
   pe.style.display = 'block';
 
   if (origIdx === q.c) {
-    const bonus = Math.ceil(timeLeft);
+    // Bonus normalizzato: max 8 punti per tutti, proporzionale al tempo rimasto
+    const bonusRaw = (timeLeft / getTimer()) * 8;
+    const bonus = Math.ceil(bonusRaw);
     const pts = 10 + bonus;
     score += pts;
     correctCount++;
