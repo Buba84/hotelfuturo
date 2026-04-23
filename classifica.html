@@ -154,7 +154,7 @@ function buildRoundButtons() {
   btnGen.style.color = currentRound === 'all' ? '#0f0e0c' : '';
   btnGen.onclick = () => { currentRound = 'all'; buildRoundButtons(); loadAllRounds(); };
   sel.appendChild(btnGen);
-  for (let i = 1; i <= 10; i++) {
+  for (let i = 1; i <= 15; i++) {
     const btn = document.createElement('button');
     btn.className = 'round-btn' + (i == currentRound ? ' active' : '');
     btn.textContent = 'R' + i;
@@ -166,7 +166,7 @@ function buildRoundButtons() {
 function loadAllRounds() {
   const allScores = {};
   let loadedRounds = 0;
-  const totalRounds = 10;
+  const totalRounds = 15;
 
   for (let r = 1; r <= totalRounds; r++) {
     const colName = 'quiz_round_' + r;
