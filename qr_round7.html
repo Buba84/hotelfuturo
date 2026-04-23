@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Quiz Round 7</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0f0e0c;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:40px;font-family:sans-serif;}
+.card{background:#0f0e0c;border:2px solid rgba(201,168,76,.3);border-radius:24px;padding:48px 40px;max-width:420px;width:100%;text-align:center;}
+.title{font-size:36px;font-weight:700;color:#f0ece4;margin-bottom:4px;}
+.round{font-size:22px;font-weight:700;color:#c9a84c;margin-bottom:24px;}
+.qr-box{background:#fff;border-radius:16px;padding:24px;display:inline-block;margin-bottom:24px;}
+.url{font-size:14px;color:#c9a84c;font-family:monospace;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:10px 20px;display:inline-block;margin-bottom:16px;}
+.info{font-size:16px;color:#9a9590;line-height:1.6;}
+.info strong{color:#f0ece4;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="title">Hotel Futuro Quiz</div>
+  <div class="round">Round 7</div>
+  <div class="qr-box"><div id="qr"></div></div>
+  <br>
+  <div class="url">buba84.github.io/hotelfuturo/quiz.html?round=7</div>
+  <div class="info">Inquadra e gioca!<br><strong>10 domande · 8 secondi · classifica live</strong></div>
+</div>
+<script>
+new QRCode(document.getElementById('qr'), {
+  text: 'https://buba84.github.io/hotelfuturo/quiz.html?round=7',
+  width: 220, height: 220,
+  colorDark: '#0f0e0c', colorLight: '#ffffff',
+  correctLevel: QRCode.CorrectLevel.H
+});
+</script>
+</body>
+</html>
