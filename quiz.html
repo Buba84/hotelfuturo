@@ -66,6 +66,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);m
 .answer-btn.wrong{border-color:var(--red);background:rgba(229,57,53,.15);color:var(--red);}
 .answer-btn.disabled{pointer-events:none;opacity:.5;}
 .answer-btn.show-correct{border-color:var(--green);opacity:1;}
+.answer-btn.disabled-start{opacity:.4;pointer-events:none;}
 .answer-letter{width:32px;height:32px;border-radius:50%;background:var(--dark4);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;}
 .answer-btn.correct .answer-letter{background:var(--green);color:#fff;}
 .answer-btn.wrong .answer-letter{background:var(--red);color:#fff;}
@@ -161,7 +162,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);m
   </div>
   <div class="lb-title">Classifica Round <span id="lb-round">1</span></div>
   <div class="lb-scroll" id="leaderboard"></div>
-  <div class="wait-msg">I risultati contribuiscono al punteggio della tua squadra!</div>
+  <div class="wait-msg">
+    <strong>Come funzionano i punti:</strong><br>
+    Risposta corretta = 10 punti base + bonus velocità (secondi rimasti)<br>
+    Risposta sbagliata = 0 punti<br>
+    Tempo scaduto = 0 punti<br><br>
+    <strong>Punti alla squadra:</strong><br>
+    Quiz completato = +1 punto alla tua squadra<br>
+    7 o più risposte corrette = +2 punti alla tua squadra
+  </div>
 </div>
 
 <script type="module">
@@ -341,6 +350,8 @@ let totalTime = 0;
 let timer = null;
 let timeLeft = 8;
 let answered = false;
+let answersEnabled = false;
+let currentCorrectIdx = 0;
 
 window.selectSquad = function(sq) {
   selectedSquad = sq;
@@ -390,6 +401,7 @@ function showScreen(id) {
 
 function loadQuestion() {
   answered = false;
+  answersEnabled = false;
   const q = currentStudent.questions[currentQ];
   document.getElementById('q-counter').textContent = (currentQ+1)+' / '+currentStudent.questions.length;
   document.getElementById('q-score').textContent = score+' punti';
@@ -397,29 +409,48 @@ function loadQuestion() {
   document.getElementById('feedback').style.display = 'none';
   document.getElementById('pts-earned').style.display = 'none';
 
+  // Randomize answer order
+  const indices = [0,1,2,3];
+  for (let i = indices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+  }
+  const newCorrect = indices.indexOf(q.c);
+
   const container = document.getElementById('answers');
   container.innerHTML = '';
   const letters = ['A','B','C','D'];
-  q.a.forEach((a,i) => {
+  indices.forEach((origIdx, newIdx) => {
     const btn = document.createElement('button');
-    btn.className = 'answer-btn';
-    btn.innerHTML = '<span class="answer-letter">'+letters[i]+'</span>'+a;
-    btn.onclick = () => selectAnswer(i);
+    btn.className = 'answer-btn disabled-start';
+    btn.innerHTML = '<span class="answer-letter">'+letters[newIdx]+'</span>'+q.a[origIdx];
+    btn.dataset.origIdx = origIdx;
+    btn.onclick = () => { if(answersEnabled) selectAnswer(origIdx, newCorrect, indices); };
     container.appendChild(btn);
   });
+  currentCorrectIdx = q.c;
 
+  // Show question for 2 seconds before enabling answers
   const TIMER = isSpecialStudent ? TIMER_SPECIAL : TIMER_NORMAL;
-  timeLeft = TIMER;
-  updateTimerDisplay();
-  clearInterval(timer);
-  timer = setInterval(() => {
-    timeLeft -= 0.1;
+  document.getElementById('timer-text').textContent = '⏳';
+  document.getElementById('timer-fill').style.width = '100%';
+  document.getElementById('timer-fill').className = 'timer-fill';
+
+  setTimeout(() => {
+    answersEnabled = true;
+    document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('disabled-start'));
+    timeLeft = TIMER;
     updateTimerDisplay();
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      timeUp();
-    }
-  }, 100);
+    clearInterval(timer);
+    timer = setInterval(() => {
+      timeLeft -= 0.1;
+      updateTimerDisplay();
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        timeUp();
+      }
+    }, 100);
+  }, 2000);
 }
 
 function getTimer() { return isSpecialStudent ? TIMER_SPECIAL : TIMER_NORMAL; }
@@ -435,8 +466,8 @@ function updateTimerDisplay() {
   fill.className = 'timer-fill' + (t <= 3 ? ' danger' : '');
 }
 
-function selectAnswer(idx) {
-  if (answered) return;
+function selectAnswer(origIdx, newCorrect, indices) {
+  if (answered || !answersEnabled) return;
   answered = true;
   clearInterval(timer);
 
@@ -445,10 +476,11 @@ function selectAnswer(idx) {
   const responseTime = getTimer() - timeLeft;
   totalTime += responseTime;
 
-  btns.forEach((btn, i) => {
-    if (i === q.c) btn.classList.add('correct','show-correct');
-    if (i === idx && i !== q.c) btn.classList.add('wrong');
-    if (i !== idx && i !== q.c) btn.classList.add('disabled');
+  btns.forEach((btn) => {
+    const bIdx = parseInt(btn.dataset.origIdx);
+    if (bIdx === q.c) btn.classList.add('correct','show-correct');
+    if (bIdx === origIdx && bIdx !== q.c) btn.classList.add('wrong');
+    if (bIdx !== origIdx && bIdx !== q.c) btn.classList.add('disabled');
   });
 
   const fb = document.getElementById('feedback');
@@ -456,18 +488,18 @@ function selectAnswer(idx) {
   fb.style.display = 'block';
   pe.style.display = 'block';
 
-  if (idx === q.c) {
+  if (origIdx === q.c) {
     const bonus = Math.ceil(timeLeft);
     const pts = 10 + bonus;
     score += pts;
     correctCount++;
     fb.className = 'feedback correct';
-    fb.textContent = 'Corretto!';
-    pe.textContent = '+'+pts+' punti ('+bonus+' bonus velocità)';
+    fb.textContent = '✅ Corretto!';
+    pe.textContent = '+'+pts+' punti (10 base + '+bonus+' bonus velocità)';
   } else {
     wrongCount++;
     fb.className = 'feedback wrong';
-    fb.textContent = 'Sbagliato!';
+    fb.textContent = '❌ Sbagliato!';
     pe.textContent = '+0 punti';
   }
 
@@ -490,8 +522,9 @@ function timeUp() {
 
   const q = currentStudent.questions[currentQ];
   const btns = document.querySelectorAll('.answer-btn');
-  btns.forEach((btn, i) => {
-    if (i === q.c) btn.classList.add('correct','show-correct');
+  btns.forEach((btn) => {
+    const bIdx = parseInt(btn.dataset.origIdx);
+    if (bIdx === q.c) btn.classList.add('correct','show-correct');
     else btn.classList.add('disabled');
   });
 
@@ -500,7 +533,7 @@ function timeUp() {
   fb.style.display = 'block';
   pe.style.display = 'block';
   fb.className = 'feedback timeout';
-  fb.textContent = 'Tempo scaduto!';
+  fb.textContent = '⏰ Tempo scaduto!';
   pe.textContent = '+0 punti';
   totalTime += getTimer();
 
