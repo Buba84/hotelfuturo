@@ -407,16 +407,30 @@ window.checkReady = function() {
 
 window.startQuiz = async function() {
   const name = document.getElementById('inp-name').value.trim();
-  const nameKey = name.toLowerCase().replace(/\s+/g,'_');
+  // Normalizza: tutto minuscolo, ordina le parole, rimuovi spazi doppi
+  const words = name.toLowerCase().replace(/\s+/g,' ').split(' ').sort();
+  const nameKey = words.join('_') + '_r' + ROUND;
   
   try {
     const { getDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
     const existing = await getDoc(doc(db, SCORES_COLLECTION, nameKey));
     if (existing.exists()) {
-      alert('⚠️ ' + name + ' ha già completato il quiz! Se pensi sia un errore, chiedi al professore.');
+      alert('⚠️ Hai già iniziato o completato questo round! Non puoi rifarlo.');
       return;
     }
-  } catch(e) {}
+    // Blocca subito: salva "in corso" appena inizia
+    await setDoc(doc(db, SCORES_COLLECTION, nameKey), {
+      name: name,
+      squad: selectedSquad,
+      score: 0,
+      correct: 0,
+      wrong: 0,
+      avgTime: 0,
+      round: ROUND,
+      status: 'in_progress',
+      timestamp: Date.now()
+    });
+  } catch(e) { console.error(e); }
 
   currentStudent = { name: name, squad: selectedSquad, key: nameKey };
   isSpecialStudent = name.toLowerCase().includes('ferrari') && name.toLowerCase().includes('marco');
@@ -595,7 +609,7 @@ async function endQuiz() {
   showScreen('screen-results');
 
   try {
-    // Salva punteggio individuale
+    // Aggiorna punteggio finale (sovrascrive il record "in_progress")
     await setDoc(doc(db, SCORES_COLLECTION, currentStudent.key), {
       name: currentStudent.name,
       squad: currentStudent.squad,
@@ -604,6 +618,7 @@ async function endQuiz() {
       wrong: wrongCount,
       avgTime: parseFloat((totalTime / currentStudent.questions.length).toFixed(1)),
       round: ROUND,
+      status: 'completed',
       timestamp: Date.now()
     });
 
@@ -629,7 +644,10 @@ function loadLeaderboard() {
   const q = query(collection(db, SCORES_COLLECTION));
   onSnapshot(q, (snap) => {
     const scores = [];
-    snap.forEach(d => scores.push(d.data()));
+    snap.forEach(d => {
+      const s = d.data();
+      if (s.status !== 'in_progress') scores.push(s);
+    });
     scores.sort((a,b) => b.score - a.score);
 
     const lb = document.getElementById('leaderboard');
