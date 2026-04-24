@@ -366,6 +366,18 @@ const ALL_QUESTIONS = {
     {q:"La 'net promoter score' (NPS) misura...",a:["Il numero di promozioni","Quanto i clienti raccomanderebbero l'hotel ad amici","Il punteggio del Wi-Fi","La velocità del check-out"],c:1},
     {q:"Al termine di questo PCTO, la competenza più importante acquisita è...",a:["Saper usare solo ChatGPT","Saper ragionare, collaborare e usare l'AI come strumento professionale","Saper copiare da internet","Saper fare quiz velocemente"],c:1},
   ],
+  '13': [
+    {q:"Quante suite ha l'Hotel Futuro?",a:["30","Un numero variabile che dipende dalla stagione e dalle ristrutturazioni previste","20 più 10 in costruzione","Circa 50 tra suite e camere standard"],c:0},
+    {q:"Dove si trova Gallipoli?",a:["Sulla costa adriatica della Calabria vicino a Reggio e alla Sicilia orientale","In Sicilia","In Puglia","Sulla costa tirrenica della Campania vicino a Napoli e Sorrento"],c:2},
+    {q:"Cosa significa check-in?",a:["Il processo completo di accoglienza che include verifica documenti, assegnazione camera e presentazione dettagliata dei servizi","La registrazione dell'ospite","Il pagamento anticipato del soggiorno completo comprensivo di tassa di soggiorno","La prenotazione online"],c:1},
+    {q:"Booking.com è...",a:["Un portale internazionale di prenotazione alberghiera con sistema di recensioni integrate e commissioni variabili dal 15 al 25 percento","Una piattaforma completa per la gestione integrata di tutti gli aspetti della comunicazione digitale alberghiera","Una OTA","Un social network specializzato per hotel e strutture ricettive di tutto il mondo"],c:2},
+    {q:"Il RevPAR misura...",a:["Il rapporto tra il revenue totale generato e il numero complessivo di camere disponibili nell'hotel durante il periodo","Il ricavo per camera disponibile","La soddisfazione complessiva del cliente misurata attraverso questionari e recensioni online","Il tasso di occupazione mensile"],c:1},
+    {q:"Alta stagione a Gallipoli è...",a:["Il periodo dell'anno in cui la domanda turistica raggiunge il picco massimo grazie al clima mediterraneo e alle vacanze","Luglio e agosto","Quando i prezzi salgono notevolmente a causa dell'incremento esponenziale della domanda turistica","Il trimestre che va da giugno a settembre compresi"],c:1},
+    {q:"Il direttore d'hotel deve...",a:["Supervisionare quotidianamente ogni aspetto operativo, finanziario, commerciale e relazionale della struttura ricettiva","Gestire l'hotel","Occuparsi personalmente di ogni singola attività operativa e amministrativa dell'intera struttura alberghiera","Coordinare tutti i reparti assicurandosi che le procedure standard vengano rispettate integralmente"],c:1},
+    {q:"CRM significa...",a:["Un sistema informatico integrato per la gestione completa delle relazioni con la clientela durante tutto il ciclo di vita","Customer Relationship Management","Un programma software avanzato che permette di tracciare ogni interazione tra hotel e ospite","Una metodologia basata sulla raccolta e analisi sistematica dei dati comportamentali dei clienti"],c:1},
+    {q:"Una recensione negativa va...",a:["Analizzata attentamente dal team, discussa in riunione e poi gestita con una risposta pubblica professionale entro 24 ore","Gestita con risposta rapida","Valutata nel contesto complessivo della reputazione online dell'hotel prima di procedere con qualsiasi azione","Ignorata se il cliente è chiaramente irragionevole nelle sue pretese e aspettative"],c:1},
+    {q:"Il Salento è famoso per...",a:["Le sue caratteristiche uniche che combinano mare cristallino, architettura barocca e tradizioni enogastronomiche secolari","I trulli e le grotte naturali che si estendono lungo tutta la costa adriatica della regione pugliese","Mare e cultura","Le sue spiagge caraibiche che lo rendono una delle destinazioni più ambite del Mediterraneo"],c:2},
+  ],
 };
 
 const QUESTIONS_MEDIE = null; // Marco usa le stesse domande degli altri
@@ -375,9 +387,9 @@ const TIMER_SPECIAL = 12;
 
 let isSpecialStudent = false;
 
-// Round sopra 12 ciclano
+// Round sopra 13 ciclano
 const roundNum = parseInt(ROUND) || 1;
-const setNum = roundNum > 12 ? ((roundNum - 1) % 12) + 1 : roundNum;
+const setNum = roundNum > 13 ? ((roundNum - 1) % 13) + 1 : roundNum;
 const QUESTIONS = ALL_QUESTIONS[String(setNum)] || ALL_QUESTIONS['1'];
 
 let currentStudent = null;
