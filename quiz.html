@@ -219,7 +219,6 @@ const SQ_CSS = {amm:'sq-amm',fin:'sq-fin',mkt:'sq-mkt',rim:'sq-rim'};
 const urlParams = new URLSearchParams(window.location.search);
 const ROUND = urlParams.get('round') || '1';
 const SCORES_COLLECTION = 'quiz_round_' + ROUND;
-document.getElementById('round-badge').textContent = IS_ENGLISH_ROUND ? 'ENGLISH ROUND · x2 POINTS' : 'Round ' + ROUND;
 
 const ALL_QUESTIONS = {
   '1': [
@@ -406,6 +405,9 @@ let isSpecialStudent = false;
 const roundNum = parseInt(ROUND) || 1;
 const setNum = roundNum > 13 ? ((roundNum - 1) % 13) + 1 : roundNum;
 const QUESTIONS = IS_ENGLISH_ROUND ? ENGLISH_QUESTIONS : (ALL_QUESTIONS[String(setNum)] || ALL_QUESTIONS['1']);
+
+// Aggiorna badge round
+document.getElementById('round-badge').textContent = IS_ENGLISH_ROUND ? 'ENGLISH ROUND · x2 POINTS' : 'Round ' + ROUND;
 
 let currentStudent = null;
 let selectedSquad = null;
