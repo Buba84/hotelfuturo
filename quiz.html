@@ -622,18 +622,9 @@ async function endQuiz() {
       timestamp: Date.now()
     });
 
-    // Aggiorna punteggio squadra sul tabellone principale
-    const { getDoc: gd, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    const statoRef = doc(db, 'corso', 'stato');
-    const statoSnap = await gd(statoRef);
-    if (statoSnap.exists()) {
-      const stato = statoSnap.data();
-      const pts = stato.pts || {amm:0,fin:0,mkt:0,rim:0};
-      // Ogni quiz completato aggiunge punti alla squadra: 1 punto base + 1 bonus se 7+ corrette
-      const teamBonus = correctCount >= 7 ? 2 : 1;
-      pts[currentStudent.squad] = (pts[currentStudent.squad] || 0) + teamBonus;
-      await updateDoc(statoRef, { pts: pts });
-    }
+    // I punti alla squadra NON vengono aggiunti automaticamente.
+    // Il professore aggiorna il tabellone manualmente guardando la classifica,
+    // che calcola la media per giocatore (equa indipendentemente dal numero di partecipanti).
   } catch(e) { console.error(e); }
 
   loadLeaderboard();
