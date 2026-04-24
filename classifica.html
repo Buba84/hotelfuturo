@@ -161,6 +161,15 @@ function buildRoundButtons() {
     btn.onclick = () => { currentRound = '' + i; buildRoundButtons(); loadRound(); };
     sel.appendChild(btn);
   }
+  // Pulsante English Round 50
+  const btn50 = document.createElement('button');
+  btn50.className = 'round-btn' + (currentRound === '50' ? ' active' : '');
+  btn50.textContent = 'ENG x2';
+  btn50.style.background = currentRound === '50' ? '#4caf50' : 'rgba(76,175,80,.15)';
+  btn50.style.color = currentRound === '50' ? '#fff' : '#4caf50';
+  btn50.style.borderColor = '#4caf50';
+  btn50.onclick = () => { currentRound = '50'; buildRoundButtons(); loadRound(); };
+  sel.appendChild(btn50);
 }
 
 function loadAllRounds() {
@@ -168,7 +177,15 @@ function loadAllRounds() {
   let loadedRounds = 0;
   const totalRounds = 30;
 
-  for (let r = 1; r <= totalRounds; r++) {
+  // Carica round 1-30 + round 50 (English)
+  const roundsToLoad = [];
+  for (let r = 1; r <= totalRounds; r++) roundsToLoad.push(r);
+  roundsToLoad.push(50); // English round
+
+  let loadedRounds = 0;
+  const totalToLoad = roundsToLoad.length;
+
+  for (const r of roundsToLoad) {
     const colName = 'quiz_round_' + r;
     const q = query(collection(db, colName));
     onSnapshot(q, (snap) => {
@@ -186,7 +203,7 @@ function loadAllRounds() {
         allScores[key].totalTime += (s.avgTime || 0);
       });
       loadedRounds++;
-      if (loadedRounds >= totalRounds) {
+      if (loadedRounds >= totalToLoad) {
         const scores = Object.values(allScores);
         scores.forEach(s => { s.avgTime = s.rounds > 0 ? parseFloat((s.totalTime / s.rounds).toFixed(1)) : 0; });
         scores.sort((a, b) => b.score - a.score);
