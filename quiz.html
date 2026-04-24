@@ -219,7 +219,7 @@ const SQ_CSS = {amm:'sq-amm',fin:'sq-fin',mkt:'sq-mkt',rim:'sq-rim'};
 const urlParams = new URLSearchParams(window.location.search);
 const ROUND = urlParams.get('round') || '1';
 const SCORES_COLLECTION = 'quiz_round_' + ROUND;
-document.getElementById('round-badge').textContent = 'Round ' + ROUND;
+document.getElementById('round-badge').textContent = IS_ENGLISH_ROUND ? 'ENGLISH ROUND · x2 POINTS' : 'Round ' + ROUND;
 
 const ALL_QUESTIONS = {
   '1': [
@@ -380,17 +380,32 @@ const ALL_QUESTIONS = {
   ],
 };
 
+const ENGLISH_QUESTIONS = [
+  {q:"What makes Hotel Futuro unique?",a:["sea view suites with jacuzzi","mountain cabins with heated pools","city apartments with free parking","lake houses with private gardens"],c:0},
+  {q:"Where is Gallipoli located exactly?",a:["Puglia on the Ionian coast","Sardinia on the western coast","Calabria near the southern tip","Sicily near the eastern shore"],c:0},
+  {q:"What does ADR mean here?",a:["the average daily room rate","the annual discount rate percentage","the automatic daily revenue report","the adjusted departure room number"],c:0},
+  {q:"What commission does Booking.com charge?",a:["between one and three percent","between five and eight percent","between fifteen and twenty percent","between forty and fifty percent"],c:2},
+  {q:"What does a concierge do?",a:["helps guests with special requests","cooks meals in the kitchen","cleans all rooms every morning","manages the hotel financial budget"],c:0},
+  {q:"When is high season here?",a:["during January and February months","during July and August months","during October and November months","during March and April months"],c:1},
+  {q:"Why are direct bookings better?",a:["hotel avoids paying any commissions","guests get slightly bigger rooms","check in process is faster","breakfast quality is always better"],c:0},
+  {q:"What is a loyalty program?",a:["rewards for guests who return","discounts only for first visitors","penalties for very late checkouts","training courses for new employees"],c:0},
+  {q:"What does upselling mean exactly?",a:["selling the entire hotel building","offering guests a better room","giving discounts to every guest","closing the hotel every winter"],c:1},
+  {q:"How should you handle complaints?",a:["ignore them and move on","blame the guest for everything","listen apologize and offer solutions","delete all negative online reviews"],c:2},
+];
+
 const QUESTIONS_MEDIE = null; // Marco usa le stesse domande degli altri
 
-const TIMER_NORMAL = 8;
-const TIMER_SPECIAL = 12;
+const IS_ENGLISH_ROUND = ROUND === '50';
+const TIMER_NORMAL = IS_ENGLISH_ROUND ? 10 : 8;
+const TIMER_SPECIAL = IS_ENGLISH_ROUND ? 14 : 12;
+const SCORE_MULTIPLIER = IS_ENGLISH_ROUND ? 2 : 1;
 
 let isSpecialStudent = false;
 
-// Round sopra 13 ciclano
+// Round 50 = English quiz, altri round normali
 const roundNum = parseInt(ROUND) || 1;
 const setNum = roundNum > 13 ? ((roundNum - 1) % 13) + 1 : roundNum;
-const QUESTIONS = ALL_QUESTIONS[String(setNum)] || ALL_QUESTIONS['1'];
+const QUESTIONS = IS_ENGLISH_ROUND ? ENGLISH_QUESTIONS : (ALL_QUESTIONS[String(setNum)] || ALL_QUESTIONS['1']);
 
 let currentStudent = null;
 let selectedSquad = null;
@@ -555,12 +570,13 @@ function selectAnswer(origIdx, newCorrect, indices) {
     // Bonus normalizzato: max 8 punti per tutti, proporzionale al tempo rimasto
     const bonusRaw = (timeLeft / getTimer()) * 8;
     const bonus = Math.ceil(bonusRaw);
-    const pts = 10 + bonus;
+    const basePts = 10 + bonus;
+    const pts = basePts * SCORE_MULTIPLIER;
     score += pts;
     correctCount++;
     fb.className = 'feedback correct';
-    fb.textContent = '✅ Corretto!';
-    pe.textContent = '+'+pts+' punti (10 base + '+bonus+' bonus velocità)';
+    fb.textContent = '✅ Correct!';
+    pe.textContent = SCORE_MULTIPLIER > 1 ? '+'+pts+' points ('+basePts+' x2 DOUBLE!)' : '+'+pts+' punti (10 base + '+bonus+' bonus velocità)';
   } else {
     wrongCount++;
     fb.className = 'feedback wrong';
