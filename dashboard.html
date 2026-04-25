@@ -3,563 +3,701 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hotel Futuro · Dashboard Gestionale</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Hotel Futuro · Dashboard PCTO 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
 :root{
-  --gold:#c9a84c; --gold2:#e8c86a; --gold-l:rgba(201,168,76,.1);
-  --dark:#0c0b09; --dark2:#141310; --dark3:#1e1c19; --dark4:#252320;
-  --text:#f0ece4; --text2:#9a9590; --text3:#5a5752;
-  --amm:#4a90d9; --amm-l:rgba(74,144,217,.12); --amm-b:rgba(74,144,217,.25);
-  --fin:#d4843a; --fin-l:rgba(212,132,58,.12); --fin-b:rgba(212,132,58,.25);
-  --mkt:#5aaa3a; --mkt-l:rgba(90,170,58,.12); --mkt-b:rgba(90,170,58,.25);
-  --rim:#d45a3a; --rim-l:rgba(212,90,58,.12); --rim-b:rgba(212,90,58,.25);
-  --border:rgba(201,168,76,.12); --border2:rgba(240,236,228,.06);
-  --green:#4caf50; --radius:14px;
+  --gold:#b8860b; --gold2:#d4a017; --gold-l:#fef9ec; --gold-b:#f0d060;
+  --dark:#1a1a2e; --text:#1e293b; --text2:#475569; --text3:#94a3b8;
+  --bg:#f8fafc; --bg2:#ffffff; --bg3:#f1f5f9;
+  --amm:#2563eb; --amm-l:#eff6ff; --amm-b:#bfdbfe;
+  --fin:#d97706; --fin-l:#fffbeb; --fin-b:#fde68a;
+  --mkt:#16a34a; --mkt-l:#f0fdf4; --mkt-b:#bbf7d0;
+  --rim:#dc2626; --rim-l:#fef2f2; --rim-b:#fecaca;
+  --border:#e2e8f0; --radius:14px;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --shadow-md:0 4px 6px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.06);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
-/* ── HEADER ── */
-.header{background:var(--dark2);border-bottom:1px solid var(--border);padding:0 36px;display:flex;align-items:center;justify-content:space-between;height:80px;position:sticky;top:0;z-index:100;}
-.header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.4;}
+/* HEADER */
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 32px;height:72px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow);}
 .logo-wrap{display:flex;align-items:center;gap:14px;}
-.logo-icon{width:44px;height:44px;border-radius:10px;background:var(--gold);display:flex;align-items:center;justify-content:center;}
-.logo-icon svg{width:24px;height:24px;}
-.logo-text{}
-.logo-name{font-family:'Playfair Display',serif;font-size:28px;color:var(--gold);line-height:1;}
-.logo-sub{font-size:14px;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;}
-.header-center{display:flex;align-items:center;gap:6px;}
-.nav-tab{font-size:16px;font-weight:500;padding:8px 20px;border-radius:20px;border:none;background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;}
-.nav-tab:hover{color:var(--text);background:var(--dark4);}
-.nav-tab.active{background:var(--gold-l);color:var(--gold);border:1px solid var(--border);}
+.logo-icon{width:40px;height:40px;background:var(--gold);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.logo-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--dark);}
+.logo-sub{font-size:12px;color:var(--text3);letter-spacing:.04em;}
+.nav{display:flex;gap:4px;}
+.nav-btn{font-size:13px;font-weight:500;padding:7px 16px;border-radius:8px;border:none;background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;}
+.nav-btn:hover{background:var(--bg3);}
+.nav-btn.active{background:var(--dark);color:#fff;}
 .header-right{display:flex;align-items:center;gap:10px;}
-.live-badge{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--green);background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.2);border-radius:20px;padding:6px 16px;}
-.live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:blink 1.5s ease-in-out infinite;}
+.badge-pcto{font-size:12px;font-weight:600;background:var(--gold-l);color:var(--gold);border:1px solid var(--gold-b);border-radius:20px;padding:5px 14px;}
+.badge-live{display:flex;align-items:center;gap:5px;font-size:12px;color:#16a34a;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:20px;padding:5px 12px;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#16a34a;animation:blink 1.5s ease-in-out infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.corso-badge{font-size:14px;color:var(--text3);background:var(--dark4);border:1px solid var(--border2);border-radius:20px;padding:6px 16px;letter-spacing:.04em;}
 
-/* ── MAIN ── */
-.main{padding:24px 28px;max-width:1400px;margin:0 auto;}
+/* MAIN */
+.main{max-width:1300px;margin:0 auto;padding:28px 32px;}
 
-/* ── KPI BAR ── */
-.kpi-bar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:24px;}
-.kpi-card{background:var(--dark2);border:1px solid var(--border2);border-radius:var(--radius);padding:20px 22px;position:relative;overflow:hidden;transition:border-color .2s;}
-.kpi-card:hover{border-color:var(--border);}
-.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:opacity .2s;}
-.kpi-card:hover::before{opacity:1;}
-.kpi-card.k-amm::before{background:var(--amm);}
-.kpi-card.k-fin::before{background:var(--fin);}
-.kpi-card.k-mkt::before{background:var(--mkt);}
-.kpi-card.k-rim::before{background:var(--rim);}
-.kpi-card.k-gold::before{background:var(--gold);}
-.kpi-lbl{font-size:14px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;}
-.kpi-val{font-family:'Playfair Display',serif;font-size:42px;font-weight:600;color:var(--text);line-height:1;margin-bottom:4px;}
-.kpi-val.k-amm{color:var(--amm);} .kpi-val.k-fin{color:var(--fin);}
-.kpi-val.k-mkt{color:var(--mkt);} .kpi-val.k-rim{color:var(--rim);}
-.kpi-val.k-gold{color:var(--gold);}
-.kpi-sub{font-size:14px;color:var(--text3);}
-.kpi-trend{position:absolute;top:16px;right:16px;font-size:13px;font-weight:600;padding:3px 10px;border-radius:10px;}
-.trend-up{background:rgba(76,175,80,.15);color:#4caf50;}
-.trend-na{background:var(--dark4);color:var(--text3);}
+/* SECTION TITLE */
+.section-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:14px;}
 
-/* ── GRID LAYOUT ── */
-.grid-main{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
-.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:16px;}
-.grid-full{margin-bottom:16px;}
+/* HERO BANNER */
+.hero{background:linear-gradient(135deg,var(--dark) 0%,#16213e 100%);border-radius:20px;padding:36px 40px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden;}
+.hero::after{content:'🏨';position:absolute;right:200px;top:50%;transform:translateY(-50%);font-size:80px;opacity:.1;}
+.hero-left{}
+.hero-title{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:#fff;margin-bottom:6px;}
+.hero-sub{font-size:15px;color:#94a3b8;margin-bottom:18px;}
+.hero-tags{display:flex;gap:8px;flex-wrap:wrap;}
+.hero-tag{font-size:12px;background:rgba(255,255,255,.1);color:#cbd5e1;border-radius:20px;padding:4px 12px;}
+.hero-right{text-align:right;}
+.hero-stat{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;color:var(--gold2);line-height:1;}
+.hero-stat-sub{font-size:13px;color:#94a3b8;margin-top:4px;}
 
-/* ── SECTION CARD ── */
-.section-card{background:var(--dark2);border:1px solid var(--border2);border-radius:var(--radius);overflow:hidden;transition:border-color .2s;}
-.section-card:hover{border-color:var(--border);}
-.section-header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--border2);}
-.section-title-wrap{display:flex;align-items:center;gap:12px;}
-.section-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+/* CLASSIFICA SQUADRE */
+.squads-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+.squad-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;position:relative;box-shadow:var(--shadow);transition:transform .2s;}
+.squad-card:hover{transform:translateY(-2px);}
+.squad-card.winner{border-width:2px;}
+.squad-card.amm{border-color:var(--amm-b);background:var(--amm-l);}
+.squad-card.fin{border-color:var(--fin-b);background:var(--fin-l);}
+.squad-card.mkt{border-color:var(--mkt-b);background:var(--mkt-l);}
+.squad-card.rim{border-color:var(--rim-b);background:var(--rim-l);}
+.squad-winner-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;font-size:10px;font-weight:700;padding:2px 10px;border-radius:10px;letter-spacing:.06em;white-space:nowrap;}
+.squad-emoji{font-size:24px;margin-bottom:6px;}
+.squad-name{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;}
+.amm .squad-name{color:var(--amm);}
+.fin .squad-name{color:var(--fin);}
+.mkt .squad-name{color:var(--mkt);}
+.rim .squad-name{color:var(--rim);}
+.squad-pts{font-family:'Playfair Display',serif;font-size:44px;font-weight:700;line-height:1;margin-bottom:4px;}
+.amm .squad-pts{color:var(--amm);}
+.fin .squad-pts{color:var(--fin);}
+.mkt .squad-pts{color:var(--mkt);}
+.rim .squad-pts{color:var(--rim);}
+.squad-pts-label{font-size:11px;color:var(--text3);margin-bottom:14px;}
+.squad-members{display:flex;flex-direction:column;gap:4px;}
+.squad-member{font-size:12px;color:var(--text2);background:rgba(255,255,255,.7);border-radius:6px;padding:4px 8px;text-align:left;}
+.squad-member.best-quiz{font-weight:700;display:flex;align-items:center;gap:4px;}
+.squad-member.best-quiz::after{content:'🏆';font-size:10px;}
+
+/* KPI ROW */
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:28px;}
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);}
+.kpi-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+.kpi-val{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--dark);margin-bottom:2px;}
+.kpi-sub{font-size:11px;color:var(--text3);}
+
+/* GRID 2 COL */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;}
+
+/* CARD */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
+.card-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.card-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 .dot-amm{background:var(--amm);} .dot-fin{background:var(--fin);}
 .dot-mkt{background:var(--mkt);} .dot-rim{background:var(--rim);}
 .dot-gold{background:var(--gold);}
-.section-title{font-size:18px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text);}
-.section-area{font-size:14px;color:var(--text3);}
-.section-body{padding:22px 24px;}
+.card-title{font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--dark);}
+.card-sub{font-size:11px;color:var(--text3);}
+.card-body{padding:20px;}
 
-/* ── CONTENT ITEMS ── */
-.content-item{border-radius:10px;padding:16px 18px;margin-bottom:10px;border-left:4px solid transparent;}
+/* CHART */
+.chart-wrap{height:200px;position:relative;}
+.chart-wrap-sm{height:160px;position:relative;}
+
+/* CHANNEL BARS */
+.ch-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
+.ch-row:last-child{border:none;}
+.ch-name{font-size:13px;color:var(--text2);flex:1;}
+.ch-bar-w{flex:2;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.ch-bar{height:100%;border-radius:3px;}
+.ch-val{font-size:13px;font-weight:600;color:var(--text);min-width:36px;text-align:right;}
+
+/* SEASON */
+.season-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.season-row:last-child{border:none;}
+.season-name{color:var(--text2);}
+.season-adr{color:var(--fin);font-weight:700;}
+.season-occ{color:var(--amm);font-weight:600;}
+
+/* FLAGS */
+.flag-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.flag-row:last-child{border:none;}
+.flag{font-size:18px;}
+.flag-country{color:var(--text2);flex:1;}
+.flag-pct{color:var(--rim);font-weight:700;}
+.flag-bar-w{flex:2;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.flag-bar{height:100%;background:var(--rim);border-radius:3px;}
+
+/* QUIZ CLASSIFICA */
+.quiz-podio{display:flex;gap:12px;align-items:flex-end;justify-content:center;margin-bottom:20px;}
+.podio-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;flex:1;max-width:200px;}
+.podio-card.first{background:var(--gold-l);border-color:var(--gold-b);transform:scale(1.04);order:2;}
+.podio-card.second{order:1;}
+.podio-card.third{order:3;}
+.podio-medal{font-size:28px;margin-bottom:6px;}
+.podio-name{font-size:14px;font-weight:700;color:var(--dark);margin-bottom:4px;}
+.podio-squad{font-size:10px;font-weight:700;text-transform:uppercase;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:8px;}
+.sq-amm{background:var(--amm-l);color:var(--amm);}
+.sq-fin{background:var(--fin-l);color:var(--fin);}
+.sq-mkt{background:var(--mkt-l);color:var(--mkt);}
+.sq-rim{background:var(--rim-l);color:var(--rim);}
+.podio-pts{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--gold);}
+
+.quiz-row{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;margin-bottom:4px;border:1px solid var(--border);background:var(--bg2);}
+.quiz-rank{font-size:16px;font-weight:700;color:var(--text3);width:28px;text-align:center;}
+.quiz-name{flex:1;font-size:14px;font-weight:500;color:var(--text);}
+.quiz-sq{font-size:10px;font-weight:700;text-transform:uppercase;padding:2px 8px;border-radius:10px;flex-shrink:0;}
+.quiz-correct{font-size:12px;color:#16a34a;min-width:40px;text-align:center;font-weight:600;}
+.quiz-pts{font-size:16px;font-weight:700;color:var(--gold);min-width:50px;text-align:right;}
+
+/* CONTENUTI */
+.content-item{border-left:3px solid transparent;border-radius:8px;padding:12px 14px;margin-bottom:8px;}
 .content-item:last-child{margin-bottom:0;}
 .ci-amm{background:var(--amm-l);border-color:var(--amm);}
 .ci-fin{background:var(--fin-l);border-color:var(--fin);}
 .ci-mkt{background:var(--mkt-l);border-color:var(--mkt);}
 .ci-rim{background:var(--rim-l);border-color:var(--rim);}
-.ci-label{font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;}
-.ci-amm .ci-label{color:var(--amm);} .ci-fin .ci-label{color:var(--fin);}
-.ci-mkt .ci-label{color:var(--mkt);} .ci-rim .ci-label{color:var(--rim);}
-.ci-text{font-size:16px;color:var(--text2);line-height:1.6;}
-.empty-state{text-align:center;padding:32px 20px;}
-.empty-icon{font-size:36px;margin-bottom:10px;opacity:.3;}
-.empty-text{font-size:16px;color:var(--text3);line-height:1.6;}
+.ci-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+.ci-amm .ci-label{color:var(--amm);}
+.ci-fin .ci-label{color:var(--fin);}
+.ci-mkt .ci-label{color:var(--mkt);}
+.ci-rim .ci-label{color:var(--rim);}
+.ci-text{font-size:13px;color:var(--text2);line-height:1.6;}
 
-/* ── CHARTS ── */
-.chart-wrap{position:relative;height:240px;}
-.chart-wrap-sm{position:relative;height:200px;}
+/* STEP */
+.step-row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.step-row:last-child{border:none;}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--dark);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.step-text{font-size:13px;color:var(--text2);line-height:1.6;}
+.step-text strong{color:var(--text);display:block;}
 
-/* ── OCCUPANCY GAUGE ── */
-.gauge-wrap{display:flex;flex-direction:column;align-items:center;padding:10px 0;}
-.gauge-val{font-family:'Playfair Display',serif;font-size:48px;font-weight:600;color:var(--gold);margin-top:-40px;}
-.gauge-lbl{font-size:14px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;}
+/* REVIEW */
+.review{background:var(--bg3);border-radius:10px;padding:14px;margin-bottom:10px;}
+.review-stars{color:var(--gold);font-size:14px;margin-bottom:6px;}
+.review-text{font-size:12px;color:var(--text2);line-height:1.6;font-style:italic;}
+.review-meta{font-size:11px;color:var(--text3);margin-top:6px;}
 
-/* ── CHANNEL TABLE ── */
-.ch-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border2);}
-.ch-row:last-child{border-bottom:none;}
-.ch-name{font-size:16px;color:var(--text2);flex:1;}
-.ch-bar-wrap{flex:2;height:8px;background:var(--dark4);border-radius:4px;overflow:hidden;}
-.ch-bar{height:100%;border-radius:4px;transition:width .8s ease;}
-.ch-val{font-size:16px;font-weight:600;color:var(--text);min-width:40px;text-align:right;}
+/* MARKET PILLS */
+.market-grid{display:flex;flex-wrap:wrap;gap:8px;}
+.market-pill{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text2);}
+.market-pill strong{color:var(--text);display:block;font-size:14px;margin-bottom:2px;}
 
-/* ── MARKET PILLS ── */
-.market-grid{display:flex;flex-wrap:wrap;gap:10px;}
-.market-pill{background:var(--dark4);border:1px solid var(--border2);border-radius:10px;padding:12px 16px;font-size:15px;color:var(--text2);}
-.market-pill strong{color:var(--text);display:block;font-size:17px;margin-bottom:2px;}
+/* FOOTER */
+.footer{background:var(--dark);color:#94a3b8;text-align:center;padding:28px;margin-top:32px;font-size:13px;}
+.footer strong{color:#fff;}
 
-/* ── SEASON TABLE ── */
-.season-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border2);font-size:16px;}
-.season-row:last-child{border-bottom:none;}
-.season-name{color:var(--text2);}
-.season-adr{color:var(--fin);font-weight:600;}
-.season-occ{color:var(--amm);}
-
-/* ── PROCESS STEPS ── */
-.process-step{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border2);}
-.process-step:last-child{border-bottom:none;}
-.step-num{width:32px;height:32px;border-radius:50%;background:var(--gold-l);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--gold);flex-shrink:0;margin-top:2px;}
-.step-text{font-size:16px;color:var(--text2);line-height:1.6;}
-.step-text strong{color:var(--text);display:block;margin-bottom:3px;font-size:17px;}
-
-/* ── REVIEW CARD ── */
-.review-card{background:var(--dark3);border-radius:10px;padding:16px;margin-bottom:10px;}
-.review-stars{color:var(--gold);font-size:18px;margin-bottom:6px;}
-.review-text{font-size:15px;color:var(--text2);line-height:1.6;font-style:italic;}
-.review-meta{font-size:13px;color:var(--text3);margin-top:8px;}
-
-/* ── FLAGS ── */
-.flag-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border2);font-size:16px;}
-.flag-row:last-child{border-bottom:none;}
-.flag{font-size:22px;}
-.flag-country{color:var(--text2);flex:1;}
-.flag-pct{color:var(--rim);font-weight:600;}
-.flag-bar-w{flex:2;height:6px;background:var(--dark4);border-radius:3px;overflow:hidden;}
-.flag-bar{height:100%;background:var(--rim);border-radius:3px;}
-
-/* ── TABS ── */
-#view-overview{display:block;}
-#view-finanza{display:none;}
-#view-marketing{display:none;}
-#view-operativa{display:none;}
-
-/* ── FOOTER ── */
-.dash-footer{text-align:center;padding:28px;font-size:14px;color:var(--text3);border-top:1px solid var(--border2);margin-top:8px;}
-.dash-footer span{color:var(--gold);}
+/* VIEWS */
+#view-panoramica{display:block;}
+#view-finanza,#view-marketing,#view-operativa,#view-quiz{display:none;}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="logo-wrap">
-    <div class="logo-icon">
-      <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10 2L3 7v11h5v-5h4v5h5V7L10 2z" fill="#0f0e0c" stroke="#0f0e0c" stroke-width="0.5"/>
-      </svg>
-    </div>
-    <div class="logo-text">
+    <div class="logo-icon">🏨</div>
+    <div>
       <div class="logo-name">Hotel Futuro</div>
-      <div class="logo-sub">Dashboard gestionale · PCTO 2026</div>
+      <div class="logo-sub">Dashboard Gestionale · PCTO 2026</div>
     </div>
   </div>
-  <div class="header-center">
-    <button class="nav-tab active" onclick="showView('overview')">Panoramica</button>
-    <button class="nav-tab" onclick="showView('finanza')">Finanza</button>
-    <button class="nav-tab" onclick="showView('marketing')">Marketing</button>
-    <button class="nav-tab" onclick="showView('operativa')">Operativa</button>
+  <div class="nav">
+    <button class="nav-btn active" onclick="showView('panoramica')">Panoramica</button>
+    <button class="nav-btn" onclick="showView('finanza')">Finanza</button>
+    <button class="nav-btn" onclick="showView('marketing')">Marketing</button>
+    <button class="nav-btn" onclick="showView('operativa')">Operativa</button>
+    <button class="nav-btn" onclick="showView('quiz')">🏆 Classifica Quiz</button>
   </div>
   <div class="header-right">
-    <div class="live-badge"><div class="live-dot"></div>Live</div>
-    <div class="corso-badge">Gallarate · AFM/RIM</div>
+    <div class="badge-pcto">AFM/RIM · Gallarate</div>
+    <div class="badge-live"><div class="live-dot"></div>Live</div>
   </div>
 </div>
 
 <div class="main">
 
-<!-- ── VIEW: PANORAMICA ── -->
-<div id="view-overview">
+<!-- PANORAMICA -->
+<div id="view-panoramica">
 
-  <!-- KPI BAR -->
-  <div class="kpi-bar">
-    <div class="kpi-card k-fin">
-      <div class="kpi-lbl">Occupancy Rate</div>
-      <div class="kpi-val k-fin" id="kpi-occ">—</div>
-      <div class="kpi-sub">target: 75%</div>
-      <span class="kpi-trend trend-na" id="kpi-occ-t">—</span>
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-title">Hotel Futuro · Gallipoli, Salento</div>
+      <div class="hero-sub">30 suite matrimoniali · Vasca idromassaggio · Vista mare · Struttura di lusso</div>
+      <div class="hero-tags">
+        <span class="hero-tag">📅 20–25 aprile 2026</span>
+        <span class="hero-tag">👥 20 studenti</span>
+        <span class="hero-tag">🤖 Powered by Claude AI</span>
+        <span class="hero-tag">📊 Dashboard reale</span>
+      </div>
     </div>
-    <div class="kpi-card k-fin">
-      <div class="kpi-lbl">ADR — Tariffa media</div>
-      <div class="kpi-val k-gold" id="kpi-adr">—</div>
+    <div class="hero-right">
+      <div class="hero-stat">12</div>
+      <div class="hero-stat-sub">sessioni completate</div>
+    </div>
+  </div>
+
+  <!-- CLASSIFICA SQUADRE -->
+  <div class="section-label">Classifica squadre — punteggio finale</div>
+  <div class="squads-grid">
+
+    <div class="squad-card fin">
+      <div class="squad-winner-badge">🏆 1° POSTO</div>
+      <div class="squad-emoji">🟡</div>
+      <div class="squad-name">Finanza</div>
+      <div class="squad-pts">179</div>
+      <div class="squad-pts-label">punti totali</div>
+      <div class="squad-members">
+        <div class="squad-member best-quiz">Kevin Cerri</div>
+        <div class="squad-member">Alice Favalli</div>
+        <div class="squad-member">Marco Ferrari</div>
+        <div class="squad-member">Ettore Lacava</div>
+        <div class="squad-member">Martina Magli</div>
+      </div>
+    </div>
+
+    <div class="squad-card mkt">
+      <div class="squad-winner-badge" style="background:#64748b">2° POSTO</div>
+      <div class="squad-emoji">🟢</div>
+      <div class="squad-name">Marketing</div>
+      <div class="squad-pts">182</div>
+      <div class="squad-pts-label">punti totali</div>
+      <div class="squad-members">
+        <div class="squad-member">Simone Carlucci</div>
+        <div class="squad-member">James Marco Connelly</div>
+        <div class="squad-member">Chiara Favalli</div>
+        <div class="squad-member">Giulia Fusco</div>
+        <div class="squad-member">Nicole Marcolli</div>
+      </div>
+    </div>
+
+    <div class="squad-card rim">
+      <div class="squad-winner-badge" style="background:#92400e">3° POSTO</div>
+      <div class="squad-emoji">🔴</div>
+      <div class="squad-name">RIM</div>
+      <div class="squad-pts">173</div>
+      <div class="squad-pts-label">punti totali</div>
+      <div class="squad-members">
+        <div class="squad-member">Jamila Fofana</div>
+        <div class="squad-member">Greta Franzosi</div>
+        <div class="squad-member">Riccardo Gabban</div>
+        <div class="squad-member">Domenico Muscianisi</div>
+        <div class="squad-member">Gabriele Viceconti</div>
+      </div>
+    </div>
+
+    <div class="squad-card amm">
+      <div class="squad-winner-badge" style="background:#94a3b8">4° POSTO</div>
+      <div class="squad-emoji">🔵</div>
+      <div class="squad-name">Amministrazione</div>
+      <div class="squad-pts">172</div>
+      <div class="squad-pts-label">punti totali</div>
+      <div class="squad-members">
+        <div class="squad-member best-quiz">Pietro Carubelli</div>
+        <div class="squad-member">Asia Aspesi</div>
+        <div class="squad-member">Giorgia Foti</div>
+        <div class="squad-member">Matteo Lovino</div>
+        <div class="squad-member">Davide Mischiatti</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- KPI -->
+  <div class="section-label">KPI principali Hotel Futuro</div>
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-label">Occupancy Rate</div>
+      <div class="kpi-val">68%</div>
+      <div class="kpi-sub">Target: 75%</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">ADR — Tariffa media</div>
+      <div class="kpi-val">€280</div>
       <div class="kpi-sub">per camera/notte</div>
-      <span class="kpi-trend trend-na" id="kpi-adr-t">—</span>
     </div>
-    <div class="kpi-card k-fin">
-      <div class="kpi-lbl">RevPAR</div>
-      <div class="kpi-val k-fin" id="kpi-rev">—</div>
+    <div class="kpi">
+      <div class="kpi-label">RevPAR</div>
+      <div class="kpi-val">€190</div>
       <div class="kpi-sub">ricavo per camera dispo.</div>
-      <span class="kpi-trend trend-na">da calcolare</span>
     </div>
-    <div class="kpi-card k-mkt">
-      <div class="kpi-lbl">Rating medio</div>
-      <div class="kpi-val k-mkt" id="kpi-rating">—</div>
+    <div class="kpi">
+      <div class="kpi-label">Rating medio</div>
+      <div class="kpi-val">4.7 ★</div>
       <div class="kpi-sub">su Booking.com</div>
-      <span class="kpi-trend trend-na">—</span>
     </div>
-    <div class="kpi-card k-amm">
-      <div class="kpi-lbl">Sessioni completate</div>
-      <div class="kpi-val k-amm" id="kpi-sess">0/12</div>
-      <div class="kpi-sub">avanzamento corso</div>
-      <span class="kpi-trend trend-na" id="kpi-sess-t">in corso</span>
+    <div class="kpi" id="kpi-sess">
+      <div class="kpi-label">Sessioni completate</div>
+      <div class="kpi-val" style="color:var(--amm)">12/12</div>
+      <div class="kpi-sub">corso completato ✓</div>
     </div>
   </div>
 
-  <!-- MAIN GRID -->
-  <div class="grid-main">
-
-    <!-- BUDGET CHART -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title-wrap">
-          <div class="section-dot dot-fin"></div>
-          <div><div class="section-title">Budget annuale</div><div class="section-area">Area Finanza</div></div>
-        </div>
+  <!-- CHARTS -->
+  <div class="grid2">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-dot dot-fin"></div>
+        <div><div class="card-title">Budget annuale</div><div class="card-sub">Ricavi vs Costi (€k)</div></div>
       </div>
-      <div class="section-body">
+      <div class="card-body">
         <div class="chart-wrap"><canvas id="chart-budget"></canvas></div>
-        <div id="budget-content"><div class="empty-state"><div class="empty-icon">💶</div><div class="empty-text">Il budget verrà costruito<br>durante la sessione Finanza</div></div></div>
       </div>
     </div>
-
-    <!-- CANALI VENDITA -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title-wrap">
-          <div class="section-dot dot-mkt"></div>
-          <div><div class="section-title">Canali di vendita</div><div class="section-area">Area Marketing</div></div>
-        </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-dot dot-mkt"></div>
+        <div><div class="card-title">Canali di vendita</div><div class="card-sub">Distribuzione prenotazioni</div></div>
       </div>
-      <div class="section-body">
-        <div class="ch-row"><span class="ch-name">Booking.com</span><div class="ch-bar-wrap"><div class="ch-bar" style="width:45%;background:var(--amm)"></div></div><span class="ch-val ch-amm">45%</span></div>
-        <div class="ch-row"><span class="ch-name">Sito diretto</span><div class="ch-bar-wrap"><div class="ch-bar" style="width:28%;background:var(--mkt)"></div></div><span class="ch-val">28%</span></div>
-        <div class="ch-row"><span class="ch-name">Airbnb</span><div class="ch-bar-wrap"><div class="ch-bar" style="width:15%;background:var(--gold)"></div></div><span class="ch-val">15%</span></div>
-        <div class="ch-row"><span class="ch-name">Expedia</span><div class="ch-bar-wrap"><div class="ch-bar" style="width:8%;background:var(--fin)"></div></div><span class="ch-val">8%</span></div>
-        <div class="ch-row"><span class="ch-name">Agenzie locali</span><div class="ch-bar-wrap"><div class="ch-bar" style="width:4%;background:var(--rim)"></div></div><span class="ch-val">4%</span></div>
-        <div id="mkt-content" style="margin-top:12px"></div>
+      <div class="card-body">
+        <div class="ch-row"><span class="ch-name">Booking.com</span><div class="ch-bar-w"><div class="ch-bar" style="width:45%;background:var(--amm)"></div></div><span class="ch-val">45%</span></div>
+        <div class="ch-row"><span class="ch-name">Sito diretto</span><div class="ch-bar-w"><div class="ch-bar" style="width:28%;background:var(--mkt)"></div></div><span class="ch-val">28%</span></div>
+        <div class="ch-row"><span class="ch-name">Airbnb</span><div class="ch-bar-w"><div class="ch-bar" style="width:15%;background:var(--gold)"></div></div><span class="ch-val">15%</span></div>
+        <div class="ch-row"><span class="ch-name">Expedia</span><div class="ch-bar-w"><div class="ch-bar" style="width:8%;background:var(--fin)"></div></div><span class="ch-val">8%</span></div>
+        <div class="ch-row"><span class="ch-name">Agenzie locali</span><div class="ch-bar-w"><div class="ch-bar" style="width:4%;background:var(--rim)"></div></div><span class="ch-val">4%</span></div>
       </div>
     </div>
   </div>
 
-  <div class="grid-3">
-
-    <!-- SEGMENTI -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title-wrap">
-          <div class="section-dot dot-mkt"></div>
-          <div><div class="section-title">Segmenti clientela</div><div class="section-area">Area Marketing</div></div>
-        </div>
+  <div class="grid3">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-dot dot-mkt"></div>
+        <div><div class="card-title">Segmenti clientela</div><div class="card-sub">Area Marketing</div></div>
       </div>
-      <div class="section-body">
-        <div class="chart-wrap-sm"><canvas id="chart-segments"></canvas></div>
-        <div id="seg-content"></div>
+      <div class="card-body">
+        <div class="chart-wrap-sm"><canvas id="chart-seg"></canvas></div>
       </div>
     </div>
-
-    <!-- MERCATI INTERNAZIONALI -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title-wrap">
-          <div class="section-dot dot-rim"></div>
-          <div><div class="section-title">Mercati internazionali</div><div class="section-area">Area RIM</div></div>
-        </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-dot dot-rim"></div>
+        <div><div class="card-title">Mercati internazionali</div><div class="card-sub">Area RIM</div></div>
       </div>
-      <div class="section-body">
+      <div class="card-body">
         <div class="flag-row"><span class="flag">🇩🇪</span><span class="flag-country">Germania</span><div class="flag-bar-w"><div class="flag-bar" style="width:35%"></div></div><span class="flag-pct">35%</span></div>
         <div class="flag-row"><span class="flag">🇬🇧</span><span class="flag-country">Regno Unito</span><div class="flag-bar-w"><div class="flag-bar" style="width:25%"></div></div><span class="flag-pct">25%</span></div>
         <div class="flag-row"><span class="flag">🇫🇷</span><span class="flag-country">Francia</span><div class="flag-bar-w"><div class="flag-bar" style="width:18%"></div></div><span class="flag-pct">18%</span></div>
         <div class="flag-row"><span class="flag">🇺🇸</span><span class="flag-country">USA</span><div class="flag-bar-w"><div class="flag-bar" style="width:12%"></div></div><span class="flag-pct">12%</span></div>
         <div class="flag-row"><span class="flag">🌍</span><span class="flag-country">Altri</span><div class="flag-bar-w"><div class="flag-bar" style="width:10%"></div></div><span class="flag-pct">10%</span></div>
-        <div id="rim-content" style="margin-top:8px"></div>
       </div>
     </div>
-
-    <!-- STAGIONALITÀ -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title-wrap">
-          <div class="section-dot dot-fin"></div>
-          <div><div class="section-title">Stagionalità</div><div class="section-area">Area Finanza</div></div>
-        </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-dot dot-fin"></div>
+        <div><div class="card-title">Stagionalità</div><div class="card-sub">Prezzi e occupazione</div></div>
       </div>
-      <div class="section-body">
-        <div class="season-row"><span class="season-name">Alta stagione (Lug–Ago)</span><span class="season-adr">€380</span><span class="season-occ">92%</span></div>
+      <div class="card-body">
+        <div class="season-row"><span class="season-name">Alta (Lug–Ago)</span><span class="season-adr">€380</span><span class="season-occ">92%</span></div>
         <div class="season-row"><span class="season-name">Spalla (Giu, Set)</span><span class="season-adr">€260</span><span class="season-occ">74%</span></div>
         <div class="season-row"><span class="season-name">Bassa (Ott–Mag)</span><span class="season-adr">€140</span><span class="season-occ">38%</span></div>
-        <div class="season-row" style="font-weight:600"><span class="season-name">Media annuale</span><span class="season-adr">€280</span><span class="season-occ">68%</span></div>
+        <div class="season-row" style="font-weight:700"><span class="season-name">Media annuale</span><span class="season-adr">€280</span><span class="season-occ">68%</span></div>
       </div>
     </div>
-
   </div>
 
-  <!-- CONTENUTI CORSO -->
-  <div class="grid-full">
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title-wrap">
-          <div class="section-dot dot-gold"></div>
-          <div><div class="section-title">Contenuti elaborati durante il corso</div><div class="section-area">Tutte le aree</div></div>
-        </div>
-      </div>
-      <div class="section-body">
-        <div id="all-content"><div class="empty-state"><div class="empty-icon">✦</div><div class="empty-text">I contenuti appariranno qui man mano che le squadre completano le sfide.<br>Ogni risposta di Claude diventa un mattone di questa dashboard.</div></div></div>
-      </div>
+  <!-- CONTENUTI FIREBASE -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header">
+      <div class="card-dot dot-gold"></div>
+      <div><div class="card-title">Contenuti prodotti durante il corso</div><div class="card-sub">Tutte le aree · aggiornamento live</div></div>
+    </div>
+    <div class="card-body" id="all-content">
+      <div style="text-align:center;padding:20px;color:var(--text3);font-size:14px;">Caricamento contenuti...</div>
     </div>
   </div>
 
 </div>
 
-<!-- ── VIEW: FINANZA ── -->
+<!-- FINANZA -->
 <div id="view-finanza">
-  <div class="grid-main">
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title-wrap"><div class="section-dot dot-fin"></div>
-          <div><div class="section-title">Struttura ricavi vs costi</div><div class="section-area">Area Finanza</div></div>
-        </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-dot dot-fin"></div>
+        <div><div class="card-title">Struttura ricavi vs costi</div><div class="card-sub">Composizione budget annuale</div></div>
       </div>
-      <div class="section-body">
+      <div class="card-body">
         <div class="chart-wrap"><canvas id="chart-pnl"></canvas></div>
       </div>
     </div>
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title-wrap"><div class="section-dot dot-fin"></div>
-          <div><div class="section-title">KPI Finanziari</div><div class="section-area">Area Finanza</div></div>
-        </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-dot dot-fin"></div>
+        <div><div class="card-title">KPI Finanziari</div><div class="card-sub">Indicatori chiave di performance</div></div>
       </div>
-      <div class="section-body">
+      <div class="card-body">
         <div class="season-row"><span class="season-name">RevPAR (alta stagione)</span><span class="season-adr">€350</span><span class="season-occ">target</span></div>
-        <div class="season-row"><span class="season-name">ADR media annuale</span><span class="season-adr">€280</span><span class="season-occ">—</span></div>
-        <div class="season-row"><span class="season-name">Costo per camera (CPOR)</span><span class="season-adr">€85</span><span class="season-occ">—</span></div>
-        <div class="season-row"><span class="season-name">Commissioni OTA</span><span class="season-adr">15%</span><span class="season-occ">—</span></div>
-        <div class="season-row"><span class="season-name">Break-even occupancy</span><span class="season-adr">42%</span><span class="season-occ">—</span></div>
-        <div id="fin-content" style="margin-top:12px"></div>
+        <div class="season-row"><span class="season-name">ADR media annuale</span><span class="season-adr">€280</span><span></span></div>
+        <div class="season-row"><span class="season-name">Costo per camera (CPOR)</span><span class="season-adr">€85</span><span></span></div>
+        <div class="season-row"><span class="season-name">Commissioni OTA</span><span class="season-adr">15%</span><span></span></div>
+        <div class="season-row"><span class="season-name">Break-even occupancy</span><span class="season-adr">42%</span><span></span></div>
+        <div class="season-row"><span class="season-name">Personale (% fatturato)</span><span class="season-adr">35–40%</span><span></span></div>
+        <div class="season-row"><span class="season-name">Margine netto stimato</span><span class="season-adr">15–25%</span><span></span></div>
       </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-dot dot-fin"></div>
+      <div><div class="card-title">Contenuti Finanza</div><div class="card-sub">Elaborati dalla squadra Finanza</div></div>
+    </div>
+    <div class="card-body" id="fin-content">
+      <div style="text-align:center;padding:20px;color:var(--text3);font-size:14px;">Caricamento...</div>
     </div>
   </div>
 </div>
 
-<!-- ── VIEW: MARKETING ── -->
+<!-- MARKETING -->
 <div id="view-marketing">
-  <div class="grid-main">
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title-wrap"><div class="section-dot dot-mkt"></div>
-          <div><div class="section-title">Piano marketing</div><div class="section-area">Area Marketing</div></div>
-        </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-dot dot-mkt"></div>
+        <div><div class="card-title">Piano Marketing</div><div class="card-sub">Strategia e canali</div></div>
       </div>
-      <div class="section-body">
-        <div id="mkt-piano-content"><div class="empty-state"><div class="empty-icon">📣</div><div class="empty-text">Il piano marketing si costruirà<br>durante le sessioni di martedì</div></div></div>
+      <div class="card-body" id="mkt-content">
+        <div style="text-align:center;padding:20px;color:var(--text3);font-size:14px;">Caricamento...</div>
       </div>
     </div>
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title-wrap"><div class="section-dot dot-mkt"></div>
-          <div><div class="section-title">Recensioni e reputazione</div><div class="section-area">Area Marketing + CRM</div></div>
-        </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-dot dot-mkt"></div>
+        <div><div class="card-title">Recensioni e reputazione</div><div class="card-sub">Guest feedback</div></div>
       </div>
-      <div class="section-body">
-        <div class="review-card">
+      <div class="card-body">
+        <div class="review">
           <div class="review-stars">★★★★★</div>
           <div class="review-text">"Suite meravigliosa, vasca idromassaggio con vista sul mare di Gallipoli. Personale gentilissimo e colazione abbondante. Torneremo sicuramente!"</div>
           <div class="review-meta">Cliente tedesco · Agosto 2025 · Booking.com</div>
         </div>
-        <div class="review-card">
+        <div class="review">
           <div class="review-stars">★★★★☆</div>
           <div class="review-text">"Beautiful location, comfortable room with amazing sea view. The breakfast could be improved with more local products."</div>
           <div class="review-meta">Cliente britannico · Luglio 2025 · Booking.com</div>
         </div>
-        <div id="crm-content" style="margin-top:8px"></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ── VIEW: OPERATIVA ── -->
+<!-- OPERATIVA -->
 <div id="view-operativa">
-  <div class="grid-main">
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title-wrap"><div class="section-dot dot-amm"></div>
-          <div><div class="section-title">Procedure operative</div><div class="section-area">Area Amministrazione</div></div>
-        </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-dot dot-amm"></div>
+        <div><div class="card-title">Procedure operative</div><div class="card-sub">Area Amministrazione</div></div>
       </div>
-      <div class="section-body">
-        <div class="process-step"><div class="step-num">1</div><div class="step-text"><strong>Check-in</strong>Accoglienza ospite, verifica documento, consegna chiave, spiegazione servizi</div></div>
-        <div class="process-step"><div class="step-num">2</div><div class="step-text"><strong>Durante il soggiorno</strong>Pulizia giornaliera, gestione richieste, concierge service</div></div>
-        <div class="process-step"><div class="step-num">3</div><div class="step-text"><strong>Check-out</strong>Verifica camera, fatturazione, feedback, invio recensione</div></div>
-        <div class="process-step"><div class="step-num">4</div><div class="step-text"><strong>Post-soggiorno</strong>Email ringraziamento, programma fedeltà, remarketing</div></div>
-        <div id="amm-content" style="margin-top:8px"></div>
+      <div class="card-body">
+        <div class="step-row"><div class="step-num">1</div><div class="step-text"><strong>Check-in</strong>Accoglienza ospite, verifica documento, consegna chiave, spiegazione servizi hotel</div></div>
+        <div class="step-row"><div class="step-num">2</div><div class="step-text"><strong>Durante il soggiorno</strong>Pulizia giornaliera, gestione richieste, concierge service personalizzato</div></div>
+        <div class="step-row"><div class="step-num">3</div><div class="step-text"><strong>Check-out</strong>Verifica camera, fatturazione, feedback, richiesta recensione</div></div>
+        <div class="step-row"><div class="step-num">4</div><div class="step-text"><strong>Post-soggiorno</strong>Email di ringraziamento, programma fedeltà, remarketing mirato</div></div>
+        <div id="amm-content"></div>
       </div>
     </div>
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title-wrap"><div class="section-dot dot-rim"></div>
-          <div><div class="section-title">Comunicazione internazionale</div><div class="section-area">Area RIM</div></div>
-        </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-dot dot-rim"></div>
+        <div><div class="card-title">Comunicazione internazionale</div><div class="card-sub">Area RIM</div></div>
       </div>
-      <div class="section-body">
+      <div class="card-body">
         <div class="market-grid">
           <div class="market-pill"><strong>🇩🇪 Deutsch</strong>Mercato principale</div>
           <div class="market-pill"><strong>🇬🇧 English</strong>Turismo luxury</div>
           <div class="market-pill"><strong>🇫🇷 Français</strong>Coppie e honeymoon</div>
           <div class="market-pill"><strong>🇺🇸 American</strong>Segmento premium</div>
         </div>
-        <div id="rim-ops-content" style="margin-top:12px"></div>
+        <div id="rim-content" style="margin-top:12px"></div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="dash-footer">
-  <span>Hotel Futuro · Gallipoli (LE)</span> · 30 suite matrimoniali · Vista mare · PCTO AFM/RIM Gallarate 2026<br>Dashboard costruita con Claude AI · Anthropic
-</div>
+<!-- QUIZ CLASSIFICA -->
+<div id="view-quiz">
+  <div class="section-label">Miglior quizista del corso</div>
+  <div class="quiz-podio">
+    <div class="podio-card second">
+      <div class="podio-medal">🥈</div>
+      <div class="podio-name">Kevin Cerri</div>
+      <span class="podio-squad sq-fin">Finanza</span>
+      <div class="podio-pts">2005</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px;">106 corrette</div>
+    </div>
+    <div class="podio-card first">
+      <div class="podio-medal">🥇</div>
+      <div class="podio-name">Pietro Carubelli</div>
+      <span class="podio-squad sq-amm">Amministrazione</span>
+      <div class="podio-pts">2043</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px;">109 corrette · 1.4s media</div>
+    </div>
+    <div class="podio-card third">
+      <div class="podio-medal">🥉</div>
+      <div class="podio-name">Domenico Muscianisi</div>
+      <span class="podio-squad sq-rim">RIM</span>
+      <div class="podio-pts">1987</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px;">106 corrette</div>
+    </div>
+  </div>
+
+  <div class="section-label">Classifica completa quiz</div>
+  <div id="quiz-list">
+    <!-- Generato da JS -->
+  </div>
+
+  <div style="margin-top:24px;" class="section-label">Classifica squadre — quiz generale</div>
+  <div class="squads-grid">
+    <div class="squad-card fin">
+      <div class="squad-winner-badge">🏆 MIGLIOR QUIZ</div>
+      <div class="squad-emoji">🟡</div>
+      <div class="squad-name">Finanza</div>
+      <div class="squad-pts">1579</div>
+      <div class="squad-pts-label">media punti quiz</div>
+    </div>
+    <div class="squad-card amm">
+      <div class="squad-winner-badge" style="background:#64748b">2°</div>
+      <div class="squad-emoji">🔵</div>
+      <div class="squad-name">Amministrazione</div>
+      <div class="squad-pts">1423</div>
+      <div class="squad-pts-label">media punti quiz</div>
+    </div>
+    <div class="squad-card rim">
+      <div class="squad-winner-badge" style="background:#92400e">3°</div>
+      <div class="squad-emoji">🔴</div>
+      <div class="squad-name">RIM</div>
+      <div class="squad-pts">1353</div>
+      <div class="squad-pts-label">media punti quiz</div>
+    </div>
+    <div class="squad-card mkt">
+      <div class="squad-winner-badge" style="background:#94a3b8">4°</div>
+      <div class="squad-emoji">🟢</div>
+      <div class="squad-name">Marketing</div>
+      <div class="squad-pts">1317</div>
+      <div class="squad-pts-label">media punti quiz</div>
+    </div>
+  </div>
 </div>
 
-<!-- FIREBASE + CHARTS -->
+</div>
+
+<div class="footer">
+  <strong>Hotel Futuro · Gallipoli (LE)</strong> · 30 suite matrimoniali · Vista mare · PCTO AFM/RIM Gallarate 2026<br>
+  Dashboard costruita con <strong>Claude AI · Anthropic</strong> · Istituto di Gallarate · 20–25 aprile 2026
+</div>
+
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getFirestore, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCzDnRq7_Tfq7uktNfy2r8tFu0qTdrE-88",
-  authDomain: "hotelfuturo.firebaseapp.com",
-  projectId: "hotelfuturo",
-  storageBucket: "hotelfuturo.firebasestorage.app",
-  messagingSenderId: "349688895596",
-  appId: "1:349688895596:web:81b1e5f3c993099c9b6049"
-};
-
-const app = initializeApp(firebaseConfig);
+const app = initializeApp({
+  apiKey:"AIzaSyCzDnRq7_Tfq7uktNfy2r8tFu0qTdrE-88",
+  projectId:"hotelfuturo",
+  appId:"1:349688895596:web:81b1e5f3c993099c9b6049"
+});
 const db = getFirestore(app);
-const docRef = doc(db, 'corso', 'stato');
-
-const SQ_NAMES  = {amm:'Amministrazione',fin:'Finanza',mkt:'Marketing',rim:'RIM'};
-const SQ_COLORS = {amm:'#4a90d9',fin:'#d4843a',mkt:'#5aaa3a',rim:'#d45a3a'};
 
 // CHARTS
-const chartDefaults = {
-  plugins:{legend:{labels:{color:'#9a9590',font:{family:'DM Sans',size:15}}}},
-  scales:{x:{ticks:{color:'#5a5752',font:{size:14}},grid:{color:'rgba(240,236,228,.04)'}},
-          y:{ticks:{color:'#5a5752',font:{size:14}},grid:{color:'rgba(240,236,228,.04)'}}}
-};
+new Chart(document.getElementById('chart-budget'),{type:'bar',data:{
+  labels:['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'],
+  datasets:[
+    {label:'Ricavi (€k)',data:[42,38,55,68,82,140,210,225,145,78,45,38],backgroundColor:'rgba(180,132,10,.7)',borderColor:'#b8860b',borderWidth:1},
+    {label:'Costi (€k)',data:[35,33,40,45,52,78,95,98,72,48,36,34],backgroundColor:'rgba(37,99,235,.25)',borderColor:'#2563eb',borderWidth:1}
+  ]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#475569',font:{family:'DM Sans',size:11}}}},scales:{x:{ticks:{color:'#94a3b8',font:{size:10}},grid:{color:'rgba(0,0,0,.05)'}},y:{ticks:{color:'#94a3b8',font:{size:10}},grid:{color:'rgba(0,0,0,.05)'}}}}});
 
-// Budget chart
-const ctxBudget = document.getElementById('chart-budget');
-if(ctxBudget){
-  new Chart(ctxBudget,{type:'bar',data:{
-    labels:['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'],
-    datasets:[
-      {label:'Ricavi (€k)',data:[42,38,55,68,82,140,210,225,145,78,45,38],backgroundColor:'rgba(201,168,76,.6)',borderColor:'#c9a84c',borderWidth:1},
-      {label:'Costi (€k)',data:[35,33,40,45,52,78,95,98,72,48,36,34],backgroundColor:'rgba(74,144,217,.3)',borderColor:'#4a90d9',borderWidth:1}
-    ]
-  },options:{...chartDefaults,responsive:true,maintainAspectRatio:false}});
-}
+new Chart(document.getElementById('chart-seg'),{type:'doughnut',data:{
+  labels:['Coppie/Honeymoon','Famiglie','Business','Gruppi'],
+  datasets:[{data:[45,25,20,10],backgroundColor:['#b8860b','#2563eb','#16a34a','#dc2626'],borderWidth:0}]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#475569',font:{family:'DM Sans',size:11},boxWidth:10}}}}});
 
-// Segments donut
-const ctxSeg = document.getElementById('chart-segments');
-if(ctxSeg){
-  new Chart(ctxSeg,{type:'doughnut',data:{
-    labels:['Coppie/Honeymoon','Famiglie','Business','Gruppi'],
-    datasets:[{data:[45,25,20,10],backgroundColor:['#c9a84c','#4a90d9','#5aaa3a','#d45a3a'],borderWidth:0}]
-  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#9a9590',font:{family:'DM Sans',size:14},boxWidth:14}}}}});
-}
+new Chart(document.getElementById('chart-pnl'),{type:'doughnut',data:{
+  labels:['Personale','Commissioni OTA','Utenze','Manutenzione','F&B','Margine netto'],
+  datasets:[{data:[35,15,10,8,12,20],backgroundColor:['#dc2626','#d97706','#2563eb','#94a3b8','#16a34a','#b8860b'],borderWidth:0}]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#475569',font:{family:'DM Sans',size:11},boxWidth:10}}}}});
 
-// P&L chart
-const ctxPnl = document.getElementById('chart-pnl');
-if(ctxPnl){
-  new Chart(ctxPnl,{type:'doughnut',data:{
-    labels:['Personale','Commissioni OTA','Utenze','Manutenzione','F&B','Margine netto'],
-    datasets:[{data:[35,15,10,8,12,20],backgroundColor:['#d45a3a','#d4843a','#4a90d9','#9a9590','#5aaa3a','#c9a84c'],borderWidth:0}]
-  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#9a9590',font:{family:'DM Sans',size:14},boxWidth:14}}}}});
-}
-
-// FIREBASE LISTENER
-onSnapshot(docRef, (snap) => {
+// FIREBASE
+onSnapshot(doc(db,'corso','stato'), snap => {
   if(!snap.exists()) return;
   const data = snap.data();
   const items = data.dashItems || [];
-  const cur = data.currentSession || 0;
+  const SQ = {amm:'Amministrazione',fin:'Finanza',mkt:'Marketing',rim:'RIM'};
 
-  // KPI
-  document.getElementById('kpi-sess').textContent = cur + '/12';
-  document.getElementById('kpi-sess-t').textContent = cur === 12 ? 'completato!' : 'in corso';
-
-  // Contenuti per area
-  const bySquad = {amm:[],fin:[],mkt:[],rim:[]};
-  items.forEach(item => { if(bySquad[item.squad]) bySquad[item.squad].push(item); });
-
-  function renderItems(items, cls) {
-    if(!items.length) return '';
-    return items.map(item=>`
-      <div class="content-item ci-${cls}">
-        <div class="ci-label">${item.label}</div>
-        <div class="ci-text">${item.text}</div>
+  const allEl = document.getElementById('all-content');
+  if(items.length === 0) {
+    allEl.innerHTML='<div style="text-align:center;padding:20px;color:var(--text3);font-size:14px;">Nessun contenuto ancora aggiunto</div>';
+  } else {
+    allEl.innerHTML = items.map(i=>`
+      <div class="content-item ci-${i.squad}">
+        <div class="ci-label">${SQ[i.squad]||i.squad} · ${i.label||''}</div>
+        <div class="ci-text">${i.text||''}</div>
       </div>`).join('');
   }
 
-  // All content (panoramica)
-  const allEl = document.getElementById('all-content');
-  if(allEl){
-    if(!items.length){
-      allEl.innerHTML='<div class="empty-state"><div class="empty-icon">✦</div><div class="empty-text">I contenuti appariranno qui man mano che le squadre completano le sfide.</div></div>';
-    } else {
-      allEl.innerHTML = items.map(item=>`
-        <div class="content-item ci-${item.squad}">
-          <div class="ci-label">${SQ_NAMES[item.squad]} · ${item.label}</div>
-          <div class="ci-text">${item.text}</div>
-        </div>`).join('');
-    }
-  }
+  const bySquad = {amm:[],fin:[],mkt:[],rim:[]};
+  items.forEach(i => { if(bySquad[i.squad]) bySquad[i.squad].push(i); });
 
-  // Per area specifica
-  ['amm','fin','mkt','rim'].forEach(sq => {
-    const html = renderItems(bySquad[sq], sq);
-    ['budget-content','fin-content','mkt-content','mkt-piano-content','crm-content','amm-content','rim-content','rim-ops-content','seg-content'].forEach(id => {
-      const el = document.getElementById(id);
-      if(el && id.startsWith(sq === 'amm' ? 'amm' : sq === 'fin' ? 'fin' : sq === 'mkt' ? 'mkt' : 'rim')) {
-        if(html) el.innerHTML = html;
-      }
-    });
-    const finEl = document.getElementById('fin-content');
-    if(finEl && sq === 'fin' && html) finEl.innerHTML = html;
-    const mktEl = document.getElementById('mkt-content');
-    if(mktEl && sq === 'mkt' && html) mktEl.innerHTML = html;
-    const ammEl = document.getElementById('amm-content');
-    if(ammEl && sq === 'amm' && html) ammEl.innerHTML = html;
-    const rimEl = document.getElementById('rim-content');
-    if(rimEl && sq === 'rim' && html) rimEl.innerHTML = html;
+  ['fin','mkt','amm','rim'].forEach(sq => {
+    const el = document.getElementById(sq+'-content');
+    if(!el) return;
+    if(bySquad[sq].length === 0) { el.innerHTML=''; return; }
+    el.innerHTML = bySquad[sq].map(i=>`
+      <div class="content-item ci-${sq}" style="margin-top:8px">
+        <div class="ci-label">${i.label||''}</div>
+        <div class="ci-text">${i.text||''}</div>
+      </div>`).join('');
   });
 });
 
-window.showView = function(view) {
-  ['overview','finanza','marketing','operativa'].forEach(v => {
-    document.getElementById('view-'+v).style.display = v===view?'block':'none';
+// QUIZ CLASSIFICA
+const quizData = [
+  {rank:1,name:'Pietro Carubelli',sq:'amm',correct:109,pts:2043},
+  {rank:2,name:'Kevin Cerri',sq:'fin',correct:106,pts:2005},
+  {rank:3,name:'Domenico Muscianisi',sq:'rim',correct:106,pts:1987},
+  {rank:4,name:'Martina Magli',sq:'fin',correct:106,pts:1981},
+  {rank:5,name:'James Connelly',sq:'mkt',correct:104,pts:1896},
+  {rank:6,name:'Asia Aspesi',sq:'amm',correct:93,pts:1879},
+  {rank:7,name:'Simone Carlucci',sq:'mkt',correct:99,pts:1843},
+  {rank:8,name:'Riccardo Gabban',sq:'rim',correct:97,pts:1802},
+  {rank:9,name:'Nicole Marcolli',sq:'mkt',correct:96,pts:1773},
+  {rank:10,name:'Giulia Fusco',sq:'mkt',correct:97,pts:1772},
+  {rank:11,name:'Giorgia Foti',sq:'amm',correct:94,pts:1769},
+  {rank:12,name:'Jamila Fofana',sq:'rim',correct:95,pts:1640},
+  {rank:13,name:'Gabriele Viceconti',sq:'rim',correct:83,pts:1539},
+  {rank:14,name:'Marco Ferrari',sq:'fin',correct:80,pts:1499},
+  {rank:15,name:'Chiara Favalli',sq:'mkt',correct:81,pts:1411},
+  {rank:16,name:'Davide Mischiatti',sq:'amm',correct:76,pts:1364},
+  {rank:17,name:'Matteo Lovino',sq:'amm',correct:72,pts:1319},
+  {rank:18,name:'Greta Franzosi',sq:'rim',correct:81,pts:977},
+  {rank:19,name:'Alice Favalli',sq:'fin',correct:43,pts:829},
+  {rank:20,name:'Ettore Lacava',sq:'fin',correct:0,pts:0},
+];
+const medals = ['🥇','🥈','🥉'];
+const SQC = {amm:'sq-amm',fin:'sq-fin',mkt:'sq-mkt',rim:'sq-rim'};
+const SQN = {amm:'Amministrazione',fin:'Finanza',mkt:'Marketing',rim:'RIM'};
+document.getElementById('quiz-list').innerHTML = quizData.map((s,i)=>`
+  <div class="quiz-row">
+    <span class="quiz-rank">${i<3?medals[i]:s.rank}</span>
+    <span class="quiz-name">${s.name}</span>
+    <span class="quiz-sq ${SQC[s.sq]}">${SQN[s.sq]}</span>
+    <span class="quiz-correct">${s.correct} ✓</span>
+    <span class="quiz-pts">${s.pts}</span>
+  </div>`).join('');
+</script>
+
+<script>
+window.showView = function(v) {
+  ['panoramica','finanza','marketing','operativa','quiz'].forEach(x => {
+    document.getElementById('view-'+x).style.display = x===v?'block':'none';
   });
-  document.querySelectorAll('.nav-tab').forEach((t,i) => {
-    t.classList.toggle('active', ['overview','finanza','marketing','operativa'][i]===view);
+  document.querySelectorAll('.nav-btn').forEach((b,i) => {
+    b.classList.toggle('active',['panoramica','finanza','marketing','operativa','quiz'][i]===v);
   });
 };
 </script>
