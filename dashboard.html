@@ -191,7 +191,37 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .footer{background:var(--dark);color:#94a3b8;text-align:center;padding:28px;margin-top:32px;font-size:13px;}
 .footer strong{color:#fff;}
 
-/* VIEWS */
+/* MOBILE */
+@media(max-width:768px){
+  .header{padding:0 16px;height:auto;flex-wrap:wrap;gap:10px;padding:12px 16px;}
+  .nav{order:3;width:100%;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;}
+  .nav-btn{white-space:nowrap;font-size:12px;padding:6px 12px;}
+  .header-right{gap:6px;}
+  .main{padding:16px;}
+  .hero{padding:20px;flex-direction:column;gap:14px;}
+  .hero-right{text-align:left;}
+  .hero-title{font-size:22px;}
+  .squads-grid{grid-template-columns:1fr 1fr;gap:10px;}
+  .squad-pts{font-size:32px;}
+  .squad-member{font-size:11px;}
+  .kpi-row{grid-template-columns:1fr 1fr;gap:10px;}
+  .kpi-row .kpi:last-child{grid-column:span 2;}
+  .kpi-val{font-size:22px;}
+  .grid2{grid-template-columns:1fr;gap:12px;}
+  .grid3{grid-template-columns:1fr;gap:12px;}
+  .chart-wrap{height:160px;}
+  .chart-wrap-sm{height:140px;}
+  .quiz-podio{flex-direction:column;align-items:center;}
+  .podio-card{max-width:100%;width:100%;}
+  .podio-card.first{transform:none;order:0;}
+  .podio-card.second{order:1;}
+  .podio-card.third{order:2;}
+  .quiz-row{padding:8px;}
+  .quiz-name{font-size:12px;}
+  .quiz-pts{font-size:14px;}
+  .hero-stat{font-size:36px;}
+  .squad-winner-badge{font-size:9px;padding:2px 8px;}
+}
 #view-panoramica{display:block;}
 #view-finanza,#view-marketing,#view-operativa,#view-quiz{display:none;}
 </style>
