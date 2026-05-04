@@ -189,7 +189,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     </div>
     <div class="hero-right">
       <div class="hero-stat" id="hero-sess">0</div>
-      <div class="hero-stat-sub">sessioni completate</div>
+      <div class="hero-stat-sub">contenuti caricati</div>
     </div>
   </div>
 
@@ -369,7 +369,7 @@ onSnapshot(docRef, snap => {
   const data = snap.data();
   const items = data.dashItems || [];
 
-  document.getElementById('hero-sess').textContent = data.currentSession || 0;
+  document.getElementById('hero-sess').textContent = items.length || 0;
 
   const allEl = document.getElementById('all-content');
   if(!items.length){
