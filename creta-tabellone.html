@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creta Futura · Tabellone</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --terra:#7B4F1A; --terra-l:#F5E6D3; --terra-b:#D4956A;
+  --cielo:#1A4A7B; --cielo-l:#D3E8F5; --cielo-b:#6AAAD4;
+  --digit:#2D7B1A; --digit-l:#E0F5D3; --digit-b:#6AD46A;
+  --gold:#C8A84B; --dark:#0f0e0c; --dark2:#1a1916; --dark3:#232220;
+  --text:#f0ece4; --text2:#9a9590; --text3:#5a5752;
+  --border:rgba(200,168,75,.15); --green:#4caf50;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+
+.header{background:var(--dark2);border-bottom:1px solid var(--border);padding:20px 36px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.logo{font-family:'Playfair Display',serif;font-size:28px;color:var(--gold);}
+.logo-sub{font-size:14px;color:var(--text2);margin-top:2px;}
+.header-center{text-align:center;}
+.sess-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--text);}
+.sess-badge{display:inline-block;font-size:14px;font-weight:600;padding:4px 16px;border-radius:20px;margin-top:6px;}
+.mat{background:#1a3a5c;color:#7ab8f0;} .pom{background:#3a250a;color:#f0b040;}
+.header-right{text-align:right;}
+.prog{font-size:20px;font-weight:600;color:var(--gold);}
+.prog-sub{font-size:13px;color:var(--text2);}
+.live-badge{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--green);margin-top:6px;justify-content:flex-end;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 1.5s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.main{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;padding:20px;min-height:0;}
+
+.sq-card{border-radius:20px;padding:28px 32px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;}
+.sq-card.leader{box-shadow:0 0 0 3px var(--gold);}
+.sq-terra{background:var(--terra-l);border:2px solid var(--terra-b);}
+.sq-cielo{background:var(--cielo-l);border:2px solid var(--cielo-b);}
+.sq-digit{background:var(--digit-l);border:2px solid var(--digit-b);}
+
+.sq-top{display:flex;align-items:flex-start;justify-content:space-between;}
+.sq-emoji{font-size:36px;}
+.crown{font-size:32px;opacity:0;transition:opacity .3s;}
+.sq-card.leader .crown{opacity:1;}
+.sq-name{font-size:20px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:8px;}
+.sq-terra .sq-name{color:var(--terra);}
+.sq-cielo .sq-name{color:var(--cielo);}
+.sq-digit .sq-name{color:var(--digit);}
+
+.sq-pts{font-family:'Playfair Display',serif;font-size:140px;font-weight:600;line-height:1;text-align:center;flex:1;display:flex;align-items:center;justify-content:center;}
+.sq-terra .sq-pts{color:var(--terra);}
+.sq-cielo .sq-pts{color:var(--cielo);}
+.sq-digit .sq-pts{color:var(--digit);}
+.sq-card.pts-anim .sq-pts{animation:pop .3s ease;}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+
+.sq-bottom{display:flex;align-items:flex-end;justify-content:space-between;}
+.sq-rep-lbl{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:4px;}
+.sq-rep{font-size:20px;font-weight:500;color:var(--dark);}
+.sq-btns{display:flex;gap:8px;}
+.sq-btn{width:52px;height:52px;border-radius:12px;border:2px solid rgba(0,0,0,.15);background:rgba(0,0,0,.08);cursor:pointer;font-size:22px;font-weight:700;color:var(--dark);transition:all .15s;display:flex;align-items:center;justify-content:center;}
+.sq-btn:hover{background:rgba(0,0,0,.18);}
+.sq-btn:active{transform:scale(.92);}
+
+.bottom-bar{background:var(--dark2);border-top:1px solid var(--border);padding:16px 36px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.sess-nav{display:flex;align-items:center;gap:10px;}
+.btn-sess{font-size:15px;font-weight:600;padding:10px 22px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;}
+.btn-sess:hover{background:var(--dark3);color:var(--text);}
+.btn-sess.next{background:var(--gold);color:var(--dark);border-color:var(--gold);}
+.sess-counter{font-size:17px;color:var(--text2);padding:0 8px;}
+.bottom-center{flex:1;text-align:center;}
+.challenge-lbl{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
+.challenge-text{font-size:15px;color:var(--text2);}
+.bottom-right{text-align:right;}
+.rep-lbl{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
+.rep-name{font-size:22px;font-weight:600;color:var(--gold);}
+.rep-input{background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:6px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;width:220px;margin-top:6px;}
+.rep-input:focus{border-color:var(--gold);}
+
+.confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;display:none;}
+.confetti.show{display:block;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="logo">🏛️ Creta Futura 2026</div>
+    <div class="logo-sub">Gruppo 1 · Piano Strategico Digitale per Creta</div>
+  </div>
+  <div class="header-center">
+    <div class="sess-title" id="h-title">Premi → per iniziare</div>
+    <div><span class="sess-badge mat" id="h-badge">Mattina</span></div>
+  </div>
+  <div class="header-right">
+    <div class="prog" id="h-prog">0/10</div>
+    <div class="prog-sub">sessioni</div>
+    <div class="live-badge"><div class="live-dot"></div>Live Firebase</div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sq-card sq-terra" id="card-terra">
+    <div class="sq-top">
+      <div>
+        <div class="sq-emoji">🌍</div>
+        <div class="sq-name">Terra</div>
+      </div>
+      <span class="crown">👑</span>
+    </div>
+    <div class="sq-pts" id="pts-terra">0</div>
+    <div class="sq-bottom">
+      <div><div class="sq-rep-lbl">Rappresentante</div><div class="sq-rep" id="rep-terra">—</div></div>
+      <div class="sq-btns">
+        <button class="sq-btn" onclick="addPts('terra',-1)">−</button>
+        <button class="sq-btn" onclick="addPts('terra',1)">+</button>
+        <button class="sq-btn" onclick="addPts('terra',2)">+2</button>
+        <button class="sq-btn" onclick="addPts('terra',3)">+3</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sq-card sq-cielo" id="card-cielo">
+    <div class="sq-top">
+      <div>
+        <div class="sq-emoji">✈️</div>
+        <div class="sq-name">Cielo</div>
+      </div>
+      <span class="crown">👑</span>
+    </div>
+    <div class="sq-pts" id="pts-cielo">0</div>
+    <div class="sq-bottom">
+      <div><div class="sq-rep-lbl">Rappresentante</div><div class="sq-rep" id="rep-cielo">—</div></div>
+      <div class="sq-btns">
+        <button class="sq-btn" onclick="addPts('cielo',-1)">−</button>
+        <button class="sq-btn" onclick="addPts('cielo',1)">+</button>
+        <button class="sq-btn" onclick="addPts('cielo',2)">+2</button>
+        <button class="sq-btn" onclick="addPts('cielo',3)">+3</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sq-card sq-digit" id="card-digit">
+    <div class="sq-top">
+      <div>
+        <div class="sq-emoji">💻</div>
+        <div class="sq-name">Digitale</div>
+      </div>
+      <span class="crown">👑</span>
+    </div>
+    <div class="sq-pts" id="pts-digit">0</div>
+    <div class="sq-bottom">
+      <div><div class="sq-rep-lbl">Rappresentante</div><div class="sq-rep" id="rep-digit">—</div></div>
+      <div class="sq-btns">
+        <button class="sq-btn" onclick="addPts('digit',-1)">−</button>
+        <button class="sq-btn" onclick="addPts('digit',1)">+</button>
+        <button class="sq-btn" onclick="addPts('digit',2)">+2</button>
+        <button class="sq-btn" onclick="addPts('digit',3)">+3</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <div class="sess-nav">
+    <button class="btn-sess" onclick="changeSess(-1)">← Prec</button>
+    <span class="sess-counter" id="b-counter">1 / 10</span>
+    <button class="btn-sess next" onclick="changeSess(1)">Succ →</button>
+  </div>
+  <div class="bottom-center">
+    <div class="challenge-lbl">Sfida in corso</div>
+    <div class="challenge-text" id="b-challenge">—</div>
+  </div>
+  <div class="bottom-right">
+    <div class="rep-lbl">Alla postazione</div>
+    <div class="rep-name" id="b-rep">—</div>
+    <input class="rep-input" id="rep-input" placeholder="Nome rappresentante..." oninput="updateRep()">
+  </div>
+</div>
+
+<canvas class="confetti" id="confetti"></canvas>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, doc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const app = initializeApp({
+  apiKey:"AIzaSyCzDnRq7_Tfq7uktNfy2r8tFu0qTdrE-88",
+  projectId:"hotelfuturo",
+  appId:"1:349688895596:web:81b1e5f3c993099c9b6049"
+});
+const db = getFirestore(app);
+const docRef = doc(db, 'creta_g1', 'stato');
+
+const SESSIONS = [
+  {time:'pom', title:'Sessione 1 — Chi è Creta?', challenge:'Analisi generale: territorio, economia, cultura'},
+  {time:'mat', title:'Sessione 2 — Agroalimentare cretese', challenge:'Olio, vino, formaggi — filiera dalla produzione all\'export'},
+  {time:'pom', title:'Sessione 3 — Mobilità e infrastrutture', challenge:'Aeroporti, rotte, droni agricoli, connettività'},
+  {time:'mat', title:'Sessione 4 — Sostenibilità ambientale', challenge:'Ecosistema, aree protette, impatto del turismo'},
+  {time:'pom', title:'Sessione 5 — Digitalizzazione', challenge:'Smart tourism, e-commerce agricolo, app locali'},
+  {time:'mat', title:'Sessione 6 — Raccolta dati sul campo', challenge:'Elaborazione dati dalle escursioni'},
+  {time:'pom', title:'Sessione 7 — Costruzione piattaforma', challenge:'Integrazione contenuti di tutte le squadre'},
+  {time:'mat', title:'Sessione 8 — Revisione e qualità', challenge:'Miglioramento e completamento sezioni'},
+  {time:'pom', title:'Sessione 9 — Preparazione pitch', challenge:'Struttura e prova della presentazione finale'},
+  {time:'mat', title:'Sessione 10 — Pitch finale', challenge:'Presentazione al gruppo completo'},
+];
+
+let state = { cur:0, pts:{terra:0,cielo:0,digit:0}, reps:{terra:'',cielo:'',digit:''} };
+
+onSnapshot(docRef, snap => {
+  if(snap.exists()){
+    const d = snap.data();
+    state.cur = d.currentSession ?? 0;
+    state.pts = d.pts ?? state.pts;
+    state.reps = d.reps ?? state.reps;
+    render();
+  }
+});
+
+async function save(){
+  await setDoc(docRef, { currentSession:state.cur, pts:state.pts, reps:state.reps, updatedAt:Date.now() });
+}
+
+function render(){
+  const s = SESSIONS[state.cur] || {};
+  document.getElementById('h-title').textContent = s.title || '—';
+  const badge = document.getElementById('h-badge');
+  badge.textContent = s.time === 'pom' ? 'Pomeriggio' : 'Mattina';
+  badge.className = 'sess-badge ' + (s.time === 'pom' ? 'pom' : 'mat');
+  document.getElementById('h-prog').textContent = state.cur + '/10';
+  document.getElementById('b-counter').textContent = (state.cur+1) + ' / 10';
+  document.getElementById('b-challenge').textContent = s.challenge || '—';
+
+  ['terra','cielo','digit'].forEach(sq => {
+    document.getElementById('pts-'+sq).textContent = state.pts[sq] || 0;
+    document.getElementById('rep-'+sq).textContent = state.reps[sq] || '—';
+  });
+
+  const curSq = ['terra','cielo','digit'].find(sq => s.squad === sq);
+  document.getElementById('b-rep').textContent = state.reps[curSq || 'terra'] || '—';
+  if(document.activeElement !== document.getElementById('rep-input'))
+    document.getElementById('rep-input').value = '';
+
+  const maxP = Math.max(...Object.values(state.pts));
+  ['terra','cielo','digit'].forEach(sq => {
+    document.getElementById('card-'+sq).classList.toggle('leader', (state.pts[sq]||0) === maxP && maxP > 0);
+  });
+}
+
+window.addPts = function(sq, n){
+  state.pts[sq] = Math.max(0, (state.pts[sq]||0) + n);
+  const card = document.getElementById('card-'+sq);
+  card.classList.add('pts-anim');
+  setTimeout(() => card.classList.remove('pts-anim'), 300);
+  render(); save();
+  if(n > 0 && state.pts[sq] >= 10) launchConfetti();
+};
+
+window.changeSess = function(dir){
+  const next = state.cur + dir;
+  if(next < 0 || next >= SESSIONS.length) return;
+  state.cur = next; render(); save();
+};
+
+window.updateRep = function(){
+  const val = document.getElementById('rep-input').value;
+  const s = SESSIONS[state.cur] || {};
+  const sq = s.squad || 'terra';
+  state.reps[sq] = val;
+  document.getElementById('b-rep').textContent = val || '—';
+  document.getElementById('rep-'+sq).textContent = val || '—';
+  clearTimeout(window._rt);
+  window._rt = setTimeout(save, 600);
+};
+
+function launchConfetti(){
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  canvas.width = innerWidth; canvas.height = innerHeight;
+  canvas.classList.add('show');
+  const colors = ['#C8A84B','#7B4F1A','#1A4A7B','#2D7B1A','#f0ece4'];
+  const pieces = Array.from({length:100}, () => ({
+    x: Math.random()*innerWidth, y: -10, r: Math.random()*8+4,
+    color: colors[Math.floor(Math.random()*colors.length)],
+    vx: (Math.random()-.5)*5, vy: Math.random()*4+2,
+    rot: Math.random()*360, vr: (Math.random()-.5)*8
+  }));
+  let frames = 0;
+  (function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p => {
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+      ctx.fillStyle = p.color; ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r);
+      ctx.restore();
+      p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr; p.vy+=.05;
+    });
+    if(++frames < 200) requestAnimationFrame(draw);
+    else { ctx.clearRect(0,0,canvas.width,canvas.height); canvas.classList.remove('show'); }
+  })();
+}
+
+render();
+</script>
+</body>
+</html>

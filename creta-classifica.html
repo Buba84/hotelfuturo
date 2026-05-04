@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creta Futura · Classifica Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --terra:#7B4F1A; --terra-l:#F5E6D3; --terra-b:#D4956A;
+  --cielo:#1A4A7B; --cielo-l:#D3E8F5; --cielo-b:#6AAAD4;
+  --digit:#2D7B1A; --digit-l:#E0F5D3; --digit-b:#6AD46A;
+  --gold:#C8A84B; --dark:#0f0e0c; --dark2:#1a1916; --dark3:#232220;
+  --text:#f0ece4; --text2:#9a9590; --text3:#5a5752;
+  --green:#4caf50; --border:rgba(200,168,75,.15);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;}
+.header{background:var(--dark2);border-bottom:1px solid var(--border);padding:20px 36px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);}
+.logo-sub{font-size:13px;color:var(--text2);margin-top:2px;}
+.round-sel{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.round-btn{font-size:14px;font-weight:600;padding:7px 16px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;}
+.round-btn:hover{background:var(--dark3);color:var(--text);}
+.round-btn.active{background:var(--gold);color:var(--dark);border-color:var(--gold);}
+.live-badge{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--green);background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.2);border-radius:20px;padding:5px 14px;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 1.5s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.main{max-width:1100px;margin:0 auto;padding:24px 28px;}
+.sec-lbl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;}
+
+.teams-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
+.team-card{border-radius:14px;padding:20px;text-align:center;position:relative;}
+.team-card.leader{box-shadow:0 0 0 2px var(--gold);}
+.t-terra{background:var(--terra-l);border:1px solid var(--terra-b);}
+.t-cielo{background:var(--cielo-l);border:1px solid var(--cielo-b);}
+.t-digit{background:var(--digit-l);border:1px solid var(--digit-b);}
+.team-emoji{font-size:28px;margin-bottom:6px;}
+.team-name{font-size:15px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
+.t-terra .team-name{color:var(--terra);}
+.t-cielo .team-name{color:var(--cielo);}
+.t-digit .team-name{color:var(--digit);}
+.team-score{font-family:'Playfair Display',serif;font-size:52px;font-weight:600;line-height:1;margin-bottom:4px;}
+.t-terra .team-score{color:var(--terra);}
+.t-cielo .team-score{color:var(--cielo);}
+.t-digit .team-score{color:var(--digit);}
+.team-detail{font-size:13px;color:var(--text2);}
+.team-crown{position:absolute;top:10px;right:12px;font-size:22px;display:none;}
+.team-card.leader .team-crown{display:block;}
+
+.podium{display:flex;gap:12px;align-items:flex-end;justify-content:center;margin-bottom:20px;}
+.p-card{background:var(--dark2);border:1px solid var(--border);border-radius:14px;padding:18px;text-align:center;flex:1;max-width:200px;}
+.p-card.first{border-color:var(--gold);background:rgba(200,168,75,.06);order:2;transform:scale(1.05);}
+.p-card.second{order:1;}
+.p-card.third{order:3;}
+.p-medal{font-size:30px;margin-bottom:6px;}
+.p-name{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.p-sq{font-size:10px;font-weight:700;text-transform:uppercase;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:8px;}
+.sq-terra{background:var(--terra-l);color:var(--terra);}
+.sq-cielo{background:var(--cielo-l);color:var(--cielo);}
+.sq-digit{background:var(--digit-l);color:var(--digit);}
+.p-pts{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:var(--gold);}
+.p-det{font-size:11px;color:var(--text3);margin-top:4px;}
+
+.lb-header{display:flex;align-items:center;gap:10px;padding:8px 16px;margin-bottom:6px;font-size:11px;color:var(--text3);font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+.lb-row{display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:10px;margin-bottom:5px;background:var(--dark2);border:1px solid var(--border);}
+.lb-rank{font-size:18px;font-weight:700;color:var(--text3);width:28px;text-align:center;}
+.lb-name{flex:1;font-size:15px;font-weight:500;color:var(--text);}
+.lb-sq{font-size:10px;font-weight:700;text-transform:uppercase;padding:3px 9px;border-radius:10px;flex-shrink:0;}
+.lb-cor{font-size:13px;color:var(--green);min-width:40px;text-align:center;font-weight:600;}
+.lb-time{font-size:13px;color:var(--text3);min-width:46px;text-align:center;}
+.lb-pts{font-size:18px;font-weight:700;color:var(--gold);min-width:50px;text-align:right;}
+.empty{text-align:center;padding:40px;font-size:16px;color:var(--text3);}
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <div class="logo">🏛️ Creta Futura · Classifica Quiz</div>
+    <div class="logo-sub">Gruppo 1 · Risultati live</div>
+  </div>
+  <div class="round-sel" id="round-sel"></div>
+  <div class="live-badge"><div class="live-dot"></div>Live</div>
+</div>
+<div class="main">
+  <div class="sec-lbl" id="sec-teams">Punteggio squadre</div>
+  <div class="teams-bar">
+    <div class="team-card t-terra" id="tc-terra"><span class="team-crown">👑</span><div class="team-emoji">🌍</div><div class="team-name">Terra</div><div class="team-score" id="ts-terra">0</div><div class="team-detail" id="td-terra">0 giocatori</div></div>
+    <div class="team-card t-cielo" id="tc-cielo"><span class="team-crown">👑</span><div class="team-emoji">✈️</div><div class="team-name">Cielo</div><div class="team-score" id="ts-cielo">0</div><div class="team-detail" id="td-cielo">0 giocatori</div></div>
+    <div class="team-card t-digit" id="tc-digit"><span class="team-crown">👑</span><div class="team-emoji">💻</div><div class="team-name">Digitale</div><div class="team-score" id="ts-digit">0</div><div class="team-detail" id="td-digit">0 giocatori</div></div>
+  </div>
+  <div class="sec-lbl" id="sec-podio">Podio</div>
+  <div class="podium" id="podium"></div>
+  <div class="sec-lbl">Classifica completa</div>
+  <div class="lb-header">
+    <span style="width:28px">#</span>
+    <span style="flex:1">Studente</span>
+    <span style="min-width:70px">Squadra</span>
+    <span style="min-width:40px;text-align:center">✓</span>
+    <span style="min-width:46px;text-align:center">Tempo</span>
+    <span style="min-width:50px;text-align:right">Punti</span>
+  </div>
+  <div id="leaderboard"><div class="empty">In attesa che i ragazzi completino il quiz...</div></div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, collection, onSnapshot, query } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const app = initializeApp({
+  apiKey:"AIzaSyCzDnRq7_Tfq7uktNfy2r8tFu0qTdrE-88",
+  projectId:"hotelfuturo",
+  appId:"1:349688895596:web:81b1e5f3c993099c9b6049"
+});
+const db = getFirestore(app);
+const SQN = {terra:'Terra',cielo:'Cielo',digit:'Digitale'};
+const SQC = {terra:'sq-terra',cielo:'sq-cielo',digit:'sq-digit'};
+let currentRound = '1';
+
+function buildButtons(){
+  const sel = document.getElementById('round-sel');
+  sel.innerHTML = '';
+  const btnAll = document.createElement('button');
+  btnAll.className = 'round-btn' + (currentRound==='all'?' active':'');
+  btnAll.textContent = 'Generale';
+  btnAll.onclick = () => { currentRound='all'; buildButtons(); loadAllRounds(); };
+  sel.appendChild(btnAll);
+  for(let i=1;i<=10;i++){
+    const btn = document.createElement('button');
+    btn.className = 'round-btn' + (i==currentRound?' active':'');
+    btn.textContent = 'R'+i;
+    btn.onclick = () => { currentRound=''+i; buildButtons(); loadRound(); };
+    sel.appendChild(btn);
+  }
+}
+
+function loadRound(){
+  document.getElementById('sec-teams').textContent = 'Punteggio squadre — Round '+currentRound;
+  document.getElementById('sec-podio').textContent = 'Podio Round '+currentRound;
+  const col = 'creta_quiz_round_'+currentRound;
+  onSnapshot(query(collection(db,col)), snap => {
+    const scores = [];
+    snap.forEach(d => { const s=d.data(); if(s.status!=='in_progress') scores.push(s); });
+    scores.sort((a,b)=>b.score-a.score);
+    renderAll(scores, false);
+  });
+}
+
+function loadAllRounds(){
+  document.getElementById('sec-teams').textContent = 'Punteggio squadre — classifica generale';
+  document.getElementById('sec-podio').textContent = 'Miglior quizista del corso';
+  const allScores = {};
+  let loaded = 0;
+  for(let r=1;r<=10;r++){
+    onSnapshot(query(collection(db,'creta_quiz_round_'+r)), snap => {
+      snap.forEach(d => {
+        const s=d.data();
+        if(s.status==='in_progress') return;
+        const k=s.name;
+        if(!allScores[k]) allScores[k]={name:s.name,squad:s.squad,score:0,correct:0,wrong:0,rounds:0,totalTime:0};
+        allScores[k].score+=s.score||0;
+        allScores[k].correct+=s.correct||0;
+        allScores[k].wrong+=s.wrong||0;
+        allScores[k].rounds++;
+        allScores[k].totalTime+=(s.avgTime||0);
+      });
+      if(++loaded>=10){
+        const scores=Object.values(allScores);
+        scores.forEach(s=>s.avgTime=s.rounds>0?parseFloat((s.totalTime/s.rounds).toFixed(1)):0);
+        scores.sort((a,b)=>b.score-a.score);
+        renderAll(scores, true);
+      }
+    });
+  }
+}
+
+function renderAll(scores, isGeneral){
+  const teams = {terra:{pts:0,count:0},cielo:{pts:0,count:0},digit:{pts:0,count:0}};
+  scores.forEach(s => { if(teams[s.squad]){teams[s.squad].pts+=s.score;teams[s.squad].count++;} });
+  const avgs = {};
+  ['terra','cielo','digit'].forEach(sq => { avgs[sq]=teams[sq].count>0?Math.round(teams[sq].pts/teams[sq].count):0; });
+  const maxAvg = Math.max(...Object.values(avgs));
+  ['terra','cielo','digit'].forEach(sq => {
+    document.getElementById('ts-'+sq).textContent = avgs[sq];
+    document.getElementById('td-'+sq).textContent = teams[sq].count+' giocator'+(teams[sq].count===1?'e':'i')+' · media';
+    document.getElementById('tc-'+sq).classList.toggle('leader', avgs[sq]===maxAvg&&maxAvg>0);
+  });
+
+  const podium = document.getElementById('podium');
+  if(!scores.length){ podium.innerHTML=''; return; }
+  const top3=scores.slice(0,3);
+  const medals=['🥇','🥈','🥉'],classes=['first','second','third'];
+  podium.innerHTML=top3.map((s,i)=>
+    '<div class="p-card '+classes[i]+'">'+
+      '<div class="p-medal">'+medals[i]+'</div>'+
+      '<div class="p-name">'+s.name+'</div>'+
+      '<span class="p-sq '+SQC[s.squad]+'">'+SQN[s.squad]+'</span>'+
+      '<div class="p-pts">'+s.score+'</div>'+
+      '<div class="p-det">'+s.correct+(isGeneral?'':'/10')+' corrette</div>'+
+    '</div>'
+  ).join('');
+
+  const lb=document.getElementById('leaderboard');
+  if(!scores.length){ lb.innerHTML='<div class="empty">In attesa...</div>'; return; }
+  const medals2=['🥇','🥈','🥉'];
+  lb.innerHTML=scores.map((s,i)=>
+    '<div class="lb-row">'+
+      '<span class="lb-rank">'+(i<3?medals2[i]:i+1)+'</span>'+
+      '<span class="lb-name">'+s.name+'</span>'+
+      '<span class="lb-sq '+SQC[s.squad]+'">'+SQN[s.squad]+'</span>'+
+      '<span class="lb-cor">'+s.correct+(isGeneral?'':'/10')+'</span>'+
+      '<span class="lb-time">'+(s.avgTime||0)+'s</span>'+
+      '<span class="lb-pts">'+s.score+'</span>'+
+    '</div>'
+  ).join('');
+}
+
+buildButtons(); loadRound();
+</script>
+</body>
+</html>

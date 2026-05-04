@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Quiz Creta Round 1</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0f0e0c;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:40px;font-family:sans-serif;}
+.card{background:#0f0e0c;border:2px solid rgba(200,168,75,.3);border-radius:24px;padding:48px 40px;max-width:420px;width:100%;text-align:center;}
+.title{font-size:32px;font-weight:700;color:#f0ece4;margin-bottom:4px;}
+.round{font-size:20px;font-weight:700;color:#C8A84B;margin-bottom:24px;}
+.qr-box{background:#fff;border-radius:16px;padding:24px;display:inline-block;margin-bottom:24px;}
+.url{font-size:13px;color:#C8A84B;font-family:monospace;background:rgba(200,168,75,.08);border:1px solid rgba(200,168,75,.2);border-radius:10px;padding:10px 20px;display:inline-block;margin-bottom:16px;}
+.info{font-size:15px;color:#9a9590;line-height:1.6;}
+.info strong{color:#f0ece4;}
+.squads{display:flex;gap:8px;justify-content:center;margin-top:16px;}
+.sq{font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;}
+.s1{background:#F5E6D3;color:#7B4F1A;}
+.s2{background:#D3E8F5;color:#1A4A7B;}
+.s3{background:#E0F5D3;color:#2D7B1A;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="title">🏛️ Creta Futura</div>
+  <div class="round">Quiz · Round 1</div>
+  <div class="qr-box"><div id="qr"></div></div>
+  <br>
+  <div class="url">buba84.github.io/hotelfuturo/creta/quiz.html?round=1</div>
+  <div class="info">Inquadra e gioca!<br><strong>10 domande · 8 secondi · live</strong></div>
+  <div class="squads">
+    <span class="sq s1">🌍 Terra</span>
+    <span class="sq s2">✈️ Cielo</span>
+    <span class="sq s3">💻 Digitale</span>
+  </div>
+</div>
+<script>
+new QRCode(document.getElementById('qr'), {
+  text: 'https://buba84.github.io/hotelfuturo/creta/quiz.html?round=1',
+  width: 220, height: 220,
+  colorDark: '#0f0e0c', colorLight: '#ffffff',
+  correctLevel: QRCode.CorrectLevel.H
+});
+</script>
+</body>
+</html>
