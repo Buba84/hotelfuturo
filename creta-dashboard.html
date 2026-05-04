@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creta Futura 2026 · Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root{
+  --terra:#7B4F1A; --terra-l:#F5E6D3; --terra-b:#D4956A;
+  --cielo:#1A4A7B; --cielo-l:#D3E8F5; --cielo-b:#6AAAD4;
+  --digit:#2D7B1A; --digit-l:#E0F5D3; --digit-b:#6AD46A;
+  --gold:#C8A84B; --gold-l:#FDF6E3; --gold-b:#E8D080;
+  --dark:#1a1a2e; --text:#1e293b; --text2:#475569; --text3:#94a3b8;
+  --bg:#f8fafc; --bg2:#ffffff; --bg3:#f1f5f9;
+  --border:#e2e8f0; --radius:14px;
+  --shadow:0 1px 3px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 32px;height:72px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow);}
+.logo-wrap{display:flex;align-items:center;gap:14px;}
+.logo-icon{font-size:28px;}
+.logo-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--dark);}
+.logo-sub{font-size:12px;color:var(--text3);}
+.nav{display:flex;gap:4px;}
+.nav-btn{font-size:13px;font-weight:500;padding:7px 16px;border-radius:8px;border:none;background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif;}
+.nav-btn:hover{background:var(--bg3);}
+.nav-btn.active{background:var(--dark);color:#fff;}
+.header-right{display:flex;align-items:center;gap:10px;}
+.badge{font-size:12px;font-weight:600;border-radius:20px;padding:5px 14px;}
+.badge-gold{background:var(--gold-l);color:var(--gold);border:1px solid var(--gold-b);}
+.badge-green{display:flex;align-items:center;gap:5px;font-size:12px;color:#16a34a;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:20px;padding:5px 12px;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#16a34a;animation:blink 1.5s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.main{max-width:1300px;margin:0 auto;padding:28px 32px;}
+.sec-lbl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:14px;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#1a3a5c 0%,#0f2440 100%);border-radius:20px;padding:36px 40px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden;}
+.hero::after{content:'🏛️';position:absolute;right:180px;top:50%;transform:translateY(-50%);font-size:90px;opacity:.08;}
+.hero-title{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:#fff;margin-bottom:6px;}
+.hero-sub{font-size:15px;color:#94a3b8;margin-bottom:16px;}
+.hero-tags{display:flex;gap:8px;flex-wrap:wrap;}
+.hero-tag{font-size:12px;background:rgba(255,255,255,.1);color:#cbd5e1;border-radius:20px;padding:4px 12px;}
+.hero-right{text-align:right;}
+.hero-stat{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;color:var(--gold);line-height:1;}
+.hero-stat-sub{font-size:13px;color:#94a3b8;margin-top:4px;}
+
+/* KPI */
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:28px;}
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);}
+.kpi-lbl{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+.kpi-val{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--dark);margin-bottom:2px;}
+.kpi-sub{font-size:11px;color:var(--text3);}
+
+/* GRID */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;}
+
+/* CARD */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
+.card-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.card-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.dot-terra{background:var(--terra);} .dot-cielo{background:var(--cielo);} .dot-digit{background:var(--digit);} .dot-gold{background:var(--gold);}
+.card-title{font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--dark);}
+.card-sub{font-size:11px;color:var(--text3);}
+.card-body{padding:20px;}
+.chart-wrap{height:200px;position:relative;}
+
+/* BARS */
+.bar-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
+.bar-row:last-child{border:none;}
+.bar-name{font-size:13px;color:var(--text2);flex:1;}
+.bar-w{flex:2;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:3px;}
+.bar-val{font-size:13px;font-weight:600;color:var(--text);min-width:36px;text-align:right;}
+
+/* FLAGS */
+.flag-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.flag-row:last-child{border:none;}
+.flag{font-size:18px;}
+.flag-name{color:var(--text2);flex:1;}
+.flag-pct{color:var(--cielo);font-weight:700;}
+
+/* CONTENT ITEMS */
+.ci{border-left:3px solid transparent;border-radius:8px;padding:12px 14px;margin-bottom:8px;}
+.ci:last-child{margin-bottom:0;}
+.ci-terra{background:var(--terra-l);border-color:var(--terra);}
+.ci-cielo{background:var(--cielo-l);border-color:var(--cielo);}
+.ci-digit{background:var(--digit-l);border-color:var(--digit);}
+.ci-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+.ci-terra .ci-lbl{color:var(--terra);} .ci-cielo .ci-lbl{color:var(--cielo);} .ci-digit .ci-lbl{color:var(--digit);}
+.ci-text{font-size:13px;color:var(--text2);line-height:1.6;}
+.empty{text-align:center;padding:24px;font-size:14px;color:var(--text3);}
+
+/* PRODUCTS */
+.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.prod-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;}
+.prod-emoji{font-size:28px;margin-bottom:6px;}
+.prod-name{font-size:13px;font-weight:700;color:var(--dark);}
+.prod-sub{font-size:11px;color:var(--text3);margin-top:2px;}
+
+/* ADMIN */
+.admin-section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;box-shadow:var(--shadow);}
+.admin-title{font-size:14px;font-weight:700;color:var(--dark);margin-bottom:14px;text-transform:uppercase;letter-spacing:.06em;}
+.admin-row{display:flex;gap:10px;margin-bottom:10px;align-items:flex-end;}
+.admin-field{flex:1;}
+.admin-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}
+.admin-input,.admin-select,.admin-textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;}
+.admin-textarea{min-height:80px;resize:vertical;}
+.admin-input:focus,.admin-select:focus,.admin-textarea:focus{border-color:var(--gold);}
+.admin-btn{background:var(--gold);color:#fff;border:none;border-radius:10px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+.admin-btn:hover{opacity:.85;}
+.saved-list{display:flex;flex-direction:column;gap:6px;margin-top:12px;}
+.saved-item{display:flex;align-items:center;gap:8px;background:var(--bg3);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--text2);}
+.saved-sq{font-size:10px;font-weight:700;text-transform:uppercase;padding:2px 8px;border-radius:10px;}
+.s-terra{background:var(--terra-l);color:var(--terra);}
+.s-cielo{background:var(--cielo-l);color:var(--cielo);}
+.s-digit{background:var(--digit-l);color:var(--digit);}
+.saved-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.saved-x{cursor:pointer;color:var(--text3);font-size:16px;padding:0 4px;}
+.saved-x:hover{color:var(--text);}
+
+/* VIEWS */
+#view-panoramica{display:block;}
+#view-terra,#view-cielo,#view-digitale,#view-admin{display:none;}
+
+/* FOOTER */
+.footer{background:var(--dark);color:#94a3b8;text-align:center;padding:24px;font-size:13px;margin-top:20px;}
+.footer strong{color:#fff;}
+
+/* MOBILE */
+@media(max-width:768px){
+  .header{padding:0 16px;height:auto;flex-wrap:wrap;gap:10px;padding:12px 16px;}
+  .nav{order:3;width:100%;overflow-x:auto;flex-wrap:nowrap;}
+  .nav-btn{white-space:nowrap;font-size:12px;padding:6px 12px;}
+  .main{padding:16px;}
+  .hero{padding:20px;flex-direction:column;gap:14px;}
+  .hero-right{text-align:left;}
+  .hero-title{font-size:22px;}
+  .kpi-row{grid-template-columns:1fr 1fr;}
+  .grid2,.grid3{grid-template-columns:1fr;}
+  .prod-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-wrap">
+    <div class="logo-icon">🏛️</div>
+    <div>
+      <div class="logo-name">Creta Futura 2026</div>
+      <div class="logo-sub">Dashboard · Piano Strategico Digitale</div>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="nav-btn active" onclick="showView('panoramica')">Panoramica</button>
+    <button class="nav-btn" onclick="showView('terra')">🌍 Terra</button>
+    <button class="nav-btn" onclick="showView('cielo')">✈️ Cielo</button>
+    <button class="nav-btn" onclick="showView('digitale')">💻 Digitale</button>
+    <button class="nav-btn" onclick="showView('admin')">⚙️ Admin</button>
+  </div>
+  <div class="header-right">
+    <div class="badge badge-gold">PCTO · Creta</div>
+    <div class="badge-green"><div class="live-dot"></div>Live</div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ═══ PANORAMICA ═══ -->
+<div id="view-panoramica">
+
+  <div class="hero">
+    <div>
+      <div class="hero-title">Creta · La più grande isola greca</div>
+      <div class="hero-sub">Piano di Sviluppo Sostenibile · 5 indirizzi di studi · 3 squadre</div>
+      <div class="hero-tags">
+        <span class="hero-tag">📅 4–9 maggio 2026</span>
+        <span class="hero-tag">👥 30 studenti</span>
+        <span class="hero-tag">🤖 Claude AI</span>
+        <span class="hero-tag">🇬🇷 Grecia</span>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-stat" id="hero-sess">0</div>
+      <div class="hero-stat-sub">sessioni completate</div>
+    </div>
+  </div>
+
+  <div class="sec-lbl">Dati chiave dell'isola di Creta</div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-lbl">Popolazione</div><div class="kpi-val">623.000</div><div class="kpi-sub">abitanti</div></div>
+    <div class="kpi"><div class="kpi-lbl">Superficie</div><div class="kpi-val">8.450 km²</div><div class="kpi-sub">isola più grande della Grecia</div></div>
+    <div class="kpi"><div class="kpi-lbl">Turisti annui</div><div class="kpi-val">~5 mln</div><div class="kpi-sub">in crescita costante</div></div>
+    <div class="kpi"><div class="kpi-lbl">Aeroporti</div><div class="kpi-val">2</div><div class="kpi-sub">Heraklion + Chania</div></div>
+    <div class="kpi"><div class="kpi-lbl">Prodotto principale</div><div class="kpi-val">Olio 🫒</div><div class="kpi-sub">35% produzione greca</div></div>
+  </div>
+
+  <div class="sec-lbl">Prodotti agroalimentari cretesi</div>
+  <div class="prod-grid" style="margin-bottom:28px;">
+    <div class="prod-card"><div class="prod-emoji">🫒</div><div class="prod-name">Olio d'oliva DOP</div><div class="prod-sub">35 mln di alberi</div></div>
+    <div class="prod-card"><div class="prod-emoji">🍷</div><div class="prod-name">Vino autoctono</div><div class="prod-sub">Vidiano, Kotsifali</div></div>
+    <div class="prod-card"><div class="prod-emoji">🧀</div><div class="prod-name">Graviera & Mizithra</div><div class="prod-sub">Formaggi DOP</div></div>
+    <div class="prod-card"><div class="prod-emoji">🍯</div><div class="prod-name">Miele del Pindaro</div><div class="prod-sub">Timo e fiori selvatici</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-dot dot-cielo"></div>
+        <div><div class="card-title">Provenienza turisti</div><div class="card-sub">Principali mercati</div></div>
+      </div>
+      <div class="card-body">
+        <div class="flag-row"><span class="flag">🇩🇪</span><span class="flag-name">Germania</span><span class="flag-pct">28%</span></div>
+        <div class="flag-row"><span class="flag">🇬🇧</span><span class="flag-name">Regno Unito</span><span class="flag-pct">18%</span></div>
+        <div class="flag-row"><span class="flag">🇫🇷</span><span class="flag-name">Francia</span><span class="flag-pct">12%</span></div>
+        <div class="flag-row"><span class="flag">🇮🇹</span><span class="flag-name">Italia</span><span class="flag-pct">8%</span></div>
+        <div class="flag-row"><span class="flag">🇳🇱</span><span class="flag-name">Olanda</span><span class="flag-pct">7%</span></div>
+        <div class="flag-row"><span class="flag">🌍</span><span class="flag-name">Altri</span><span class="flag-pct">27%</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-dot dot-terra"></div>
+        <div><div class="card-title">Economia di Creta</div><div class="card-sub">Settori principali</div></div>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrap"><canvas id="chart-economy"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-header">
+      <div class="card-dot dot-gold"></div>
+      <div><div class="card-title">Contenuti prodotti durante il corso</div><div class="card-sub">Aggiornamento live da tutte le squadre</div></div>
+    </div>
+    <div class="card-body" id="all-content">
+      <div class="empty">I contenuti appariranno qui man mano che le squadre completano le sfide.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TERRA ═══ -->
+<div id="view-terra">
+  <div class="sec-lbl">🌍 Squadra Terra — Agroalimentare cretese</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-header"><div class="card-dot dot-terra"></div><div><div class="card-title">Produzione agricola</div><div class="card-sub">Dati e confronti</div></div></div>
+      <div class="card-body">
+        <div class="bar-row"><span class="bar-name">Olio d'oliva</span><div class="bar-w"><div class="bar-fill" style="width:85%;background:var(--terra)"></div></div><span class="bar-val">85%</span></div>
+        <div class="bar-row"><span class="bar-name">Vino</span><div class="bar-w"><div class="bar-fill" style="width:45%;background:var(--terra)"></div></div><span class="bar-val">45%</span></div>
+        <div class="bar-row"><span class="bar-name">Formaggi</span><div class="bar-w"><div class="bar-fill" style="width:35%;background:var(--terra)"></div></div><span class="bar-val">35%</span></div>
+        <div class="bar-row"><span class="bar-name">Miele</span><div class="bar-w"><div class="bar-fill" style="width:25%;background:var(--terra)"></div></div><span class="bar-val">25%</span></div>
+        <div class="bar-row"><span class="bar-name">Erbe aromatiche</span><div class="bar-w"><div class="bar-fill" style="width:20%;background:var(--terra)"></div></div><span class="bar-val">20%</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-dot dot-terra"></div><div><div class="card-title">Contenuti Squadra Terra</div><div class="card-sub">Elaborati durante il corso</div></div></div>
+      <div class="card-body" id="terra-content"><div class="empty">In attesa dei contenuti...</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CIELO ═══ -->
+<div id="view-cielo">
+  <div class="sec-lbl">✈️ Squadra Cielo — Mobilità e infrastrutture</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-header"><div class="card-dot dot-cielo"></div><div><div class="card-title">Aeroporti e traffico</div><div class="card-sub">Dati infrastrutturali</div></div></div>
+      <div class="card-body">
+        <div class="bar-row"><span class="bar-name">Heraklion (HER)</span><div class="bar-w"><div class="bar-fill" style="width:75%;background:var(--cielo)"></div></div><span class="bar-val">8M pax</span></div>
+        <div class="bar-row"><span class="bar-name">Chania (CHQ)</span><div class="bar-w"><div class="bar-fill" style="width:35%;background:var(--cielo)"></div></div><span class="bar-val">3.5M pax</span></div>
+        <div class="bar-row"><span class="bar-name">Porto Heraklion</span><div class="bar-w"><div class="bar-fill" style="width:25%;background:var(--cielo)"></div></div><span class="bar-val">2M pax</span></div>
+        <div class="bar-row"><span class="bar-name">Rotte dall'Italia</span><div class="bar-w"><div class="bar-fill" style="width:30%;background:var(--cielo)"></div></div><span class="bar-val">15+</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-dot dot-cielo"></div><div><div class="card-title">Contenuti Squadra Cielo</div><div class="card-sub">Elaborati durante il corso</div></div></div>
+      <div class="card-body" id="cielo-content"><div class="empty">In attesa dei contenuti...</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DIGITALE ═══ -->
+<div id="view-digitale">
+  <div class="sec-lbl">💻 Squadra Digitale — Innovazione e territorio</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-header"><div class="card-dot dot-digit"></div><div><div class="card-title">Digitalizzazione Creta</div><div class="card-sub">Opportunità e sfide</div></div></div>
+      <div class="card-body">
+        <div class="bar-row"><span class="bar-name">Copertura internet</span><div class="bar-w"><div class="bar-fill" style="width:72%;background:var(--digit)"></div></div><span class="bar-val">72%</span></div>
+        <div class="bar-row"><span class="bar-name">Aziende con sito web</span><div class="bar-w"><div class="bar-fill" style="width:45%;background:var(--digit)"></div></div><span class="bar-val">45%</span></div>
+        <div class="bar-row"><span class="bar-name">E-commerce agricolo</span><div class="bar-w"><div class="bar-fill" style="width:15%;background:var(--digit)"></div></div><span class="bar-val">15%</span></div>
+        <div class="bar-row"><span class="bar-name">Smart tourism</span><div class="bar-w"><div class="bar-fill" style="width:30%;background:var(--digit)"></div></div><span class="bar-val">30%</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-dot dot-digit"></div><div><div class="card-title">Contenuti Squadra Digitale</div><div class="card-sub">Elaborati durante il corso</div></div></div>
+      <div class="card-body" id="digit-content"><div class="empty">In attesa dei contenuti...</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ADMIN ═══ -->
+<div id="view-admin">
+  <div class="sec-lbl">⚙️ Aggiungi contenuto alla Dashboard</div>
+  <div class="admin-section">
+    <div class="admin-row">
+      <div class="admin-field">
+        <div class="admin-label">Squadra</div>
+        <select class="admin-select" id="adm-squad">
+          <option value="terra">🌍 Terra</option>
+          <option value="cielo">✈️ Cielo</option>
+          <option value="digit">💻 Digitale</option>
+        </select>
+      </div>
+      <div class="admin-field">
+        <div class="admin-label">Etichetta</div>
+        <input class="admin-input" id="adm-label" placeholder="es. Analisi olio d'oliva">
+      </div>
+    </div>
+    <div class="admin-field" style="margin-bottom:12px;">
+      <div class="admin-label">Contenuto</div>
+      <textarea class="admin-textarea" id="adm-text" placeholder="Incolla qui il contenuto dalla risposta di Claude..."></textarea>
+    </div>
+    <button class="admin-btn" onclick="addItem()">Aggiungi alla Dashboard ✦</button>
+    <div class="sec-lbl" style="margin-top:20px;">Elementi salvati</div>
+    <div class="saved-list" id="saved-list"></div>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  <strong>Creta Futura 2026</strong> · Piano Strategico Digitale per l'Isola di Creta<br>
+  PCTO · Istituto Tecnico Agrario · Powered by <strong>Claude AI · Anthropic</strong>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, doc, setDoc, onSnapshot, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const app = initializeApp({
+  apiKey:"AIzaSyCzDnRq7_Tfq7uktNfy2r8tFu0qTdrE-88",
+  projectId:"hotelfuturo",
+  appId:"1:349688895596:web:81b1e5f3c993099c9b6049"
+});
+const db = getFirestore(app);
+const docRef = doc(db, 'creta_corso', 'stato');
+
+const SQN = {terra:'Terra',cielo:'Cielo',digit:'Digitale'};
+
+// Economy chart
+new Chart(document.getElementById('chart-economy'),{type:'doughnut',data:{
+  labels:['Turismo','Agricoltura','Servizi','Industria','Pesca'],
+  datasets:[{data:[40,25,20,10,5],backgroundColor:['#1A4A7B','#7B4F1A','#2D7B1A','#C8A84B','#6AAAD4'],borderWidth:0}]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#475569',font:{family:'DM Sans',size:12},boxWidth:12}}}}});
+
+// Firebase listener
+onSnapshot(docRef, snap => {
+  if(!snap.exists()) return;
+  const data = snap.data();
+  const items = data.dashItems || [];
+
+  document.getElementById('hero-sess').textContent = data.currentSession || 0;
+
+  const allEl = document.getElementById('all-content');
+  if(!items.length){
+    allEl.innerHTML = '<div class="empty">I contenuti appariranno qui man mano che le squadre completano le sfide.</div>';
+  } else {
+    allEl.innerHTML = items.map(i =>
+      '<div class="ci ci-'+i.squad+'">'+
+        '<div class="ci-lbl">'+(SQN[i.squad]||i.squad)+' · '+(i.label||'')+'</div>'+
+        '<div class="ci-text">'+(i.text||'')+'</div>'+
+      '</div>'
+    ).join('');
+  }
+
+  const bySquad = {terra:[],cielo:[],digit:[]};
+  items.forEach(i => { if(bySquad[i.squad]) bySquad[i.squad].push(i); });
+  ['terra','cielo','digit'].forEach(sq => {
+    const el = document.getElementById(sq+'-content');
+    if(!el) return;
+    if(!bySquad[sq].length){ el.innerHTML='<div class="empty">In attesa dei contenuti...</div>'; return; }
+    el.innerHTML = bySquad[sq].map(i =>
+      '<div class="ci ci-'+sq+'"><div class="ci-lbl">'+(i.label||'')+'</div><div class="ci-text">'+(i.text||'')+'</div></div>'
+    ).join('');
+  });
+
+  renderSaved(items);
+});
+
+function renderSaved(items){
+  document.getElementById('saved-list').innerHTML = items.map((item,i) =>
+    '<div class="saved-item">'+
+      '<span class="saved-sq s-'+item.squad+'">'+(SQN[item.squad]||item.squad)+'</span>'+
+      '<span class="saved-text">'+(item.label||'')+' — '+(item.text||'').substring(0,80)+'...</span>'+
+      '<span class="saved-x" onclick="removeItem('+i+')">×</span>'+
+    '</div>'
+  ).join('');
+}
+
+window.addItem = async function(){
+  const squad = document.getElementById('adm-squad').value;
+  const label = document.getElementById('adm-label').value.trim();
+  const text = document.getElementById('adm-text').value.trim();
+  if(!label||!text){ alert('Compila tutti i campi'); return; }
+
+  const snap = await getDoc(docRef);
+  const data = snap.exists() ? snap.data() : {};
+  const items = data.dashItems || [];
+  items.push({ squad, label, text, squadName: SQN[squad], timestamp: Date.now() });
+  await setDoc(docRef, { ...data, dashItems: items });
+  document.getElementById('adm-label').value = '';
+  document.getElementById('adm-text').value = '';
+};
+
+window.removeItem = async function(idx){
+  if(!confirm('Rimuovere questo elemento?')) return;
+  const snap = await getDoc(docRef);
+  if(!snap.exists()) return;
+  const data = snap.data();
+  const items = data.dashItems || [];
+  items.splice(idx, 1);
+  await setDoc(docRef, { ...data, dashItems: items });
+};
+</script>
+
+<script>
+window.showView = function(v) {
+  ['panoramica','terra','cielo','digitale','admin'].forEach(x => {
+    document.getElementById('view-'+x).style.display = x===v?'block':'none';
+  });
+  document.querySelectorAll('.nav-btn').forEach((b,i) => {
+    b.classList.toggle('active',['panoramica','terra','cielo','digitale','admin'][i]===v);
+  });
+};
+</script>
+</body>
+</html>
