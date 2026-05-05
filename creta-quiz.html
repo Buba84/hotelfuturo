@@ -6,91 +6,43 @@
 <title>Creta Futura · Quiz</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --terra:#7B4F1A; --terra-l:#F5E6D3;
-  --cielo:#1A4A7B; --cielo-l:#D3E8F5;
-  --digit:#2D7B1A; --digit-l:#E0F5D3;
-  --gold:#C8A84B; --dark:#0f0e0c; --dark2:#1a1916; --dark3:#232220;
-  --text:#f0ece4; --text2:#9a9590; --text3:#5a5752;
-  --green:#4caf50; --red:#e53935; --border:rgba(200,168,75,.15);
-}
+:root{--terra:#7B4F1A;--terra-l:#F5E6D3;--cielo:#1A4A7B;--cielo-l:#D3E8F5;--digit:#2D7B1A;--digit-l:#E0F5D3;--gold:#C8A84B;--dark:#0f0e0c;--dark2:#1a1916;--dark3:#232220;--text:#f0ece4;--text2:#9a9590;--text3:#5a5752;--green:#4caf50;--red:#e53935;--border:rgba(200,168,75,.15);}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
-
-.screen{display:none;width:100%;max-width:500px;text-align:center;}
-.screen.active{display:flex;flex-direction:column;align-items:center;}
-
-.logo{font-family:'Playfair Display',serif;font-size:30px;color:var(--gold);margin-bottom:4px;}
-.logo-sub{font-size:13px;color:var(--text2);margin-bottom:6px;}
+.screen{display:none;width:100%;max-width:500px;text-align:center;}.screen.active{display:flex;flex-direction:column;align-items:center;}
+.logo{font-family:'Playfair Display',serif;font-size:30px;color:var(--gold);margin-bottom:4px;}.logo-sub{font-size:13px;color:var(--text2);margin-bottom:6px;}
 .round-badge{font-size:15px;font-weight:700;color:var(--gold);background:rgba(200,168,75,.1);border:1px solid var(--border);border-radius:20px;padding:5px 18px;margin-bottom:20px;}
-
 .login-card{background:var(--dark2);border:1px solid var(--border);border-radius:16px;padding:28px 24px;width:100%;}
 .field-label{font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;text-align:left;}
-.field-input{width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:17px;outline:none;margin-bottom:16px;}
-.field-input:focus{border-color:var(--gold);}
+.field-input{width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:17px;outline:none;margin-bottom:16px;}.field-input:focus{border-color:var(--gold);}
 .squad-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;}
-.sq-btn{background:var(--dark3);border:2px solid var(--border);border-radius:10px;padding:14px 8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .15s;text-align:center;}
-.sq-btn:hover{border-color:var(--gold);}
-.sq-btn.sel-terra{border-color:var(--terra);background:var(--terra-l);color:var(--terra);}
-.sq-btn.sel-cielo{border-color:var(--cielo);background:var(--cielo-l);color:var(--cielo);}
-.sq-btn.sel-digit{border-color:var(--digit);background:var(--digit-l);color:var(--digit);}
-.btn-start{width:100%;background:var(--gold);color:var(--dark);border:none;border-radius:12px;padding:16px;font-family:'DM Sans',sans-serif;font-size:18px;font-weight:700;cursor:pointer;margin-top:8px;}
-.btn-start:disabled{opacity:.4;cursor:not-allowed;}
-
-.quiz-header{display:flex;justify-content:space-between;width:100%;margin-bottom:16px;}
-.q-counter{font-size:14px;color:var(--text2);}
-.q-score{font-size:14px;color:var(--gold);font-weight:600;}
-.timer-text{font-size:40px;font-weight:700;color:var(--gold);margin-bottom:6px;font-family:'Playfair Display',serif;}
-.timer-text.danger{color:var(--red);}
-.timer-bar-w{width:100%;height:6px;background:var(--dark3);border-radius:3px;overflow:hidden;margin-bottom:20px;}
-.timer-bar{height:100%;background:var(--gold);border-radius:3px;transition:width .1s linear;}
-.timer-bar.danger{background:var(--red);}
-.question-card{background:var(--dark2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;width:100%;margin-bottom:16px;}
-.question-text{font-size:20px;font-weight:500;color:var(--text);line-height:1.5;}
+.sq-btn{background:var(--dark3);border:2px solid var(--border);border-radius:10px;padding:14px 8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .15s;text-align:center;}.sq-btn:hover{border-color:var(--gold);}
+.sq-btn.sel-terra{border-color:var(--terra);background:var(--terra-l);color:var(--terra);}.sq-btn.sel-cielo{border-color:var(--cielo);background:var(--cielo-l);color:var(--cielo);}.sq-btn.sel-digit{border-color:var(--digit);background:var(--digit-l);color:var(--digit);}
+.btn-start{width:100%;background:var(--gold);color:var(--dark);border:none;border-radius:12px;padding:16px;font-family:'DM Sans',sans-serif;font-size:18px;font-weight:700;cursor:pointer;margin-top:8px;}.btn-start:disabled{opacity:.4;cursor:not-allowed;}
+.quiz-header{display:flex;justify-content:space-between;width:100%;margin-bottom:16px;}.q-counter{font-size:14px;color:var(--text2);}.q-score{font-size:14px;color:var(--gold);font-weight:600;}
+.timer-text{font-size:40px;font-weight:700;color:var(--gold);margin-bottom:6px;font-family:'Playfair Display',serif;}.timer-text.danger{color:var(--red);}
+.timer-bar-w{width:100%;height:6px;background:var(--dark3);border-radius:3px;overflow:hidden;margin-bottom:20px;}.timer-bar{height:100%;background:var(--gold);border-radius:3px;transition:width .1s linear;}.timer-bar.danger{background:var(--red);}
+.question-card{background:var(--dark2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;width:100%;margin-bottom:16px;}.question-text{font-size:20px;font-weight:500;color:var(--text);line-height:1.5;}
 .answers{display:flex;flex-direction:column;gap:10px;width:100%;}
-.ans-btn{background:var(--dark2);border:2px solid var(--border);border-radius:12px;padding:16px 20px;font-family:'DM Sans',sans-serif;font-size:17px;font-weight:500;color:var(--text);cursor:pointer;transition:all .15s;text-align:left;display:flex;align-items:center;gap:12px;}
-.ans-btn:hover{border-color:var(--gold);}
-.ans-btn.correct{border-color:var(--green);background:rgba(76,175,80,.15);color:var(--green);}
-.ans-btn.wrong{border-color:var(--red);background:rgba(229,57,53,.15);color:var(--red);}
-.ans-btn.disabled{pointer-events:none;opacity:.5;}
-.ans-letter{width:32px;height:32px;border-radius:50%;background:var(--dark3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;}
-.ans-btn.correct .ans-letter{background:var(--green);color:#fff;}
-.ans-btn.wrong .ans-letter{background:var(--red);color:#fff;}
-.feedback{font-size:17px;font-weight:600;margin-top:14px;padding:12px;border-radius:10px;}
-.feedback.correct{background:rgba(76,175,80,.1);color:var(--green);}
-.feedback.wrong{background:rgba(229,57,53,.1);color:var(--red);}
-.feedback.timeout{background:rgba(200,168,75,.1);color:var(--gold);}
+.ans-btn{background:var(--dark2);border:2px solid var(--border);border-radius:12px;padding:16px 20px;font-family:'DM Sans',sans-serif;font-size:17px;font-weight:500;color:var(--text);cursor:pointer;transition:all .15s;text-align:left;display:flex;align-items:center;gap:12px;}.ans-btn:hover{border-color:var(--gold);}
+.ans-btn.correct{border-color:var(--green);background:rgba(76,175,80,.15);color:var(--green);}.ans-btn.wrong{border-color:var(--red);background:rgba(229,57,53,.15);color:var(--red);}.ans-btn.disabled{pointer-events:none;opacity:.5;}
+.ans-letter{width:32px;height:32px;border-radius:50%;background:var(--dark3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;}.ans-btn.correct .ans-letter{background:var(--green);color:#fff;}.ans-btn.wrong .ans-letter{background:var(--red);color:#fff;}
+.feedback{font-size:17px;font-weight:600;margin-top:14px;padding:12px;border-radius:10px;}.feedback.correct{background:rgba(76,175,80,.1);color:var(--green);}.feedback.wrong{background:rgba(229,57,53,.1);color:var(--red);}.feedback.timeout{background:rgba(200,168,75,.1);color:var(--gold);}
 .pts-earned{font-size:13px;color:var(--text2);margin-top:6px;}
-
 .result-card{background:var(--dark2);border:1px solid var(--border);border-radius:16px;padding:28px 24px;width:100%;margin-bottom:16px;}
-.r-score{font-family:'Playfair Display',serif;font-size:72px;font-weight:600;color:var(--gold);line-height:1;}
-.r-label{font-size:15px;color:var(--text2);margin-bottom:16px;}
-.r-stats{display:flex;justify-content:center;gap:24px;}
-.r-stat{text-align:center;}
-.r-val{font-size:28px;font-weight:600;line-height:1;}
-.r-val.g{color:var(--green);} .r-val.r{color:var(--red);} .r-val.gold{color:var(--gold);}
-.r-lbl{font-size:11px;color:var(--text3);margin-top:4px;}
-
-.lb-title{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;}
-.lb-scroll{max-height:380px;overflow-y:auto;width:100%;}
+.r-score{font-family:'Playfair Display',serif;font-size:72px;font-weight:600;color:var(--gold);line-height:1;}.r-label{font-size:15px;color:var(--text2);margin-bottom:16px;}
+.r-stats{display:flex;justify-content:center;gap:24px;}.r-stat{text-align:center;}.r-val{font-size:28px;font-weight:600;line-height:1;}.r-val.g{color:var(--green);}.r-val.r{color:var(--red);}.r-val.gold{color:var(--gold);}.r-lbl{font-size:11px;color:var(--text3);margin-top:4px;}
+.lb-title{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;}.lb-scroll{max-height:380px;overflow-y:auto;width:100%;}
 .lb-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;margin-bottom:5px;background:var(--dark2);border:1px solid var(--border);}
-.lb-rank{font-size:18px;font-weight:700;color:var(--text3);width:28px;text-align:center;}
-.lb-name{flex:1;font-size:14px;font-weight:500;color:var(--text);}
-.lb-sq{font-size:10px;font-weight:700;text-transform:uppercase;padding:2px 8px;border-radius:10px;flex-shrink:0;}
-.sq-terra{background:var(--terra-l);color:var(--terra);}
-.sq-cielo{background:var(--cielo-l);color:var(--cielo);}
-.sq-digit{background:var(--digit-l);color:var(--digit);}
+.lb-rank{font-size:18px;font-weight:700;color:var(--text3);width:28px;text-align:center;}.lb-name{flex:1;font-size:14px;font-weight:500;color:var(--text);}
+.lb-sq{font-size:10px;font-weight:700;text-transform:uppercase;padding:2px 8px;border-radius:10px;flex-shrink:0;}.sq-terra{background:var(--terra-l);color:var(--terra);}.sq-cielo{background:var(--cielo-l);color:var(--cielo);}.sq-digit{background:var(--digit-l);color:var(--digit);}
 .lb-pts{font-size:18px;font-weight:700;color:var(--gold);min-width:46px;text-align:right;}
-.wait-msg{font-size:13px;color:var(--text2);margin-top:14px;line-height:1.7;}
-.wait-msg strong{color:var(--text);}
+.setup-msg{background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.3);border-radius:12px;padding:20px;margin:20px;color:var(--green);font-size:16px;max-width:500px;text-align:center;}
 </style>
 </head>
 <body>
-
-<!-- LOGIN -->
 <div class="screen active" id="screen-login">
-  <div class="logo">🏛️ Creta Futura</div>
-  <div class="logo-sub">Quiz · PCTO 2026</div>
+  <div class="logo">🏛️ Creta Futura</div><div class="logo-sub">Quiz · PCTO 2026</div>
   <div class="round-badge" id="round-badge">Round 1</div>
   <div class="login-card">
     <div class="field-label">Il tuo nome e cognome</div>
@@ -104,13 +56,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);m
     <button class="btn-start" id="btn-go" disabled onclick="startQuiz()">Inizia il Quiz</button>
   </div>
 </div>
-
-<!-- QUIZ -->
 <div class="screen" id="screen-quiz">
-  <div class="quiz-header">
-    <span class="q-counter" id="q-counter">1 / 10</span>
-    <span class="q-score" id="q-score">0 punti</span>
-  </div>
+  <div class="quiz-header"><span class="q-counter" id="q-counter">1/10</span><span class="q-score" id="q-score">0 punti</span></div>
   <div class="timer-text" id="timer-text">Leggi...</div>
   <div class="timer-bar-w"><div class="timer-bar" id="timer-bar" style="width:100%"></div></div>
   <div class="question-card"><div class="question-text" id="q-text">—</div></div>
@@ -118,281 +65,67 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);m
   <div class="feedback" id="feedback" style="display:none"></div>
   <div class="pts-earned" id="pts-earned" style="display:none"></div>
 </div>
-
-<!-- RISULTATI -->
 <div class="screen" id="screen-results">
   <div class="logo" style="font-size:22px;margin-bottom:14px;">Quiz completato! 🎉</div>
-  <div class="result-card">
-    <div class="r-score" id="r-score">0</div>
-    <div class="r-label">punti totali</div>
-    <div class="r-stats">
-      <div class="r-stat"><div class="r-val g" id="r-correct">0</div><div class="r-lbl">Corrette</div></div>
-      <div class="r-stat"><div class="r-val r" id="r-wrong">0</div><div class="r-lbl">Sbagliate</div></div>
-      <div class="r-stat"><div class="r-val gold" id="r-time">0s</div><div class="r-lbl">Media</div></div>
-    </div>
+  <div class="result-card"><div class="r-score" id="r-score">0</div><div class="r-label">punti totali</div>
+    <div class="r-stats"><div class="r-stat"><div class="r-val g" id="r-correct">0</div><div class="r-lbl">Corrette</div></div><div class="r-stat"><div class="r-val r" id="r-wrong">0</div><div class="r-lbl">Sbagliate</div></div><div class="r-stat"><div class="r-val gold" id="r-time">0s</div><div class="r-lbl">Media</div></div></div>
   </div>
   <div class="lb-title">Classifica Round <span id="lb-round">1</span></div>
   <div class="lb-scroll" id="leaderboard"></div>
-  <div class="wait-msg">
-    <strong>Punteggio:</strong> 10 punti base + bonus velocità (max 8)<br>
-    <strong>Squadra:</strong> +1 punto se completi · +2 se 7+ corrette
-  </div>
 </div>
-
+<div id="setup-screen" style="display:none;"></div>
 <script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getFirestore, doc, setDoc, collection, onSnapshot, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import{getFirestore,doc,setDoc,collection,onSnapshot,getDoc}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+const app=initializeApp({apiKey:"AIzaSyCzDnRq7_Tfq7uktNfy2r8tFu0qTdrE-88",projectId:"hotelfuturo",appId:"1:349688895596:web:81b1e5f3c993099c9b6049"});
+const db=getFirestore(app);
+const urlParams=new URLSearchParams(window.location.search);
+const ROUND=urlParams.get('round')||'1';
+const SETUP=urlParams.get('setup')==='true';
+const SCORES_COL='creta_quiz_round_'+ROUND;
+const TIMER=10;
+document.getElementById('round-badge').textContent='Round '+ROUND;
+document.getElementById('lb-round').textContent=ROUND;
 
-const app = initializeApp({
-  apiKey:"AIzaSyCzDnRq7_Tfq7uktNfy2r8tFu0qTdrE-88",
-  projectId:"hotelfuturo",
-  appId:"1:349688895596:web:81b1e5f3c993099c9b6049"
-});
-const db = getFirestore(app);
+// DOMANDE SENZA RISPOSTE CORRETTE — le chiavi sono su Firebase
+const Q_TERRA={'1':[{q:"Qual è il prodotto agricolo principale di Creta?",a:["grano coltivato nelle pianure","olio di oliva extravergine","riso delle zone costiere","patate delle aree montane"]},{q:"Il formaggio Graviera cretese è...",a:["un formaggio fresco spalmabile","simile al parmigiano italiano","un formaggio stagionato di pecora","prodotto solo in estate"]},{q:"La Mizithra è un formaggio...",a:["fresco simile alla ricotta","stagionato come il pecorino","affumicato di capra selvatica","importato dalla Grecia continentale"]},{q:"Il miele cretese è famoso per...",a:["il suo colore molto scuro","i fiori di timo selvatico","il prezzo molto basso","la produzione industriale massiva"]},{q:"L'olivicoltura a Creta risale a...",a:["cinquecento anni fa circa","il periodo medievale europeo","oltre quattromila anni fa","il diciannovesimo secolo moderno"]},{q:"Quanti ulivi ci sono a Creta?",a:["circa trentacinque milioni alberi","meno di un milione","esattamente dieci milioni piante","circa centomila alberi totali"]},{q:"Il Dakos è un piatto cretese con...",a:["riso e pesce fresco","pane biscottato e pomodoro","pasta e salsa di carne","polenta e formaggio fuso"]},{q:"Le erbe aromatiche cretesi crescono...",a:["solo nelle serre moderne","nella macchia mediterranea selvatica","solo nei giardini privati","nelle zone industriali urbane"]},{q:"Il vitigno Vidiano produce vini...",a:["rossi molto corposi tannici","bianchi aromatici di qualità","rosati leggeri da tavola","spumanti dolci da dessert"]},{q:"L'olio DOP cretese ha...",a:["alta acidità e sapore forte","bassa acidità e alta qualità","nessuna certificazione riconosciuta","solo mercato locale ristretto"]}],'2':[{q:"Il vitigno Kotsifali produce vini...",a:["bianchi secchi molto freschi","rossi morbidi e fruttati","spumanti metodo classico tradizionale","liquorosi dolci da meditazione"]},{q:"La dieta cretese è patrimonio UNESCO perché...",a:["costa molto poco farla","è un modello di salute","usa solo carne di agnello","elimina completamente i carboidrati"]},{q:"L'olio cretese viene esportato principalmente...",a:["solo verso la Turchia","in Italia Germania e USA","esclusivamente in Asia orientale","solo nel mercato greco"]},{q:"La raccolta delle olive avviene...",a:["in piena estate luglio","durante primavera ad aprile","tra novembre e febbraio","solo nel mese agosto"]},{q:"Il formaggio Staka è fatto con...",a:["latte fresco di mucca","crema di burro cotto","soia e latte vegetale","ricotta e panna montata"]},{q:"Le cantine cretesi producono circa...",a:["cento bottiglie all'anno totali","venti milioni litri annui","solo vino per consumo locale","un miliardo di bottiglie"]},{q:"Il vitigno Liatiko è usato per...",a:["vini rossi dolci invecchiati","aceto balsamico di qualità","succhi di frutta naturali","birra artigianale locale cretese"]},{q:"Il miele di timo cretese...",a:["non ha proprietà particolari","ha riconosciute proprietà terapeutiche","viene prodotto artificialmente oggi","si trova solo al supermercato"]},{q:"La produzione di olio cretese rappresenta...",a:["il due percento greco","circa trentacinque percento greco","il novanta percento mondiale","meno dell'un percento greco"]},{q:"Il Raki cretese è un distillato di...",a:["grano fermentato e luppolo","vinacce dopo la vendemmia","mele e pere selvatiche","riso e canna zucchero"]}],'3':[{q:"La Graviera di Creta si stagiona...",a:["solo per una settimana","almeno cinque mesi minimo","per oltre tre anni","non viene mai stagionata"]},{q:"Le olive Koroneiki sono particolari perché...",a:["sono grandi come limoni","sono piccole ricche di olio","crescono solo in montagna","non producono olio buono"]},{q:"Il pane cretese tradizionale è...",a:["bianco morbido e lievitato","integrale cotto due volte","fatto solo con mais","importato dalla penisola greca"]},{q:"L'agricoltura biologica a Creta...",a:["non esiste per niente","è in forte crescita costante","è vietata dalla legge greca","interessa solo i turisti stranieri"]},{q:"I carrubbi cretesi vengono usati per...",a:["costruire mobili di legno","produrre sciroppi e farine","nutrire solo gli animali","decorare le case tradizionali"]},{q:"Il vino cretese più antico risale...",a:["al cinquecento dopo Cristo","all'età del bronzo minoica","al diciannovesimo secolo europeo","a soli cento anni fa"]},{q:"La feta greca DOP è fatta con...",a:["solo latte di mucca","latte di pecora e capra","latte di bufala campana","soia e latte vegetale"]},{q:"Il terroir cretese è unico per...",a:["il clima freddo e umido","sole vento e suolo calcareo","le pianure infinite e piatte","la vicinanza al polo nord"]},{q:"Le cooperative agricole cretesi riuniscono...",a:["solo grandi aziende industriali","piccoli produttori del territorio","esclusivamente aziende straniere multinazionali","solo produttori di vino"]},{q:"La vendemmia a Creta avviene...",a:["in pieno inverno gennaio","tra agosto e ottobre generalmente","solo nel mese di maggio","durante le feste di Pasqua"]}],'4':[{q:"L'olio Sitia DOP proviene da...",a:["la zona occidentale Chania","la costa nord di Rethymno","la provincia orientale Lassithi","le isole vicine a Creta"]},{q:"Il Tsikoudia è diverso dal Raki perché...",a:["è fatto con grano fermentato","contiene anice come l'ouzo","sono nomi della stessa bevanda","viene importato dalla Turchia"]},{q:"Le arance cretesi sono coltivate principalmente...",a:["nella piana di Chania","solo sulle montagne alte","nelle serre industriali moderne","esclusivamente per esportazione estera"]},{q:"Il miele di erica cretese...",a:["è molto chiaro e liquido","ha colore scuro e denso","non esiste realmente oggi","viene prodotto solo artificialmente"]},{q:"I pomodori secchi cretesi vengono...",a:["importati dall'Italia meridionale","essiccati al sole mediterraneo","prodotti solo in serra","conservati con additivi chimici"]},{q:"La capra cretese produce latte...",a:["inadatto alla caseificazione locale","ricco di grassi e proteine","solo durante il mese agosto","identico a quello bovino"]},{q:"L'olio extravergine si distingue per...",a:["acidità superiore al cinque percento","acidità inferiore allo zero otto","colore sempre trasparente e chiaro","sapore neutro senza carattere"]},{q:"I fichi di Creta vengono...",a:["raccolti freschi ed essiccati","solo utilizzati come decorazione","importati dalla Turchia vicina","coltivati esclusivamente in serra"]},{q:"La lumachiera cretese è un piatto di...",a:["pesce e frutti di mare","lumache cucinate con rosmarino","verdure e riso bollito","carne di agnello arrosto"]},{q:"Il pistacchio cretese cresce in...",a:["zone costiere vicino al mare","terreni aridi e collinari","serre moderne climatizzate bene","pianure irrigate con fiumi"]}],'5':[{q:"La DOC greca per il vino si chiama...",a:["DOCG come in Italia","PDO Protected Designation Origin","IGT Indicazione Geografica Tipica","AOC come in Francia"]},{q:"Il Dafni è un vitigno cretese che...",a:["produce solo uva da tavola","dà vini bianchi aromatici","è stato importato dall'Italia","non viene più coltivato"]},{q:"Il formaggio Anthotyros è fatto con...",a:["solo latte intero di mucca","siero di latte di pecora","latte di soia vegetale","crema di latte pastorizzato"]},{q:"La frangitura delle olive significa...",a:["raccogliere le olive dall'albero","spremere le olive in frantoio","confezionare l'olio in bottiglia","piantare nuovi alberi di olivo"]},{q:"Il miele di castagno cretese...",a:["è dolcissimo e molto chiaro","ha sapore amaro e intenso","non esiste nell'isola greca","viene mescolato con zucchero"]},{q:"Le vigne cretesi crescono meglio...",a:["nelle zone pianeggianti irrigate","su terreni collinari ben drenati","solo vicino alla costa marina","in serra con clima controllato"]},{q:"Il Kalitsounia è un dolce con...",a:["cioccolato e panna montata","ricotta miele e cannella","frutta secca e caramello","crema pasticcera e fragole"]},{q:"La qualità dell'olio dipende da...",a:["solo dal prezzo di vendita","varietà raccolta e spremitura","il colore della bottiglia","la marca del produttore"]},{q:"L'agriturismo a Creta offre...",a:["solo alloggio senza esperienze","esperienze rurali e degustazioni","vacanze balneari in resort","solo ristorante e bar"]},{q:"Il Marathopita è una torta con...",a:["carne macinata e formaggio","finocchio selvatico e formaggio","pesce fresco e limone","riso e verdure miste"]}],'6':[{q:"Le mandorle cretesi vengono raccolte...",a:["in pieno inverno freddo","durante l'estate tra luglio agosto","solo in primavera aprile","esclusivamente nel mese ottobre"]},{q:"Il Xinomyzithra è un formaggio...",a:["dolce e molto stagionato","acido fresco e cremoso","affumicato duro e secco","importato dalla Grecia continentale"]},{q:"La potatura degli ulivi avviene...",a:["ogni dieci anni circa","in inverno dopo la raccolta","mai perché crescono naturalmente","solo quando sono malati"]},{q:"L'uva sultanina cretese è usata per...",a:["produrre vino rosso corposo","fare uva passa pregiata","solo decorazione dei piatti","mangiarla esclusivamente fresca tavola"]},{q:"Il sistema irrigazione cretese tradizionale usava...",a:["pompe elettriche industriali moderne","canali e mulini ad acqua","solo acqua piovana raccolta","irrigazione a goccia computerizzata"]},{q:"La trachanas è una minestra di...",a:["pesce e frutti mare","grano fermentato e latte","riso e verdure bollite","carne e patate tagliate"]},{q:"La certificazione biologica in Grecia richiede...",a:["solo una richiesta scritta","controlli annuali e documentazione","nessun requisito particolare specifico","solo il pagamento tassa"]},{q:"I capperi cretesi crescono su...",a:["alberi molto alti e robusti","muri e rocce al sole","terreni irrigati e fertili","piante acquatiche dei laghi"]},{q:"Il Boureki è un piatto con...",a:["carne agnello e patate","zucchine patate e formaggio","pesce alla griglia limone","pasta al forno gratinata"]},{q:"L'apicoltura a Creta conta circa...",a:["solo dieci apicoltori totali","migliaia di apicoltori attivi","zero apicoltori sull'isola oggi","un unico grande produttore"]}],'7':[{q:"Il Thrapsathelo è un vitigno che...",a:["produce vini bianchi leggeri","dà uve rosse da taglio","è stato creato in laboratorio","viene coltivato solo serra"]},{q:"La spremitura a freddo dell'olio...",a:["rovina completamente il sapore","preserva qualità e nutrienti","è vietata dalla legge","costa meno della normale"]},{q:"Le erbe di Creta vengono essiccate...",a:["in forni industriali elettrici","naturalmente al sole e vento","con processi chimici moderni","mai perché si usano fresche"]},{q:"Il Sarikopitakia è un fagottino con...",a:["crema dolce di vaniglia","formaggio Mizithra e menta","carne tritata e spezie","frutta secca e miele"]},{q:"La raccolta meccanica delle olive...",a:["è l'unico metodo usato","affianca ancora quella manuale","non esiste a Creta","è stata completamente vietata"]},{q:"Il vino Malvasia cretese era...",a:["sconosciuto nel mondo antico","famoso nell'Europa medievale rinascimentale","inventato nel ventesimo secolo","prodotto solo per esportazione"]},{q:"I pomodori cretesi sono speciali per...",a:["le dimensioni molto grandi","il sapore intenso e dolce","il colore giallo brillante","la forma perfettamente quadrata"]},{q:"L'olio nuovo appena spremuto è...",a:["trasparente chiaro e neutro","verde intenso e piccante","marrone scuro e amaro","incolore senza sapore particolare"]},{q:"La gastronomia cretese si basa su...",a:["carne rossa e burro","verdure olio e cereali","solo pesce e frutti","cibi precotti e conservati"]},{q:"Le taverne cretesi tradizionali servono...",a:["solo fast food moderno","piatti locali e raki","cucina internazionale e sushi","esclusivamente pesce di mare"]}],'8':[{q:"Il Tsoureki cretese è un pane dolce di...",a:["mais e latte acido","uova burro e spezie","riso e latte cotto","farina integrale e miele"]},{q:"La coltivazione biologica dell'olivo evita...",a:["la raccolta delle olive","pesticidi e fertilizzanti chimici","l'irrigazione delle piante coltivate","qualsiasi tipo di potatura"]},{q:"Il Pentozali è collegato alla cultura cretese perché...",a:["è un piatto tradizionale tipico","è una danza tradizionale guerriera","è un formaggio molto antico","è un vino rosso dolce"]},{q:"Le olive Throumbolia sono uniche perché...",a:["sono le più grandi mondo","maturano e si mangiano naturalmente","vengono raccolte solo verdi","non contengono olio alcuno"]},{q:"Il Sfakianopita è una torta della zona...",a:["costiera di Heraklion nord","montuosa degli Sfakia sud","pianeggiante di Messara centro","urbana della città Chania"]},{q:"L'export agroalimentare cretese è limitato da...",a:["qualità troppo bassa prodotti","costi logistici e piccola scala","eccesso di produzione disponibile","mancanza totale di domanda"]},{q:"Le lumache Hohli sono cucinate con...",a:["salsa di soia giapponese","rosmarino aceto e farina","maionese e patatine fritte","ketchup e senape americana"]},{q:"La filiera corta a Creta significa...",a:["trasporti su lunghe distanze","vendita diretta produttore consumatore","solo esportazione verso estero","produzione in grandi fabbriche"]},{q:"Il Ntakos viene condito con...",a:["burro e parmigiano grattugiato","pomodoro olio e Mizithra","maionese e ketchup misto","salsa di pesce fermentato"]},{q:"La biodiversità agricola cretese include...",a:["solo tre specie coltivate","centinaia di varietà autoctone","esclusivamente piante importate recentemente","nessuna varietà degna nota"]}]};
+const Q_CIELO={'1':[{q:"Quanti aeroporti internazionali ha Creta?",a:["uno solo a Chania","due Heraklion e Chania","tre con anche Sitia","quattro sparsi per isola"]},{q:"L'aeroporto di Heraklion è intitolato a...",a:["Zeus padre degli dèi","Nikos Kazantzakis lo scrittore","Minosse antico re cretese","Icaro figlio di Dedalo"]},{q:"Il tempo di volo Italia-Creta è...",a:["circa trenta minuti solo","tra due e tre ore","almeno sette ore volo","oltre dodici ore totali"]},{q:"L'aeroporto di Heraklion gestisce circa...",a:["centomila passeggeri all'anno solo","otto dieci milioni passeggeri anno","cinquanta milioni di passeggeri","meno di mille passeggeri"]},{q:"I droni in agricoltura servono per...",a:["trasportare turisti in spiaggia","monitorare colture e irrigazione","solo scattare foto panoramiche","consegnare pacchi alle case"]},{q:"Il porto principale di Creta è...",a:["Chania sulla costa ovest","Heraklion sulla costa nord","Sitia sulla costa est","Matala sulla costa sud"]},{q:"Da Atene a Creta in traghetto servono...",a:["circa una ora sola","tra sei e nove ore","almeno ventiquattro ore intere","solo trenta minuti veloci"]},{q:"Le compagnie che volano su Creta includono...",a:["solo la compagnia nazionale","Ryanair Aegean e Wizz","esclusivamente voli charter privati","solo compagnie americane grandi"]},{q:"L'autostrada principale di Creta si chiama...",a:["Autostrada del Sole greca","VOAK autostrada nord cretese","Via Appia del Mediterraneo","Strada Reale di Minosse"]},{q:"Il nuovo aeroporto di Heraklion sarà a...",a:["nello stesso posto attuale","Kastelli nella zona orientale","Chania nella parte ovest","Rethymno al centro nord"]}],'2':[{q:"L'aeroporto di Chania si chiama...",a:["Ioannis Daskalogiannis eroe cretese","Zorba il greco famoso","Nikos Kazantzakis scrittore cretese","Minos antico re leggendario"]},{q:"I droni agricoli possono distribuire...",a:["solo acqua pura naturale","fertilizzanti e prodotti fitosanitari","semi di qualsiasi pianta","cibo per animali selvatici"]},{q:"Il geofencing per droni serve a...",a:["aumentare la velocità volo","definire zone di volo permesse","renderli invisibili al radar","farli volare più in alto"]},{q:"Le rotte aeree per Creta in estate...",a:["diminuiscono drasticamente ogni anno","aumentano con voli stagionali","restano identiche tutto anno","vengono completamente sospese tutte"]},{q:"Il trasporto pubblico a Creta è basato su...",a:["metropolitana moderna ed efficiente","autobus della compagnia KTEL","treni ad alta velocità","tram elettrici nelle città"]},{q:"La licenza EASA per droni richiede...",a:["nessun requisito particolare specifico","formazione certificazione ed esame","solo il pagamento tassa","essere maggiorenni e basta"]},{q:"Il cabotaggio marittimo a Creta collega...",a:["solo Creta con Atene","le città costiere dell'isola","Creta con l'Africa nord","esclusivamente le isole Cicladi"]},{q:"I droni possono mappare i terreni con...",a:["solo fotografie normali semplici","sensori multispettrali e termici","microfoni per registrare suoni","radar militari molto potenti"]},{q:"Il traffico aereo su Creta in agosto...",a:["è il più basso annuale","raggiunge il picco massimo","è identico a gennaio","viene completamente bloccato sempre"]},{q:"La rete stradale cretese ha problemi di...",a:["troppo traffico e buche","eccesso di autostrade costruite","mancanza totale di strade","troppi semafori in campagna"]}],'3':[{q:"Il sistema UTM per droni gestisce...",a:["le prenotazioni degli hotel","il traffico aereo droni","i biglietti dei traghetti","le rotte degli autobus"]},{q:"L'aviazione commerciale a Creta serve principalmente...",a:["il trasporto merci pesanti","il turismo internazionale stagionale","solo voli militari greci","il trasporto di posta"]},{q:"I traghetti veloci da Atene impiegano...",a:["circa sei ore di navigazione","tra ventiquattro e trentasei ore","solo due ore veloci","almeno quindici ore lente"]},{q:"Un drone agricolo può coprire...",a:["solo un metro quadrato","decine di ettari giornalmente","un intero continente rapidamente","massimo dieci metri quadrati"]},{q:"Le low cost hanno cambiato Creta perché...",a:["hanno chiuso gli aeroporti","hanno aumentato i turisti accessibili","hanno eliminato i voli","non hanno avuto effetto"]},{q:"Il noleggio auto a Creta è...",a:["vietato dalla legge greca","molto diffuso tra turisti","solo per residenti locali","possibile solo con autista"]},{q:"I droni con camera termica individuano...",a:["solo oggetti metallici grandi","stress idrico nelle piante","le persone nei villaggi","i pesci nel mare"]},{q:"La pista dell'aeroporto di Heraklion è...",a:["la più lunga del mondo","vicina al mare cittadino","costruita sopra una montagna","sotterranea sotto la città"]},{q:"Le crociere che toccano Creta attraccano a...",a:["solo spiagge con barche","porti di Heraklion Souda","aeroporti con idrovolanti speciali","isole deserte vicino Creta"]},{q:"L'autonomia di un drone agricolo è circa...",a:["dieci ore di volo","venti trenta minuti massimo","tre giorni senza fermarsi","solo cinque secondi brevi"]}],'4':[{q:"Il nuovo aeroporto di Kastelli avrà...",a:["una sola pista corta","capacità di venti milioni passeggeri","solo voli per Atene","nessun collegamento con autostrada"]},{q:"I taxi a Creta funzionano...",a:["solo nelle grandi città","con tassametro e tariffe fisse","gratuitamente per tutti sempre","esclusivamente per turisti stranieri"]},{q:"L'irrigazione di precisione con droni riduce...",a:["la qualità dei prodotti","lo spreco di acqua significativamente","il numero di lavoratori","la superficie coltivata totale"]},{q:"Le rotte charter per Creta partono da...",a:["solo da Roma Fiumicino","molte città europee direttamente","esclusivamente da Londra Heathrow","solo capitali dei paesi"]},{q:"Il trasporto merci a Creta avviene via...",a:["solo per via aerea","nave e camion principalmente","ferrovia ad alta velocità","droni di grande portata"]},{q:"I sensori LIDAR sui droni misurano...",a:["la temperatura dell'aria calda","altitudine e topografia del terreno","il livello sonoro ambientale","la velocità del vento"]},{q:"La stagionalità del turismo aereo significa...",a:["voli uguali tutto anno","più voli estate meno inverno","solo voli in inverno","nessun volo durante agosto"]},{q:"Gli elicotteri a Creta servono per...",a:["solo trasporto di lusso","emergenze mediche e soccorso","le gare di Formula Uno","trasporto pubblico quotidiano regolare"]},{q:"La connettività digitale in volo...",a:["non esiste sui voli","è sempre disponibile gratuitamente","dipende dalla compagnia aerea","funziona solo sui charter"]},{q:"Il rumore aeroportuale a Heraklion è...",a:["inesistente e silenzioso completamente","un problema per residenti vicini","regolato perfettamente senza disturbi","apprezzato dalla popolazione locale"]}],'5':[{q:"I voli notturni su Creta sono...",a:["vietati completamente per legge","limitati per ridurre rumore","più frequenti di quelli diurni","solo per compagnie militari"]},{q:"Un drone con GPS può...",a:["volare senza alcun controllo","seguire percorsi programmati precisamente","raggiungere qualsiasi altitudine liberamente","funzionare anche senza batteria"]},{q:"Le compagnie marittime greche collegano Creta con...",a:["solo il porto del Pireo","Pireo Santorini e altre isole","esclusivamente porti italiani adriatici","solo la Turchia vicina"]},{q:"I check-in online hanno ridotto...",a:["il numero totale voli","le code in aeroporto significativamente","la sicurezza dei passeggeri","il prezzo dei biglietti"]},{q:"La torre di controllo gestisce...",a:["solo i bagagli smarriti","decolli atterraggi e sorvolo","le prenotazioni degli hotel","il servizio taxi aeroportuale"]},{q:"I droni per consegna potrebbero...",a:["sostituire tutti i corrieri","servire zone isolate montane","trasportare automobili pesanti grandi","funzionare solo in città"]},{q:"La fotogrammetria aerea con droni crea...",a:["solo fotografie normali piatte","modelli tridimensionali del terreno","video musicali per turisti","mappe stradali per automobili"]},{q:"Il handling aeroportuale include...",a:["solo la vendita biglietti","carico bagagli e rifornimento","la costruzione delle piste","il controllo dei passaporti"]},{q:"Le zone no-fly per droni includono...",a:["i campi agricoli aperti","aeroporti e aree sensibili","le spiagge pubbliche normali","i parcheggi dei supermercati"]},{q:"Il futuro dell'aviazione a Creta include...",a:["solo voli con elica","aerei elettrici e sostenibili","la chiusura degli aeroporti","nessun cambiamento particolare previsto"]}],'6':[{q:"Il de-icing degli aerei serve a...",a:["raffreddare i motori caldi","rimuovere ghiaccio dalle superfici","lavare la fusoliera esterna","colorare l'aereo di bianco"]},{q:"Le piste degli aeroporti sono orientate secondo...",a:["la posizione del sole","i venti predominanti della zona","la direzione del mare","le richieste dei piloti"]},{q:"I droni per rilevamento ambientale monitorano...",a:["solo il traffico stradale","incendi erosione e inquinamento","le rotte dei traghetti","i prezzi degli hotel"]},{q:"Il ground handling include la gestione di...",a:["solo i voli militari","passeggeri bagagli e merci","le rotte di navigazione","i menu di bordo"]},{q:"Le rotte stagionali charter portano turisti da...",a:["solo dalla Grecia continentale","Germania Scandinavia e UK","esclusivamente dal Giappone lontano","solo dall'America del nord"]},{q:"Un aeroporto hub è uno scalo...",a:["piccolo solo per elicotteri","di connessione per molte rotte","abbandonato e non operativo","usato solo per le merci"]},{q:"I sistemi ILS aiutano gli aerei a...",a:["volare più velocemente sempre","atterrare con scarsa visibilità","decollare senza pista disponibile","comunicare con i passeggeri"]},{q:"La capacità di un aeroporto dipende da...",a:["solo il numero terminal","piste gate e controllo traffico","il colore dell'edificio principale","le preferenze dei turisti"]},{q:"I voli point-to-point collegano...",a:["solo aeroporti hub principali","due città direttamente senza scalo","più di dieci destinazioni","esclusivamente capitali europee grandi"]},{q:"La sostenibilità in aviazione include...",a:["solo voli più economici","carburanti alternativi e efficienza","eliminare completamente tutti voli","usare solo aerei vecchi"]}],'7':[{q:"Il pushback è la manovra di...",a:["decollo rapido dalla pista","arretramento aereo dal gate","atterraggio di emergenza notturno","manutenzione motori in volo"]},{q:"I droni VTOL possono...",a:["volare solo in orizzontale","decollare e atterrare verticalmente","trasportare centinaia di passeggeri","funzionare senza alcuna energia"]},{q:"Le procedure di sicurezza aeroportuale includono...",a:["solo il controllo biglietti","scanner raggi X e metal detector","la prenotazione dei taxi","il servizio bar ristorante"]},{q:"Il bird strike è un rischio di...",a:["fulmine durante il volo","impatto con uccelli in volo","atterraggio su pista bagnata","turbolenza ad alta quota"]},{q:"Un FBO è una struttura per...",a:["il fast food aeroportuale","aviazione generale e privata","il deposito bagagli smarriti","la formazione dei piloti"]},{q:"La navigazione RNAV usa...",a:["solo bussola magnetica tradizionale","satelliti GPS per rotte precise","mappe cartacee del territorio","segnali radio da terra"]},{q:"Le operazioni notturne richiedono...",a:["nessuna attrezzatura speciale aggiuntiva","luci pista e strumentazione specifica","solo il permesso verbale","la chiusura dell'aeroporto intero"]},{q:"Un apron è la zona dove...",a:["i passeggeri fanno shopping","gli aerei parcheggiano e caricano","i piloti fanno formazione","le auto vengono parcheggiate"]},{q:"La certificazione ENAC riguarda...",a:["solo i cuochi di bordo","la sicurezza dell'aviazione civile","le rotte dei traghetti","il turismo balneare costiero"]},{q:"I materiali compositi in aeronautica sono...",a:["pesanti e poco resistenti","leggeri resistenti e innovativi","usati solo per decorazione","vietati nelle costruzioni moderne"]}],'8':[{q:"Il winglet sull'ala serve a...",a:["decorare l'aereo esteticamente meglio","ridurre la resistenza aerodinamica","aumentare il peso dell'aereo","proteggere dai fulmini sempre"]},{q:"La manutenzione programmata degli aerei avviene...",a:["solo quando qualcosa rompe","a intervalli regolari prestabiliti","una volta ogni dieci anni","mai sui voli commerciali"]},{q:"Il cockpit è la cabina dove...",a:["i passeggeri mangiano pranzo","i piloti controllano l'aereo","le hostess preparano bevande","i bagagli vengono stivati"]},{q:"I flap aumentano...",a:["la velocità massima crociera","la portanza a bassa velocità","il consumo di carburante","il rumore dei motori"]},{q:"La pressurizzazione della cabina serve a...",a:["rendere l'aereo più veloce","garantire ossigeno sufficiente quota","ridurre il peso dell'aereo","migliorare il segnale WiFi"]},{q:"Il transponder trasmette...",a:["musica ai passeggeri bordo","identità posizione e altitudine","solo il meteo in volo","messaggi tra piloti diversi"]},{q:"Un motore turbofan è...",a:["usato solo nei treni","il più comune nei jet","un motore a pistoni","un tipo di elica"]},{q:"La black box registra...",a:["solo le conversazioni piloti","dati volo e comunicazioni","le preferenze dei passeggeri","il consumo di cibo"]},{q:"L'aerodinamica studia...",a:["la chimica dei carburanti","il comportamento aria sui corpi","la psicologia dei piloti","il design degli interni"]},{q:"Lo stallo dell'ala avviene quando...",a:["l'aereo va troppo veloce","l'angolo attacco è troppo alto","il carburante finisce completamente","il pilota preme un pulsante"]}]};
+const Q_DIGIT={'1':[{q:"Cosa significa 'smart tourism'?",a:["turismo solo per giovani","turismo potenziato dalla tecnologia","turismo molto costoso esclusivo","turismo senza prenotazione anticipata"]},{q:"L'e-commerce agricolo permette di...",a:["coltivare con meno fatica","vendere prodotti online direttamente","eliminare la necessità di terra","sostituire completamente gli agricoltori"]},{q:"La copertura internet a Creta è circa...",a:["il cento percento totale","il settanta percento circa","meno del dieci percento","solo nelle zone militari"]},{q:"Un'app turistica per Creta potrebbe...",a:["sostituire le guide turistiche","collegare turisti e produttori","eliminare il bisogno viaggiare","funzionare solo senza internet"]},{q:"La cybersecurity protegge...",a:["solo i computer grandi","dati e sistemi informatici","le strade dalle buche","i turisti dai furti"]},{q:"Un QR code su un prodotto permette di...",a:["pagare automaticamente il conto","tracciare origine e qualità","rendere il prodotto più buono","spedirlo automaticamente a casa"]},{q:"Il GPS nei trattori serve per...",a:["ascoltare musica lavorando campi","guidare con precisione centimetrica","telefonare durante il lavoro","guardare film durante pausa"]},{q:"Una piattaforma digitale integrata collega...",a:["solo i social media","produttori turisti e strutture","esclusivamente le banche internazionali","solo i governi europei"]},{q:"Il cloud computing permette di...",a:["controllare il meteo sempre","archiviare dati online accessibili","volare sopra le nuvole","eliminare tutti i computer"]},{q:"La digitalizzazione delle PMI cretesi è...",a:["completamente già realizzata oggi","ancora in fase iniziale","vietata dalla legge greca","impossibile per ragioni tecniche"]}],'2':[{q:"L'Internet of Things in agricoltura usa...",a:["solo telefoni molto vecchi","sensori per monitorare colture","stampanti tridimensionali per semi","robot che raccolgono frutta"]},{q:"Un sito web per agriturismo deve avere...",a:["solo il numero telefono","foto prenotazione e recensioni","nessuna informazione sui prezzi","solo testo senza immagini"]},{q:"La blockchain può certificare...",a:["solo le criptovalute digitali","l'origine dei prodotti alimentari","le previsioni del tempo","i voti degli studenti"]},{q:"I social media per promuovere Creta...",a:["sono completamente inutili oggi","raggiungono milioni di persone","funzionano solo in Grecia","costano troppo per tutti"]},{q:"Un sistema di prenotazione online riduce...",a:["la qualità del servizio","i tempi e costi gestione","il numero di clienti","la soddisfazione dei turisti"]},{q:"L'analisi dei big data turistici aiuta...",a:["solo le grandi multinazionali","a prevedere tendenze e domanda","a eliminare i turisti","solo il governo centrale"]},{q:"La realtà aumentata nel turismo può...",a:["sostituire il viaggio reale","mostrare info su monumenti live","rendere invisibili i turisti","eliminare la guida turistica"]},{q:"Un marketplace digitale per prodotti cretesi...",a:["esiste solo in Cina","collegherebbe produttori e consumatori","è impossibile da realizzare","funzionerebbe solo per vino"]},{q:"La fibra ottica a Creta arriva...",a:["in ogni casa dell'isola","principalmente nelle città costiere","solo negli aeroporti grandi","esclusivamente negli hotel lusso"]},{q:"L'intelligenza artificiale in agricoltura può...",a:["sostituire completamente gli agricoltori","prevedere malattie delle piante","cucinare i piatti automaticamente","vendere i prodotti da sola"]}],'3':[{q:"Un chatbot per un hotel cretese può...",a:["sostituire tutto il personale","rispondere alle domande frequenti","cucinare per gli ospiti","pulire le camere automaticamente"]},{q:"La geolocalizzazione nei percorsi turistici permette...",a:["di volare sopra Creta","di orientarsi con mappe GPS","di prenotare voli aerei","di cucinare piatti locali"]},{q:"Le recensioni online influenzano...",a:["solo il prezzo benzina","le decisioni dei turisti fortemente","esclusivamente il governo greco","solo gli hotel cinque stelle"]},{q:"Un'app di tracciabilità alimentare mostra...",a:["solo il prezzo finale","dal campo alla tavola tutto","le ricette di cucina","i ristoranti più costosi"]},{q:"Il machine learning può ottimizzare...",a:["solo i social media","irrigazione e resa agricola","il colore dei siti web","esclusivamente le vendite online"]},{q:"Il digital marketing per Creta include...",a:["solo volantini cartacei stampati","SEO social ads e contenuti","solo pubblicità televisive nazionali","esclusivamente cartelloni stradali autostrada"]},{q:"L'open data governativo può aiutare...",a:["solo i politici eletti","ricercatori e imprenditori locali","esclusivamente le banche straniere","solo le multinazionali grandi"]},{q:"La user experience di un'app turistica...",a:["non è importante affatto","determina il successo dell'applicazione","riguarda solo i colori","interessa solo i programmatori"]},{q:"Il pagamento contactless a Creta è...",a:["vietato in tutta Grecia","sempre più diffuso ovunque","usato solo nei supermercati","possibile solo con contanti"]},{q:"La sostenibilità digitale significa...",a:["usare solo carta riciclata","ridurre impatto ambientale digitale","eliminare completamente la tecnologia","stampare meno documenti possibili"]}],'4':[{q:"Un CRM per agriturismo gestisce...",a:["solo le pulizie camere","relazioni clienti e prenotazioni","i trattori del campo","la manutenzione delle strade"]},{q:"Le API permettono a software diversi di...",a:["funzionare solo separatamente sempre","comunicare e scambiare dati","cancellare tutti i file","rallentare il sistema intero"]},{q:"Il responsive design assicura che un sito...",a:["sia molto lento ovunque","funzioni su ogni dispositivo","abbia solo colori scuri","sia visibile solo computer"]},{q:"Un database relazionale organizza...",a:["solo le foto dei piatti","dati produttori prezzi qualità","le previsioni del meteo","esclusivamente le email ricevute"]},{q:"La gamification nel turismo usa...",a:["solo videogiochi tradizionali classici","meccaniche gioco per coinvolgere","esclusivamente quiz scolastici noiosi","solo premi in denaro contante"]},{q:"Un sistema monitoraggio ambientale IoT misura...",a:["solo la temperatura dell'aria","qualità aria acqua e suolo","il numero dei turisti","solo il rumore stradale"]},{q:"La SEO per un sito turistico...",a:["non serve a niente","migliora visibilità su Google","funziona solo per Amazon","è solo per i social"]},{q:"L'hosting di un sito web significa...",a:["progettare la grafica colorata","mantenere online su server","stampare le pagine web","cancellare tutti i dati"]},{q:"Un'analisi SWOT digitale valuta...",a:["solo i punti deboli","forze debolezze opportunità minacce","esclusivamente il budget disponibile","solo la concorrenza esterna"]},{q:"La privacy dati turistici è regolata dal...",a:["codice della strada greco","GDPR regolamento europeo dati","trattato di Maastricht europeo","codice penale italiano vigente"]}],'5':[{q:"Un dashboard digitale mostra...",a:["solo foto delle spiagge","KPI dati e grafici live","esclusivamente i risultati sportivi","solo il meteo del giorno"]},{q:"Il protocollo HTTPS garantisce...",a:["velocità navigazione massima sempre","comunicazione criptata e sicura","design migliore del sito","compatibilità con tutti browser"]},{q:"La digitalizzazione filiera olivicola permette...",a:["di eliminare gli oliveti","tracciabilità campo alla bottiglia","solo di vendere online","di sostituire olio artificialmente"]},{q:"Un'infrastruttura Wi-Fi pubblica aiuterebbe...",a:["solo i residenti locali","turisti e operatori economici","esclusivamente il governo centrale","solo le scuole dell'isola"]},{q:"Il design thinking nel turismo...",a:["riguarda solo arredamento hotel","mette turista al centro","è approccio solo estetico","funziona solo per ristoranti"]},{q:"La realtà virtuale potrebbe mostrare Creta...",a:["solo dopo averla visitata","prima del viaggio anteprima","esclusivamente ai residenti locali","solo nelle agenzie viaggio"]},{q:"Un sistema raccomandazione suggerisce...",a:["solo i ristoranti costosi","esperienze basate sulle preferenze","esclusivamente voli per Creta","solo hotel cinque stelle"]},{q:"L'accessibilità web significa che un sito...",a:["è molto costoso sempre","è usabile tutti inclusi disabili","funziona solo di giorno","ha molte pubblicità ovunque"]},{q:"La stampa 3D potrebbe creare...",a:["cibo cretese automaticamente perfetto","souvenir personalizzati per turisti","edifici interi in minuti","aerei completi per volare"]},{q:"Un'architettura microservizi permette...",a:["solo applicazioni molto piccole","scalabilità e aggiornamento modulare","di eliminare tutti server","solo il risparmio energia"]}],'6':[{q:"Il edge computing elabora dati...",a:["solo nei data center","vicino alla fonte raccolta","esclusivamente nel cloud remoto","dopo tre giorni attesa"]},{q:"Un sistema POS moderno gestisce...",a:["solo i pagamenti contanti","vendite inventario e statistiche","la pulizia del negozio","solo le email ricevute"]},{q:"La digital twin oliveto è...",a:["un oliveto reale identico","gemello digitale virtuale simulato","una fotografia aerea semplice","un documento scritto cartaceo"]},{q:"L'automazione processi aziendali riduce...",a:["la qualità del prodotto","errori umani e tempi lavoro","il numero dei clienti","solo i costi pubblicitari"]},{q:"Un content management system serve per...",a:["gestire computer fisicamente bene","creare e aggiornare siti web","riparare i telefoni rotti","cancellare tutti i file"]},{q:"La connessione 5G potrebbe...",a:["rallentare tutte le comunicazioni","abilitare servizi IoT avanzati","eliminare la necessità WiFi","funzionare solo nelle grotte"]},{q:"Un funnel marketing digitale traccia...",a:["solo le vendite finali","percorso del cliente completo","esclusivamente i reclami ricevuti","solo i follower social"]},{q:"La firma digitale ha valore...",a:["solo decorativo e estetico","legale come firma autografa","esclusivamente nei social media","solo per le email"]},{q:"Un A/B test confronta...",a:["due aziende concorrenti diverse","due versioni pagina web","prezzo di due prodotti","due città turistiche greche"]},{q:"L'etica nell'AI riguarda...",a:["solo la velocità calcolo","bias trasparenza e responsabilità","esclusivamente il costo energetico","solo il design interfaccia"]}],'7':[{q:"Il data visualization presenta dati con...",a:["solo tabelle di numeri","grafici mappe e dashboard","esclusivamente testo scritto lungo","solo fotografie e video"]},{q:"DevOps combina...",a:["design e vendite aziendali","sviluppo software e operations","marketing e risorse umane","contabilità e gestione magazzino"]},{q:"Il progressive web app funziona...",a:["solo con connessione internet","anche offline come app nativa","esclusivamente su dispositivi Apple","solo su computer desktop"]},{q:"Lo scraping web raccoglie dati da...",a:["sensori fisici nel terreno","pagine web automaticamente strutturati","interviste telefoniche registrate bene","questionari cartacei compilati manualmente"]},{q:"La metodologia Agile prevede...",a:["un unico piano rigido","iterazioni brevi feedback continuo","nessuna pianificazione del lavoro","solo lavoro individuale isolato"]},{q:"Un MVP è la versione...",a:["più costosa del prodotto","minima funzionante del prodotto","definitiva e completa finale","solo teorica non realizzabile"]},{q:"Git serve per...",a:["navigare internet molto velocemente","gestire versioni codice sorgente","progettare grafica e illustrazioni","gestire le email aziendali"]},{q:"Un webhook notifica automaticamente quando...",a:["il computer si spegne","avviene evento specifico definito","il WiFi smette funzionare","qualcuno accende il telefono"]},{q:"La containerizzazione Docker permette...",a:["solo di archiviare foto","applicazioni portabili e isolate","esclusivamente backup dei dati","solo il monitoraggio rete"]},{q:"Il pair programming è quando...",a:["il computer programma solo","due programmatori lavorano insieme","si usano due schermi","si scrive codice velocissimamente"]}],'8':[{q:"Il green coding mira a...",a:["scrivere codice color verde","ridurre consumo energetico software","programmare solo in natura","usare solo energia solare"]},{q:"L'accessibilità WCAG definisce...",a:["i colori più belli","standard siti accessibili tutti","solo le dimensioni font","regole per pubblicità online"]},{q:"Un load balancer distribuisce...",a:["il budget tra reparti","traffico tra server multipli","le email ai dipendenti","i compiti agli studenti"]},{q:"La crittografia end-to-end protegge...",a:["solo le password deboli","messaggi da mittente destinatario","esclusivamente i file grandi","solo transazioni bancarie online"]},{q:"Il no-code permette di...",a:["eliminare tutti i computer","creare applicazioni senza programmare","solo scrivere documenti testo","navigare internet più velocemente"]},{q:"Un CDN velocizza sito distribuendo...",a:["volantini pubblicitari cartacei ovunque","contenuti su server mondiali","solo email ai clienti","esclusivamente video YouTube sempre"]},{q:"L'UX research studia come...",a:["i computer vengono costruiti","utenti interagiscono col prodotto","le aziende assumono personale","i server elaborano query"]},{q:"Il serverless computing significa che...",a:["non esistono server fisici","server sono gestiti automaticamente","non serve alcun computer","internet non è necessario"]},{q:"La carbon footprint digitale include...",a:["solo la produzione hardware","energia server reti dispositivi","esclusivamente la stampa documenti","solo il trasporto fisico"]},{q:"Il futuro digitale Creta è...",a:["tornare completamente al cartaceo","integrare tecnologia e tradizione","eliminare ogni forma agricoltura","sostituire tutti lavoratori umani"]}]};
 
-const urlParams = new URLSearchParams(window.location.search);
-const ROUND = urlParams.get('round') || '1';
-const SCORES_COL = 'creta_quiz_round_' + ROUND;
-document.getElementById('round-badge').textContent = 'Round ' + ROUND;
-document.getElementById('lb-round').textContent = ROUND;
+// CHIAVI — da caricare su Firebase con ?setup=true
+const KEYS_DATA={terra_1:[1,2,0,1,2,0,1,1,1,1],terra_2:[1,1,1,2,1,1,0,1,1,1],terra_3:[1,1,1,1,1,1,1,1,1,1],terra_4:[2,2,0,1,1,1,1,0,1,1],terra_5:[1,1,1,1,1,1,1,1,1,1],terra_6:[1,1,1,1,1,1,1,1,1,1],terra_7:[1,1,1,1,1,1,1,1,1,1],terra_8:[1,1,1,1,1,1,1,1,1,1],cielo_1:[1,1,1,1,1,1,1,1,1,1],cielo_2:[0,1,1,1,1,1,1,1,1,0],cielo_3:[1,1,0,1,1,1,1,1,1,1],cielo_4:[1,1,1,1,1,1,1,1,2,1],cielo_5:[1,1,1,1,1,1,1,1,1,1],cielo_6:[1,1,1,1,1,1,1,1,1,1],cielo_7:[1,1,1,1,1,1,1,1,1,1],cielo_8:[1,1,1,1,1,1,1,1,1,1],digit_1:[1,1,1,1,1,1,1,1,1,1],digit_2:[1,1,1,1,1,1,1,1,1,1],digit_3:[1,1,1,1,1,1,1,1,1,1],digit_4:[1,1,1,1,1,1,1,1,1,1],digit_5:[1,1,1,1,1,1,1,1,1,1],digit_6:[1,1,1,1,1,1,1,1,1,1],digit_7:[1,1,1,1,1,1,1,1,1,1],digit_8:[1,1,1,1,1,1,1,1,1,1]};
 
-const ALL_QUESTIONS = {
-  '1': [
-    {q:"Creta è l'isola più grande della Grecia. Dove si trova esattamente?",a:["Mar Ionio, vicino all'Albania","Mar Mediterraneo, a sud della Grecia continentale","Mar Egeo, vicino alla Turchia","Mar Adriatico, vicino all'Italia"],c:1},
-    {q:"Qual è la capitale di Creta?",a:["Chania","Rethymno","Heraklion","Agios Nikolaos"],c:2},
-    {q:"Creta è famosa per la civiltà minoica. Quando è vissuta questa civiltà?",a:["500-300 a.C.","2700-1450 a.C.","1000-800 a.C.","100 d.C.-300 d.C."],c:1},
-    {q:"Qual è il prodotto agricolo più importante di Creta?",a:["Grano e cereali","Olio d'oliva","Riso","Patate"],c:1},
-    {q:"Le Gole di Samaria sono...",a:["Un porto turistico famoso","La gola più lunga d'Europa, parco nazionale di Creta","Un sito archeologico minoico","Un museo a cielo aperto"],c:1},
-    {q:"Il formaggio cretese più famoso si chiama...",a:["Feta","Halloumi","Graviera","Pecorino"],c:2},
-    {q:"Quanti aeroporti internazionali ha Creta?",a:["1 — solo Heraklion","2 — Heraklion e Chania","3 — Heraklion, Chania e Sitia","4"],c:1},
-    {q:"Il palazzo minoico più importante di Creta si trova a...",a:["Chania","Rethymno","Cnosso (vicino Heraklion)","Sitia"],c:2},
-    {q:"Il clima di Creta è...",a:["Continentale con inverni freddi","Mediterraneo — estati calde e secche, inverni miti","Tropicale con piogge abbondanti","Artico con neve tutto l'anno"],c:1},
-    {q:"Il mese di punta del turismo a Creta è...",a:["Marzo","Maggio","Agosto","Novembre"],c:2},
-  ],
-  '2': [
-    {q:"L'olio d'oliva cretese è rinomato perché...",a:["Costa poco","Ha altissima qualità e bassa acidità — tra i migliori al mondo","È il più abbondante in quantità","Viene esportato solo in Italia"],c:1},
-    {q:"Il vino cretese più pregiato si produce con il vitigno...",a:["Chardonnay","Cabernet Sauvignon","Vidiano — vitigno autoctono cretese","Sangiovese"],c:2},
-    {q:"La DOP (Denominazione di Origine Protetta) greca equivalente si chiama...",a:["AOC","DOC","PDO — Protected Designation of Origin","IGT"],c:2},
-    {q:"Il miele del Monte Ida (Psiloritis) è famoso per...",a:["Il basso costo","Le proprietà terapeutiche — considerato tra i migliori al mondo","La grande quantità prodotta","Il colore scuro"],c:1},
-    {q:"Cosa significa 'Mizithra'?",a:["Un tipo di olio d'oliva","Un formaggio fresco cretese simile alla ricotta","Un vino bianco locale","Un'erba aromatica di montagna"],c:1},
-    {q:"Il settore agroalimentare cretese rappresenta circa il...",a:["5% dell'economia","15% dell'economia","35% dell'economia — uno dei pilastri produttivi","60% dell'economia"],c:2},
-    {q:"Quali erbe aromatiche sono tipiche della macchia mediterranea cretese?",a:["Basilico e prezzemolo","Timo, origano, salvia e lavanda selvatici","Rosmarino e peperoncino","Menta e coriandolo"],c:1},
-    {q:"L'olivicoltura a Creta risale a...",a:["500 anni fa","Il periodo romano — 2000 anni fa","L'età del Bronzo — oltre 4000 anni fa","Il Medioevo — 1000 anni fa"],c:2},
-    {q:"Come si chiama il pane tradizionale cretese?",a:["Pita","Dakos — pane biscottato base della cucina locale","Focaccia","Ciabatta"],c:1},
-    {q:"Il settore vitivinicolo di Creta esporta principalmente verso...",a:["Solo la Grecia continentale","Germania, Gran Bretagna e USA","Solo la Cina","Solo i paesi arabi"],c:1},
-  ],
-  '3': [
-    {q:"Heraklion International Airport si chiama ufficialmente...",a:["Aeroporto di Zeus","Aeroporto Nikos Kazantzakis","Aeroporto di Creta","Aeroporto Minoico"],c:1},
-    {q:"Quanti passeggeri transita l'aeroporto di Heraklion ogni anno?",a:["500.000","2 milioni","8-10 milioni","50 milioni"],c:2},
-    {q:"I droni in agricoltura possono essere usati per...",a:["Solo per foto turistiche","Monitoraggio colture, irrigazione di precisione, distribuzione fitofarmaci","Solo per la sicurezza","Consegna di pacchi nei villaggi"],c:1},
-    {q:"Il porto principale di Creta per i traghetti è...",a:["Chania","Sitia","Heraklion","Rethymno"],c:2},
-    {q:"Quale compagnia aerea collega principalmente Creta all'Italia?",a:["Solo Alitalia/ITA","Diverse compagnie tra cui Ryanair, Wizz Air, Aegean","Solo Ryan Air","Solo voli charter"],c:1},
-    {q:"Il tempo di volo dall'Italia a Creta è circa...",a:["30 minuti","1 ora","2-2,5 ore","5 ore"],c:2},
-    {q:"L'agricoltura di precisione con i droni permette di ridurre l'uso di...",a:["Manodopera e pesticidi fino al 30-40%","Solo il tempo di lavoro","Solo i costi di trasporto","Solo l'acqua"],c:0},
-    {q:"La rete stradale principale di Creta si chiama...",a:["Autostrada E75","VOAK — Autostrada nord-cretese","Strada Minoica","Via Cretense"],c:1},
-    {q:"Quante ore di traghetto ci vogliono dal Pireo (Atene) a Creta?",a:["2-3 ore","6-9 ore","15 ore","24 ore"],c:1},
-    {q:"L'aeroporto di Chania serve principalmente...",a:["Il traffico cargo","Il turismo nella parte occidentale di Creta","Solo voli militari","Il traffico interno greco"],c:1},
-  ],
-  '4': [
-    {q:"Il Parco Nazionale delle Gole di Samaria è famoso per...",a:["Le spiagge","La gola più lunga d'Europa — 18 km — con flora e fauna unica","Le cave di marmo","I vigneti di alta quota"],c:1},
-    {q:"La capra selvatica cretese si chiama...",a:["Capricorno","Kri-kri — specie endemica protetta di Creta","Stambecco","Camoscio"],c:1},
-    {q:"Creta è a rischio per...",a:["Le piogge eccessive","Siccità, incendi estivi e erosione costiera per il turismo di massa","I terremoti vulcanici","Le valanghe invernali"],c:1},
-    {q:"La Convenzione di Barcellona riguarda...",a:["Il commercio di vino","La protezione del Mar Mediterraneo dall'inquinamento","Il turismo sostenibile","Le rotte aeree"],c:1},
-    {q:"L'impatto del turismo di massa sull'ambiente cretese include...",a:["Solo effetti positivi sull'economia","Consumo eccessivo di acqua, produzione di rifiuti, pressione su aree protette","Solo problemi di traffico","Nessun impatto rilevante"],c:1},
-    {q:"La dieta mediterranea cretese è patrimonio UNESCO perché...",a:["È la più economica al mondo","Rappresenta un modello di sostenibilità alimentare e salute riconosciuto globalmente","È la più famosa nei ristoranti","Ha il miglior gusto"],c:1},
-    {q:"Cosa sono le Biosphere Reserve UNESCO?",a:["Riserve di carburante biologico","Aree dove uomo e natura coesistono in modo sostenibile, riconosciute dall'UNESCO","Musei naturali all'aperto","Zone vietate all'accesso umano"],c:1},
-    {q:"Il cambiamento climatico a Creta sta causando...",a:["Più piogge e temperature più fresche","Stagioni più calde, siccità prolungate e rischio per la produzione agricola","Nessun cambiamento rilevabile","Più neve in inverno"],c:1},
-    {q:"L'ecoturismo a Creta punta su...",a:["Grandi resort tutto incluso","Turismo lento, esperienze locali, ridotto impatto ambientale","Solo il turismo balneare","I crocieristi"],c:1},
-    {q:"Le energie rinnovabili più usate a Creta sono...",a:["Nucleare e idroelettrico","Solare ed eolico — ideali per il clima mediterraneo","Solo il gas naturale","Il carbone"],c:1},
-  ],
-};
+// SETUP MODE
+if(SETUP){document.getElementById('screen-login').classList.remove('active');const div=document.getElementById('setup-screen');div.style.display='block';div.innerHTML='<div class="setup-msg">⏳ Caricamento chiavi...</div>';(async()=>{try{for(const[k,v]of Object.entries(KEYS_DATA)){await setDoc(doc(db,'creta_quiz_keys',k),{answers:v});}div.innerHTML='<div class="setup-msg">✅ 24 chiavi caricate! Rimuovi ?setup=true dal link.</div>';}catch(e){div.innerHTML='<div class="setup-msg" style="color:var(--red)">❌ '+e.message+'</div>';}})();}
 
-const roundNum = parseInt(ROUND) || 1;
-const setNum = ((roundNum - 1) % 4) + 1;
-const QUESTIONS = ALL_QUESTIONS[String(setNum)] || ALL_QUESTIONS['1'];
-const TIMER = 8;
-
-let selectedSquad = null;
-let currentStudent = null;
-let currentQ = 0;
-let score = 0;
-let correctCount = 0;
-let wrongCount = 0;
-let totalTime = 0;
-let timer = null;
-let timeLeft = TIMER;
-let answered = false;
-let answersEnabled = false;
-
-window.selectSquad = function(sq) {
-  selectedSquad = sq;
-  document.querySelectorAll('.sq-btn').forEach(b => b.className = 'sq-btn');
-  document.querySelector('[data-sq="'+sq+'"]').className = 'sq-btn sel-'+sq;
-  checkReady();
-};
-
-window.checkReady = function() {
-  const name = document.getElementById('inp-name').value.trim();
-  document.getElementById('btn-go').disabled = !(name.length >= 3 && selectedSquad);
-};
-
-window.startQuiz = async function() {
-  const name = document.getElementById('inp-name').value.trim();
-  const words = name.toLowerCase().replace(/\s+/g,' ').split(' ').sort();
-  const nameKey = words.join('_') + '_r' + ROUND;
-  try {
-    const existing = await getDoc(doc(db, SCORES_COL, nameKey));
-    if(existing.exists()) { alert('⚠️ Hai già giocato questo round!'); return; }
-    await setDoc(doc(db, SCORES_COL, nameKey), { name, squad:selectedSquad, score:0, correct:0, wrong:0, avgTime:0, round:ROUND, status:'in_progress', timestamp:Date.now() });
-  } catch(e) { console.error(e); }
-  currentStudent = { name, squad:selectedSquad, key:nameKey };
-  currentQ = 0; score = 0; correctCount = 0; wrongCount = 0; totalTime = 0;
-  showScreen('screen-quiz');
-  loadQuestion();
-};
-
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-function loadQuestion() {
-  answered = false; answersEnabled = false;
-  const q = QUESTIONS[currentQ];
-  document.getElementById('q-counter').textContent = (currentQ+1) + ' / ' + QUESTIONS.length;
-  document.getElementById('q-score').textContent = score + ' punti';
-  document.getElementById('q-text').textContent = q.q;
-  document.getElementById('feedback').style.display = 'none';
-  document.getElementById('pts-earned').style.display = 'none';
-
-  const indices = [0,1,2,3];
-  for(let i=indices.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[indices[i],indices[j]]=[indices[j],indices[i]];}
-
-  const container = document.getElementById('answers');
-  container.innerHTML = '';
-  container.style.display = 'none';
-  const letters = ['A','B','C','D'];
-  indices.forEach((origIdx, newIdx) => {
-    const btn = document.createElement('button');
-    btn.className = 'ans-btn';
-    btn.innerHTML = '<span class="ans-letter">'+letters[newIdx]+'</span>'+q.a[origIdx];
-    btn.dataset.origIdx = origIdx;
-    btn.onclick = () => { if(answersEnabled) selectAnswer(origIdx); };
-    container.appendChild(btn);
-  });
-
-  document.getElementById('timer-text').textContent = 'Leggi...';
-  document.getElementById('timer-bar').style.width = '100%';
-  document.getElementById('timer-bar').className = 'timer-bar';
-
-  setTimeout(() => {
-    container.style.display = 'flex';
-    answersEnabled = true;
-    timeLeft = TIMER;
-    updateTimer();
-    clearInterval(timer);
-    timer = setInterval(() => {
-      timeLeft -= .1;
-      updateTimer();
-      if(timeLeft <= 0) { clearInterval(timer); timeUp(); }
-    }, 100);
-  }, 2500);
-}
-
-function updateTimer() {
-  const t = Math.max(0, timeLeft);
-  const pct = (t/TIMER)*100;
-  document.getElementById('timer-text').textContent = Math.ceil(t);
-  document.getElementById('timer-text').className = 'timer-text' + (t<=2?' danger':'');
-  document.getElementById('timer-bar').style.width = pct+'%';
-  document.getElementById('timer-bar').className = 'timer-bar' + (t<=2?' danger':'');
-}
-
-function selectAnswer(origIdx) {
-  if(answered||!answersEnabled) return;
-  answered = true; clearInterval(timer);
-  const q = QUESTIONS[currentQ];
-  const responseTime = TIMER - timeLeft;
-  totalTime += responseTime;
-
-  document.querySelectorAll('.ans-btn').forEach(btn => {
-    const bIdx = parseInt(btn.dataset.origIdx);
-    if(bIdx === q.c) btn.classList.add('correct');
-    if(bIdx === origIdx && bIdx !== q.c) btn.classList.add('wrong');
-    if(bIdx !== origIdx && bIdx !== q.c) btn.classList.add('disabled');
-  });
-
-  const fb = document.getElementById('feedback');
-  const pe = document.getElementById('pts-earned');
-  fb.style.display = 'block'; pe.style.display = 'block';
-
-  if(origIdx === q.c) {
-    const bonus = Math.ceil((timeLeft/TIMER)*8);
-    const pts = (10+bonus) * (ROUND==='50'?2:1);
-    score += pts; correctCount++;
-    fb.className = 'feedback correct';
-    fb.textContent = '✅ Corretto!';
-    pe.textContent = '+'+pts+' punti';
-  } else {
-    wrongCount++;
-    fb.className = 'feedback wrong';
-    fb.textContent = '❌ Sbagliato!';
-    pe.textContent = '+0 punti';
-  }
-  document.getElementById('q-score').textContent = score+' punti';
-  setTimeout(() => { currentQ++; currentQ < QUESTIONS.length ? loadQuestion() : endQuiz(); }, 2000);
-}
-
-function timeUp() {
-  if(answered) return; answered = true; wrongCount++;
-  const q = QUESTIONS[currentQ];
-  document.querySelectorAll('.ans-btn').forEach(btn => {
-    if(parseInt(btn.dataset.origIdx)===q.c) btn.classList.add('correct');
-    else btn.classList.add('disabled');
-  });
-  const fb = document.getElementById('feedback');
-  fb.style.display = 'block';
-  document.getElementById('pts-earned').style.display = 'block';
-  fb.className = 'feedback timeout';
-  fb.textContent = '⏰ Tempo scaduto!';
-  document.getElementById('pts-earned').textContent = '+0 punti';
-  totalTime += TIMER;
-  setTimeout(() => { currentQ++; currentQ < QUESTIONS.length ? loadQuestion() : endQuiz(); }, 2000);
-}
-
-async function endQuiz() {
-  document.getElementById('r-score').textContent = score;
-  document.getElementById('r-correct').textContent = correctCount;
-  document.getElementById('r-wrong').textContent = wrongCount;
-  document.getElementById('r-time').textContent = (totalTime/QUESTIONS.length).toFixed(1)+'s';
-  showScreen('screen-results');
-  try {
-    await setDoc(doc(db, SCORES_COL, currentStudent.key), {
-      name:currentStudent.name, squad:currentStudent.squad, score, correct:correctCount,
-      wrong:wrongCount, avgTime:parseFloat((totalTime/QUESTIONS.length).toFixed(1)),
-      round:ROUND, status:'completed', timestamp:Date.now()
-    });
-  } catch(e) { console.error(e); }
-  loadLeaderboard();
-}
-
-function loadLeaderboard() {
-  const SQN = {terra:'Terra',cielo:'Cielo',digit:'Digitale'};
-  onSnapshot(collection(db, SCORES_COL), snap => {
-    const scores = [];
-    snap.forEach(d => { const s=d.data(); if(s.status!=='in_progress') scores.push(s); });
-    scores.sort((a,b)=>b.score-a.score);
-    const medals = ['🥇','🥈','🥉'];
-    document.getElementById('leaderboard').innerHTML = scores.map((s,i)=>
-      '<div class="lb-row">'+
-        '<span class="lb-rank">'+(i<3?medals[i]:i+1)+'</span>'+
-        '<span class="lb-name">'+s.name+'</span>'+
-        '<span class="lb-sq sq-'+s.squad+'">'+(SQN[s.squad]||s.squad)+'</span>'+
-        '<span class="lb-pts">'+s.score+'</span>'+
-      '</div>'
-    ).join('');
-  });
-}
+// QUIZ
+let selectedSquad=null,currentStudent=null,currentQ=0,score=0,correctCount=0,wrongCount=0,totalTime=0,timer=null,timeLeft=TIMER,answered=false,answersEnabled=false,QUESTIONS=[],KEYS=[];
+function getQData(sq,round){const n=String(((parseInt(round)||1)-1)%8+1);const s=sq==='terra'?Q_TERRA:sq==='cielo'?Q_CIELO:Q_DIGIT;return{questions:s[n]||s['1'],keyName:sq+'_'+n};}
+window.selectSquad=function(sq){selectedSquad=sq;document.querySelectorAll('.sq-btn').forEach(b=>b.className='sq-btn');document.querySelector('[data-sq="'+sq+'"]').className='sq-btn sel-'+sq;checkReady();};
+window.checkReady=function(){const n=document.getElementById('inp-name').value.trim();document.getElementById('btn-go').disabled=!(n.length>=3&&selectedSquad);};
+window.startQuiz=async function(){const name=document.getElementById('inp-name').value.trim();const words=name.toLowerCase().replace(/\s+/g,' ').split(' ').sort();const nameKey=words.join('_')+'_r'+ROUND;
+try{const ex=await getDoc(doc(db,SCORES_COL,nameKey));if(ex.exists()){alert('⚠️ Hai già giocato questo round!');return;}await setDoc(doc(db,SCORES_COL,nameKey),{name,squad:selectedSquad,score:0,correct:0,wrong:0,avgTime:0,round:ROUND,status:'in_progress',timestamp:Date.now()});}catch(e){console.error(e);}
+const{questions,keyName}=getQData(selectedSquad,ROUND);QUESTIONS=questions;
+try{const kd=await getDoc(doc(db,'creta_quiz_keys',keyName));if(kd.exists()){KEYS=kd.data().answers;}else{alert('⚠️ Chiavi non trovate. Contatta il professore.');return;}}catch(e){alert('⚠️ Errore connessione.');return;}
+currentStudent={name,squad:selectedSquad,key:nameKey};currentQ=0;score=0;correctCount=0;wrongCount=0;totalTime=0;showScreen('screen-quiz');loadQuestion();};
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function loadQuestion(){answered=false;answersEnabled=false;const q=QUESTIONS[currentQ];document.getElementById('q-counter').textContent=(currentQ+1)+'/'+QUESTIONS.length;document.getElementById('q-score').textContent=score+' punti';document.getElementById('q-text').textContent=q.q;document.getElementById('feedback').style.display='none';document.getElementById('pts-earned').style.display='none';
+const idx=[0,1,2,3];for(let i=3;i>0;i--){const j=Math.floor(Math.random()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}
+const c=document.getElementById('answers');c.innerHTML='';c.style.display='none';const L=['A','B','C','D'];
+idx.forEach((oi,ni)=>{const b=document.createElement('button');b.className='ans-btn';b.innerHTML='<span class="ans-letter">'+L[ni]+'</span>'+q.a[oi];b.dataset.origIdx=oi;b.onclick=()=>{if(answersEnabled)selectAnswer(oi);};c.appendChild(b);});
+document.getElementById('timer-text').textContent='Leggi...';document.getElementById('timer-bar').style.width='100%';document.getElementById('timer-bar').className='timer-bar';
+setTimeout(()=>{c.style.display='flex';answersEnabled=true;timeLeft=TIMER;updateTimer();clearInterval(timer);timer=setInterval(()=>{timeLeft-=.1;updateTimer();if(timeLeft<=0){clearInterval(timer);timeUp();}},100);},2500);}
+function updateTimer(){const t=Math.max(0,timeLeft);document.getElementById('timer-text').textContent=Math.ceil(t);document.getElementById('timer-text').className='timer-text'+(t<=3?' danger':'');document.getElementById('timer-bar').style.width=(t/TIMER*100)+'%';document.getElementById('timer-bar').className='timer-bar'+(t<=3?' danger':'');}
+function selectAnswer(oi){if(answered||!answersEnabled)return;answered=true;clearInterval(timer);const ci=KEYS[currentQ];totalTime+=TIMER-timeLeft;
+document.querySelectorAll('.ans-btn').forEach(b=>{const bi=parseInt(b.dataset.origIdx);if(bi===ci)b.classList.add('correct');if(bi===oi&&bi!==ci)b.classList.add('wrong');if(bi!==oi&&bi!==ci)b.classList.add('disabled');});
+const fb=document.getElementById('feedback'),pe=document.getElementById('pts-earned');fb.style.display='block';pe.style.display='block';
+if(oi===ci){const bonus=Math.ceil((timeLeft/TIMER)*10);const pts=10+bonus;score+=pts;correctCount++;fb.className='feedback correct';fb.textContent='✅ Corretto!';pe.textContent='+'+pts+' punti';}else{wrongCount++;fb.className='feedback wrong';fb.textContent='❌ Sbagliato!';pe.textContent='+0 punti';}
+document.getElementById('q-score').textContent=score+' punti';setTimeout(()=>{currentQ++;currentQ<QUESTIONS.length?loadQuestion():endQuiz();},2000);}
+function timeUp(){if(answered)return;answered=true;wrongCount++;const ci=KEYS[currentQ];document.querySelectorAll('.ans-btn').forEach(b=>{if(parseInt(b.dataset.origIdx)===ci)b.classList.add('correct');else b.classList.add('disabled');});
+document.getElementById('feedback').style.display='block';document.getElementById('pts-earned').style.display='block';document.getElementById('feedback').className='feedback timeout';document.getElementById('feedback').textContent='⏰ Tempo scaduto!';document.getElementById('pts-earned').textContent='+0 punti';totalTime+=TIMER;setTimeout(()=>{currentQ++;currentQ<QUESTIONS.length?loadQuestion():endQuiz();},2000);}
+async function endQuiz(){document.getElementById('r-score').textContent=score;document.getElementById('r-correct').textContent=correctCount;document.getElementById('r-wrong').textContent=wrongCount;document.getElementById('r-time').textContent=(totalTime/QUESTIONS.length).toFixed(1)+'s';showScreen('screen-results');
+try{await setDoc(doc(db,SCORES_COL,currentStudent.key),{name:currentStudent.name,squad:currentStudent.squad,score,correct:correctCount,wrong:wrongCount,avgTime:parseFloat((totalTime/QUESTIONS.length).toFixed(1)),round:ROUND,status:'completed',timestamp:Date.now()});}catch(e){}loadLeaderboard();}
+function loadLeaderboard(){const SQN={terra:'Terra',cielo:'Cielo',digit:'Digitale'};onSnapshot(collection(db,SCORES_COL),snap=>{const sc=[];snap.forEach(d=>{const s=d.data();if(s.status!=='in_progress')sc.push(s);});sc.sort((a,b)=>b.score-a.score);const m=['🥇','🥈','🥉'];document.getElementById('leaderboard').innerHTML=sc.map((s,i)=>'<div class="lb-row"><span class="lb-rank">'+(i<3?m[i]:i+1)+'</span><span class="lb-name">'+s.name+'</span><span class="lb-sq sq-'+s.squad+'">'+(SQN[s.squad]||s.squad)+'</span><span class="lb-pts">'+s.score+'</span></div>').join('');});}
 </script>
 </body>
 </html>
