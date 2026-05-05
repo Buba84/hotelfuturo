@@ -142,7 +142,7 @@ function loadRound(){
   onSnapshot(query(collection(db,col)), snap => {
     const scores = [];
     snap.forEach(d => { const s=d.data(); if(s.status!=='in_progress') scores.push(s); });
-    scores.sort((a,b)=>b.score-a.score);
+    scores.sort((a,b)=>b.score-a.score||(a.avgTime||99)-(b.avgTime||99));
     renderAll(scores, false);
   });
 }
@@ -168,7 +168,7 @@ function loadAllRounds(){
       if(++loaded>=10){
         const scores=Object.values(allScores);
         scores.forEach(s=>s.avgTime=s.rounds>0?parseFloat((s.totalTime/s.rounds).toFixed(1)):0);
-        scores.sort((a,b)=>b.score-a.score);
+        scores.sort((a,b)=>b.score-a.score||(a.avgTime||99)-(b.avgTime||99));
         renderAll(scores, true);
       }
     });
