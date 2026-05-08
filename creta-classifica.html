@@ -133,6 +133,17 @@ function buildButtons(){
     btn.onclick = () => { currentRound=''+i; buildButtons(); loadRound(); };
     sel.appendChild(btn);
   }
+  // English rounds 50-57
+  for(let i=50;i<=57;i++){
+    const btn=document.createElement('button');
+    btn.className='round-btn'+(i==currentRound?' active':'');
+    btn.textContent='ENG'+(i-49);
+    btn.style.background=i==currentRound?'#4caf50':'rgba(76,175,80,.15)';
+    btn.style.color=i==currentRound?'#fff':'#4caf50';
+    btn.style.borderColor='#4caf50';
+    btn.onclick=()=>{currentRound=''+i;buildButtons();loadRound();};
+    sel.appendChild(btn);
+  }
 }
 
 function loadRound(){
@@ -152,7 +163,8 @@ function loadAllRounds(){
   document.getElementById('sec-podio').textContent = 'Miglior quizista del corso';
   const allScores = {};
   let loaded = 0;
-  for(let r=1;r<=20;r++){
+  const allRounds=[...Array.from({length:20},(_,i)=>i+1),50,51,52,53,54,55,56,57];
+  for(const r of allRounds){
     onSnapshot(query(collection(db,'creta_quiz_round_'+r)), snap => {
       snap.forEach(d => {
         const s=d.data();
@@ -165,7 +177,7 @@ function loadAllRounds(){
         allScores[k].rounds++;
         allScores[k].totalTime+=(s.avgTime||0);
       });
-      if(++loaded>=20){
+      if(++loaded>=allRounds.length){
         const scores=Object.values(allScores);
         scores.forEach(s=>s.avgTime=s.rounds>0?parseFloat((s.totalTime/s.rounds).toFixed(1)):0);
         scores.sort((a,b)=>b.score-a.score||(a.avgTime||99)-(b.avgTime||99));
