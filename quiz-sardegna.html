@@ -133,9 +133,16 @@ const db=getFirestore(app);
 const urlParams=new URLSearchParams(window.location.search);
 const ROUND=urlParams.get('round')||'1';
 const COL='sardegna_quiz_s'+ROUND;
-const TIMER=10;
+const ACCESS=urlParams.get('a')==='1';
+const TIMER=ACCESS?15:10;
 
-document.getElementById('round-badge').textContent='Sessione '+ROUND+' · Quiz live';
+if(ACCESS){
+  const s=document.createElement('style');
+  s.textContent='.question-text{font-size:26px!important;line-height:1.7!important}.ans-btn{font-size:21px!important;padding:22px 20px!important;line-height:1.5!important}.timer-text{font-size:54px!important}.logo{font-size:34px!important}.round-badge{font-size:18px!important}.field-input{font-size:21px!important}.field-label{font-size:16px!important}.sq-btn{font-size:17px!important;padding:18px 10px!important}.btn-start{font-size:22px!important}.feedback{font-size:18px!important}';
+  document.head.appendChild(s);
+}
+
+document.getElementById('round-badge').textContent='Sessione '+ROUND+' · Quiz live'+(ACCESS?' · Accessibile':'');
 document.getElementById('lb-sess').textContent=ROUND;
 
 const QUESTIONS={
