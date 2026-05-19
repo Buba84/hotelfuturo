@@ -3,12 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<script>if(location.search.includes("a=1")){document.documentElement.style.fontSize="22px";}</script>
+<style id="access-style"></style>
 <title>Hotel Futuro · Quiz Sardegna</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#c9a84c;--dark:#0f0e0c;--dark2:#1a1916;--dark3:#232220;--text:#f0ece4;--text2:#9a9590;--text3:#5a5752;--green:#4caf50;--red:#e53935;--border:rgba(201,168,76,.15);--amm:#4a90d9;--amm-l:#1a2d42;--fin:#d4843a;--fin-l:#3a2510;--mkt:#5aaa3a;--mkt-l:#1a2e10;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+.access .question-text{font-size:28px!important;line-height:1.8!important}.access .ans-btn{font-size:22px!important;padding:24px 20px!important;line-height:1.5!important}.access .timer-text{font-size:58px!important}.access .logo{font-size:36px!important}.access .round-badge{font-size:20px!important}.access .field-input{font-size:22px!important}.access .field-label{font-size:17px!important}.access .sq-btn{font-size:18px!important;padding:20px 10px!important}.access .btn-start{font-size:24px!important;padding:20px!important}.access .feedback{font-size:20px!important}.access .r-score{font-size:80px!important}.access .q-counter,.access .q-score{font-size:18px!important}
 .screen{display:none;width:100%;max-width:500px;text-align:center;}
 .screen.active{display:flex;flex-direction:column;align-items:center;}
 .logo{font-family:'Playfair Display',serif;font-size:28px;color:var(--gold);margin-bottom:4px;}
@@ -136,11 +139,7 @@ const COL='sardegna_quiz_s'+ROUND;
 const ACCESS=urlParams.get('a')==='1';
 const TIMER=ACCESS?15:10;
 
-if(ACCESS){
-  const s=document.createElement('style');
-  s.textContent='.question-text{font-size:26px!important;line-height:1.7!important}.ans-btn{font-size:21px!important;padding:22px 20px!important;line-height:1.5!important}.timer-text{font-size:54px!important}.logo{font-size:34px!important}.round-badge{font-size:18px!important}.field-input{font-size:21px!important}.field-label{font-size:16px!important}.sq-btn{font-size:17px!important;padding:18px 10px!important}.btn-start{font-size:22px!important}.feedback{font-size:18px!important}';
-  document.head.appendChild(s);
-}
+if(ACCESS){document.body.classList.add('access');}
 
 document.getElementById('round-badge').textContent='Sessione '+ROUND+' · Quiz live'+(ACCESS?' · Accessibile':'');
 document.getElementById('lb-sess').textContent=ROUND;
