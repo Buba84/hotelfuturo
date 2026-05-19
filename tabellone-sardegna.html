@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel Futuro · Tabellone Sardegna</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold:#c9a84c; --dark:#0a0908; --dark2:#141210; --dark3:#1e1b18;
+  --text:#f0ece4; --text2:#9a9590; --text3:#5a5752;
+  --amm:#4a90d9; --amm-l:#0d1f35; --amm-m:#1a2d42;
+  --fin:#d4843a; --fin-l:#2a1508; --fin-m:#3a2510;
+  --mkt:#5aaa3a; --mkt-l:#0e2008; --mkt-m:#1a2e10;
+  --green:#4caf50; --border:rgba(201,168,76,.12);
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+html, body { height:100%; }
+body {
+  font-family:'DM Sans',sans-serif;
+  background:var(--dark);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* TOP BAR */
+.topbar {
+  background:var(--dark2);
+  border-bottom:1px solid var(--border);
+  padding:14px 36px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-shrink:0;
+  position:relative;
+}
+.topbar::after {
+  content:'';
+  position:absolute;
+  bottom:0; left:0; right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.logo { font-family:'Playfair Display',serif; font-size:22px; color:var(--gold); }
+.logo-sub { font-size:11px; color:var(--text3); letter-spacing:.06em; margin-top:1px; }
+.live-pill {
+  display:flex; align-items:center; gap:8px;
+  font-size:12px; color:var(--green);
+  background:rgba(76,175,80,.08);
+  border:1px solid rgba(76,175,80,.2);
+  border-radius:20px; padding:6px 14px;
+}
+.live-dot {
+  width:7px; height:7px; border-radius:50%;
+  background:var(--green);
+  animation:blink 1.5s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+.session-info {
+  text-align:center;
+  font-size:12px; color:var(--text2);
+}
+.session-info strong { color:var(--gold); font-size:13px; }
+
+/* MAIN LAYOUT */
+.main {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  padding:20px 36px 16px;
+  gap:16px;
+  min-height:0;
+}
+
+/* PROGRESS BAR */
+.progress-wrap {
+  background:var(--dark2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px 20px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  flex-shrink:0;
+}
+.prog-label { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--text3); white-space:nowrap; }
+.prog-track {
+  flex:1; height:6px;
+  background:var(--dark3);
+  border-radius:3px; overflow:hidden;
+}
+.prog-fill {
+  height:100%;
+  background:linear-gradient(90deg, var(--gold), #e8c86a);
+  border-radius:3px;
+  transition:width 1s cubic-bezier(.4,0,.2,1);
+}
+.prog-val { font-size:13px; font-weight:700; color:var(--gold); white-space:nowrap; }
+.sess-dots { display:flex; gap:5px; }
+.sdot {
+  width:18px; height:6px;
+  border-radius:3px;
+  background:var(--dark3);
+  transition:background .5s;
+}
+.sdot.done { background:var(--gold); }
+.sdot.cur { background:rgba(201,168,76,.5); animation:pulse-dot .8s ease-in-out infinite alternate; }
+@keyframes pulse-dot { from{opacity:.5} to{opacity:1} }
+
+/* SQUADS */
+.squads { flex:1; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; min-height:0; }
+
+.squad-card {
+  border-radius:20px;
+  display:flex; flex-direction:column;
+  padding:28px 28px 22px;
+  position:relative; overflow:hidden;
+  transition:transform .3s, box-shadow .3s;
+}
+.squad-card.leader {
+  box-shadow:0 0 0 2.5px var(--gold), 0 0 40px rgba(201,168,76,.15);
+  transform:scale(1.01);
+}
+.squad-card::before {
+  content:''; position:absolute;
+  top:0; left:0; right:0; height:3px;
+  opacity:0; transition:opacity .3s;
+}
+.squad-card.leader::before { opacity:1; }
+
+.s-amm { background:linear-gradient(160deg, var(--amm-l), var(--amm-m)); }
+.s-amm::before { background:linear-gradient(90deg, transparent, var(--amm), transparent); }
+.s-fin { background:linear-gradient(160deg, var(--fin-l), var(--fin-m)); }
+.s-fin::before { background:linear-gradient(90deg, transparent, var(--fin), transparent); }
+.s-mkt { background:linear-gradient(160deg, var(--mkt-l), var(--mkt-m)); }
+.s-mkt::before { background:linear-gradient(90deg, transparent, var(--mkt), transparent); }
+
+.crown { position:absolute; top:14px; right:16px; font-size:28px; display:none; animation:crown-bounce .6s ease-in-out infinite alternate; }
+@keyframes crown-bounce { from{transform:translateY(0)} to{transform:translateY(-4px)} }
+.squad-card.leader .crown { display:block; }
+
+.squad-name {
+  font-size:13px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase;
+  margin-bottom:4px;
+}
+.s-amm .squad-name { color:var(--amm); }
+.s-fin .squad-name { color:var(--fin); }
+.s-mkt .squad-name { color:var(--mkt); }
+
+.squad-coeff { font-size:10px; color:var(--gold); margin-bottom:16px; letter-spacing:.04em; }
+
+.squad-score {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(64px,8vw,96px);
+  font-weight:700; line-height:1;
+  margin-bottom:4px;
+  transition:transform .2s;
+}
+.s-amm .squad-score { color:var(--amm); }
+.s-fin .squad-score { color:var(--fin); }
+.s-mkt .squad-score { color:var(--mkt); }
+.squad-score.bump { animation:score-bump .3s ease-out; }
+@keyframes score-bump { 0%{transform:scale(1)} 50%{transform:scale(1.08)} 100%{transform:scale(1)} }
+
+.squad-pts-label { font-size:11px; color:var(--text3); text-transform:uppercase; letter-spacing:.08em; margin-bottom:20px; }
+
+/* BAR */
+.bar-wrap { flex:1; display:flex; flex-direction:column; justify-content:flex-end; gap:6px; }
+.bar-row { display:flex; align-items:center; gap:10px; }
+.bar-track { flex:1; height:5px; background:rgba(255,255,255,.06); border-radius:3px; overflow:hidden; }
+.bar-fill { height:100%; border-radius:3px; transition:width 1s cubic-bezier(.4,0,.2,1); }
+.s-amm .bar-fill { background:var(--amm); }
+.s-fin .bar-fill { background:var(--fin); }
+.s-mkt .bar-fill { background:var(--mkt); }
+.bar-pct { font-size:10px; color:var(--text3); width:28px; text-align:right; }
+
+/* MEMBERS */
+.members-wrap { margin-top:16px; border-top:1px solid rgba(255,255,255,.06); padding-top:14px; }
+.members-label { font-size:9px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--text3); margin-bottom:8px; }
+.members-grid { display:flex; flex-wrap:wrap; gap:5px; }
+.member-pill {
+  font-size:10px; padding:3px 9px;
+  border-radius:20px;
+  background:rgba(255,255,255,.05);
+  color:var(--text2);
+  white-space:nowrap;
+}
+
+/* REP */
+.rep-row { margin-top:10px; display:flex; align-items:center; gap:6px; }
+.rep-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.s-amm .rep-dot { background:var(--amm); }
+.s-fin .rep-dot { background:var(--fin); }
+.s-mkt .rep-dot { background:var(--mkt); }
+.rep-label { font-size:9px; text-transform:uppercase; letter-spacing:.08em; color:var(--text3); }
+.rep-name { font-size:12px; color:var(--text); font-weight:500; }
+
+/* FOOTER */
+.footer {
+  text-align:center; padding:8px 36px 12px;
+  font-size:10px; color:var(--text3);
+  flex-shrink:0;
+  letter-spacing:.06em;
+}
+.footer span { color:var(--gold); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <div class="logo">Hotel Futuro · Tabellone</div>
+    <div class="logo-sub">PCTO AFM · Santa Teresa di Gallura · Sardegna</div>
+  </div>
+  <div class="session-info">
+    <div id="sess-label">In attesa di avvio...</div>
+    <div id="sess-sub" style="margin-top:2px;font-size:11px;color:var(--text3)"></div>
+  </div>
+  <div class="live-pill">
+    <div class="live-dot"></div>
+    Aggiornamento live
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="progress-wrap">
+    <span class="prog-label">Avanzamento</span>
+    <div class="sess-dots" id="sess-dots"></div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    <span class="prog-val" id="prog-val">0 / 27</span>
+  </div>
+
+  <div class="squads">
+
+    <!-- AMMINISTRAZIONE -->
+    <div class="squad-card s-amm" id="card-amm">
+      <span class="crown">👑</span>
+      <div class="squad-name">🔵 Amministrazione</div>
+      <div class="squad-coeff">7 membri</div>
+      <div class="squad-score" id="score-amm">0</div>
+      <div class="squad-pts-label">punti</div>
+      <div class="bar-wrap">
+        <div class="bar-row">
+          <div class="bar-track"><div class="bar-fill" id="bar-amm" style="width:0%"></div></div>
+          <span class="bar-pct" id="pct-amm">0%</span>
+        </div>
+      </div>
+      <div class="members-wrap">
+        <div class="members-label">Squadra</div>
+        <div class="members-grid">
+          <span class="member-pill">Leyla Panizzon</span>
+          <span class="member-pill">Salma Lakrafi</span>
+          <span class="member-pill">Mattia Valberghi</span>
+          <span class="member-pill">Martina Battiston</span>
+          <span class="member-pill">Thomas Cadei</span>
+          <span class="member-pill">Francesco Cau</span>
+          <span class="member-pill">Giada Brambilla</span>
+        </div>
+      </div>
+      <div class="rep-row">
+        <div class="rep-dot"></div>
+        <span class="rep-label">Rep:&nbsp;</span>
+        <span class="rep-name" id="rep-amm">—</span>
+      </div>
+    </div>
+
+    <!-- FINANZA -->
+    <div class="squad-card s-fin" id="card-fin">
+      <span class="crown">👑</span>
+      <div class="squad-name">🟡 Finanza</div>
+      <div class="squad-coeff">6 membri · coefficiente ×1.17</div>
+      <div class="squad-score" id="score-fin">0</div>
+      <div class="squad-pts-label">punti effettivi</div>
+      <div class="bar-wrap">
+        <div class="bar-row">
+          <div class="bar-track"><div class="bar-fill" id="bar-fin" style="width:0%"></div></div>
+          <span class="bar-pct" id="pct-fin">0%</span>
+        </div>
+      </div>
+      <div class="members-wrap">
+        <div class="members-label">Squadra</div>
+        <div class="members-grid">
+          <span class="member-pill">Edoardo Bori</span>
+          <span class="member-pill">Edoardo Sartori</span>
+          <span class="member-pill">Giovanni Cilli</span>
+          <span class="member-pill">Belma Toskaj</span>
+          <span class="member-pill">Lorenzo Cozzi</span>
+          <span class="member-pill">Samuele Verducci</span>
+        </div>
+      </div>
+      <div class="rep-row">
+        <div class="rep-dot"></div>
+        <span class="rep-label">Rep:&nbsp;</span>
+        <span class="rep-name" id="rep-fin">—</span>
+      </div>
+    </div>
+
+    <!-- MARKETING -->
+    <div class="squad-card s-mkt" id="card-mkt">
+      <span class="crown">👑</span>
+      <div class="squad-name">🟢 Marketing</div>
+      <div class="squad-coeff">7 membri</div>
+      <div class="squad-score" id="score-mkt">0</div>
+      <div class="squad-pts-label">punti</div>
+      <div class="bar-wrap">
+        <div class="bar-row">
+          <div class="bar-track"><div class="bar-fill" id="bar-mkt" style="width:0%"></div></div>
+          <span class="bar-pct" id="pct-mkt">0%</span>
+        </div>
+      </div>
+      <div class="members-wrap">
+        <div class="members-label">Squadra</div>
+        <div class="members-grid">
+          <span class="member-pill">Desirè Sabatino</span>
+          <span class="member-pill">Chiara Reale Ruffino</span>
+          <span class="member-pill">Dalila Ciresa</span>
+          <span class="member-pill">Rebecca Piantanida</span>
+          <span class="member-pill">Andry Plaku</span>
+          <span class="member-pill">Margherita Puricelli</span>
+          <span class="member-pill">Alessandro Zeni</span>
+        </div>
+      </div>
+      <div class="rep-row">
+        <div class="rep-dot"></div>
+        <span class="rep-label">Rep:&nbsp;</span>
+        <span class="rep-name" id="rep-mkt">—</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Hotel Futuro · PCTO Sardegna 2026</span> · Powered by Claude AI · Dati live da Firebase
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCzDnRq7_Tfq7uktNfy2r8tFu0qTdrE-88",
+  authDomain: "hotelfuturo.firebaseapp.com",
+  projectId: "hotelfuturo",
+  storageBucket: "hotelfuturo.firebasestorage.app",
+  messagingSenderId: "349688895596",
+  appId: "1:349688895596:web:81b1e5f3c993099c9b6049"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const docRef = doc(db, 'corso', 'sardegna');
+
+const FIN_COEFF = 1.17;
+const TOTAL = 27;
+
+const THEMATIC = [
+  'Kick-off: chi è il cliente',
+  'Marketing e comunicazione',
+  'Budget e KPI',
+  'Pricing e stagionalità',
+  'Comunicazione internazionale',
+  'Gestione clienti e recensioni',
+  'Procedure e organigramma',
+  'Simulazione crisi',
+  'Assemblaggio dashboard e Pitch'
+];
+
+function effectivePts(sq, raw) {
+  return sq === 'fin' ? raw * FIN_COEFF : raw;
+}
+
+function displayPts(sq, raw) {
+  const eff = effectivePts(sq, raw);
+  return sq === 'fin' ? eff.toFixed(1) : Math.round(eff).toString();
+}
+
+let prevPts = { amm: 0, fin: 0, mkt: 0 };
+
+function buildDots(cur) {
+  const container = document.getElementById('sess-dots');
+  container.innerHTML = '';
+  for (let i = 0; i < 9; i++) {
+    const d = document.createElement('div');
+    const done = cur >= (i + 1) * 3;
+    const active = !done && cur >= i * 3;
+    d.className = 'sdot' + (done ? ' done' : active ? ' cur' : '');
+    container.appendChild(d);
+  }
+}
+
+onSnapshot(docRef, (snap) => {
+  if (!snap.exists()) return;
+  const data = snap.data();
+
+  const cur = data.currentSession ?? 0;
+  const pts = data.pts ?? { amm: 0, fin: 0, mkt: 0 };
+  const reps = data.reps ?? { amm: '', fin: '', mkt: '' };
+
+  // Progress
+  const pct = Math.round((cur / TOTAL) * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-val').textContent = cur + ' / ' + TOTAL;
+  buildDots(cur);
+
+  // Session label
+  const sessNum = Math.floor(cur / 3) + 1;
+  const clampedSess = Math.min(sessNum, 9);
+  const domQ = (cur % 3) + 1;
+  document.getElementById('sess-label').textContent =
+    cur >= TOTAL
+      ? '✅ Corso completato!'
+      : 'Sessione ' + clampedSess + '/9 — ' + (THEMATIC[clampedSess - 1] || '');
+  document.getElementById('sess-sub').textContent =
+    cur >= TOTAL ? '' : 'Domanda ' + (cur + 1) + '/27 · Q' + domQ + ' di 3';
+
+  // Effective scores
+  const effAmm = effectivePts('amm', pts.amm || 0);
+  const effFin = effectivePts('fin', pts.fin || 0);
+  const effMkt = effectivePts('mkt', pts.mkt || 0);
+  const maxEff = Math.max(effAmm, effFin, effMkt);
+
+  ['amm', 'fin', 'mkt'].forEach(sq => {
+    const raw = pts[sq] || 0;
+    const eff = effectivePts(sq, raw);
+    const disp = displayPts(sq, raw);
+
+    // Score with bump animation if changed
+    const el = document.getElementById('score-' + sq);
+    if (raw !== prevPts[sq]) {
+      el.classList.remove('bump');
+      void el.offsetWidth;
+      el.classList.add('bump');
+    }
+    el.textContent = disp;
+
+    // Bar
+    const pctVal = maxEff > 0 ? Math.round((eff / maxEff) * 100) : 0;
+    document.getElementById('bar-' + sq).style.width = pctVal + '%';
+    document.getElementById('pct-' + sq).textContent = pctVal + '%';
+
+    // Leader crown
+    document.getElementById('card-' + sq).classList.toggle('leader', eff === maxEff && maxEff > 0);
+
+    // Rep
+    document.getElementById('rep-' + sq).textContent = reps[sq] || '—';
+  });
+
+  prevPts = { amm: pts.amm || 0, fin: pts.fin || 0, mkt: pts.mkt || 0 };
+});
+</script>
+</body>
+</html>
