@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Hotel Futuro · Quiz Sardegna</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#c9a84c;--dark:#0f0e0c;--dark2:#1a1916;--dark3:#232220;--text:#f0ece4;--text2:#9a9590;--text3:#5a5752;--green:#4caf50;--red:#e53935;--border:rgba(201,168,76,.15);--amm:#4a90d9;--amm-l:#1a2d42;--fin:#d4843a;--fin-l:#3a2510;--mkt:#5aaa3a;--mkt-l:#1a2e10;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+.screen{display:none;width:100%;max-width:500px;text-align:center;}
+.screen.active{display:flex;flex-direction:column;align-items:center;}
+.logo{font-family:'Playfair Display',serif;font-size:28px;color:var(--gold);margin-bottom:4px;}
+.logo-sub{font-size:12px;color:var(--text2);margin-bottom:6px;}
+.round-badge{font-size:14px;font-weight:700;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid var(--border);border-radius:20px;padding:5px 18px;margin-bottom:20px;}
+.login-card{background:var(--dark2);border:1px solid var(--border);border-radius:16px;padding:28px 24px;width:100%;}
+.field-label{font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;text-align:left;}
+.field-input{width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:17px;outline:none;margin-bottom:16px;}
+.field-input:focus{border-color:var(--gold);}
+.squad-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;}
+.sq-btn{background:var(--dark3);border:2px solid var(--border);border-radius:10px;padding:14px 8px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .15s;text-align:center;}
+.sq-btn:hover{border-color:var(--gold);}
+.sq-btn.sel-amm{border-color:var(--amm);background:var(--amm-l);color:var(--amm);}
+.sq-btn.sel-fin{border-color:var(--fin);background:var(--fin-l);color:var(--fin);}
+.sq-btn.sel-mkt{border-color:var(--mkt);background:var(--mkt-l);color:var(--mkt);}
+.btn-start{width:100%;background:var(--gold);color:var(--dark);border:none;border-radius:12px;padding:16px;font-family:'DM Sans',sans-serif;font-size:18px;font-weight:700;cursor:pointer;margin-top:8px;}
+.btn-start:disabled{opacity:.4;cursor:not-allowed;}
+.quiz-header{display:flex;justify-content:space-between;width:100%;margin-bottom:16px;}
+.q-counter{font-size:14px;color:var(--text2);}
+.q-score{font-size:14px;color:var(--gold);font-weight:600;}
+.timer-text{font-size:42px;font-weight:700;color:var(--gold);margin-bottom:6px;font-family:'Playfair Display',serif;}
+.timer-text.danger{color:var(--red);}
+.timer-bar-w{width:100%;height:6px;background:var(--dark3);border-radius:3px;overflow:hidden;margin-bottom:20px;}
+.timer-bar{height:100%;background:var(--gold);border-radius:3px;transition:width .1s linear;}
+.timer-bar.danger{background:var(--red);}
+.question-card{background:var(--dark2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;width:100%;margin-bottom:16px;}
+.question-text{font-size:19px;font-weight:500;color:var(--text);line-height:1.5;}
+.answers{display:flex;flex-direction:column;gap:10px;width:100%;}
+.ans-btn{background:var(--dark2);border:2px solid var(--border);border-radius:12px;padding:16px 20px;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:500;color:var(--text);cursor:pointer;transition:all .15s;text-align:left;display:flex;align-items:center;gap:12px;}
+.ans-btn:hover{border-color:var(--gold);}
+.ans-btn.correct{border-color:var(--green);background:rgba(76,175,80,.15);color:var(--green);}
+.ans-btn.wrong{border-color:var(--red);background:rgba(229,57,53,.15);color:var(--red);}
+.ans-btn.disabled{pointer-events:none;opacity:.5;}
+.ans-letter{width:32px;height:32px;border-radius:50%;background:var(--dark3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;}
+.ans-btn.correct .ans-letter{background:var(--green);color:#fff;}
+.ans-btn.wrong .ans-letter{background:var(--red);color:#fff;}
+.feedback{font-size:15px;font-weight:600;margin-top:14px;padding:12px;border-radius:10px;line-height:1.5;}
+.feedback.correct{background:rgba(76,175,80,.1);color:var(--green);}
+.feedback.wrong{background:rgba(229,57,53,.1);color:var(--red);}
+.feedback.timeout{background:rgba(201,168,76,.1);color:var(--gold);}
+.pts-earned{font-size:13px;color:var(--text2);margin-top:6px;}
+.result-card{background:var(--dark2);border:1px solid var(--border);border-radius:16px;padding:28px 24px;width:100%;margin-bottom:16px;}
+.r-score{font-family:'Playfair Display',serif;font-size:72px;font-weight:600;color:var(--gold);line-height:1;}
+.r-label{font-size:15px;color:var(--text2);margin-bottom:16px;}
+.r-stats{display:flex;justify-content:center;gap:24px;}
+.r-stat{text-align:center;}
+.r-val{font-size:28px;font-weight:600;line-height:1;}
+.r-val.g{color:var(--green);}
+.r-val.r{color:var(--red);}
+.r-val.gold{color:var(--gold);}
+.r-lbl{font-size:11px;color:var(--text3);margin-top:4px;}
+.lb-title{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;}
+.lb-scroll{max-height:320px;overflow-y:auto;width:100%;}
+.lb-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;margin-bottom:5px;background:var(--dark2);border:1px solid var(--border);}
+.lb-rank{font-size:18px;font-weight:700;color:var(--text3);width:28px;text-align:center;}
+.lb-name{flex:1;font-size:14px;font-weight:500;color:var(--text);}
+.lb-sq{font-size:10px;font-weight:700;text-transform:uppercase;padding:2px 8px;border-radius:10px;flex-shrink:0;}
+.sq-amm-badge{background:var(--amm-l);color:var(--amm);}
+.sq-fin-badge{background:var(--fin-l);color:var(--fin);}
+.sq-mkt-badge{background:var(--mkt-l);color:var(--mkt);}
+.lb-pts{font-size:18px;font-weight:700;color:var(--gold);min-width:46px;text-align:right;}
+</style>
+</head>
+<body>
+
+<div class="screen active" id="screen-login">
+  <div class="logo">🏨 Hotel Futuro</div>
+  <div class="logo-sub">PCTO Sardegna · Santa Teresa di Gallura</div>
+  <div class="round-badge" id="round-badge">Sessione 1</div>
+  <div class="login-card">
+    <div class="field-label">La tua squadra</div>
+    <div class="squad-grid">
+      <button class="sq-btn" data-sq="amm" onclick="selectSquad('amm')">🔵 Amm.</button>
+      <button class="sq-btn" data-sq="fin" onclick="selectSquad('fin')">🟡 Finanza</button>
+      <button class="sq-btn" data-sq="mkt" onclick="selectSquad('mkt')">🟢 Mkt</button>
+    </div>
+    <div id="name-wrap" style="display:none">
+      <div class="field-label">Il tuo nome</div>
+      <select class="field-input" id="inp-name" onchange="checkReady()" style="cursor:pointer">
+        <option value="">— Seleziona il tuo nome —</option>
+      </select>
+    </div>
+    <button class="btn-start" id="btn-go" disabled onclick="startQuiz()">Inizia il Quiz ▶</button>
+  </div>
+</div>
+
+<div class="screen" id="screen-quiz">
+  <div class="quiz-header">
+    <span class="q-counter" id="q-counter">1/5</span>
+    <span class="q-score" id="q-score">0 punti</span>
+  </div>
+  <div class="timer-text" id="timer-text">10</div>
+  <div class="timer-bar-w"><div class="timer-bar" id="timer-bar" style="width:100%"></div></div>
+  <div class="question-card"><div class="question-text" id="q-text">—</div></div>
+  <div class="answers" id="answers" style="display:none"></div>
+  <div class="feedback" id="feedback" style="display:none"></div>
+  <div class="pts-earned" id="pts-earned" style="display:none"></div>
+</div>
+
+<div class="screen" id="screen-results">
+  <div class="logo" style="font-size:22px;margin-bottom:14px;">Quiz completato! 🎉</div>
+  <div class="result-card">
+    <div class="r-score" id="r-score">0</div>
+    <div class="r-label">punti totali</div>
+    <div class="r-stats">
+      <div class="r-stat"><div class="r-val g" id="r-correct">0</div><div class="r-lbl">Corrette</div></div>
+      <div class="r-stat"><div class="r-val r" id="r-wrong">0</div><div class="r-lbl">Sbagliate</div></div>
+      <div class="r-stat"><div class="r-val gold" id="r-time">0s</div><div class="r-lbl">Media</div></div>
+    </div>
+  </div>
+  <div class="lb-title">Classifica sessione <span id="lb-sess">1</span></div>
+  <div class="lb-scroll" id="leaderboard"></div>
+</div>
+
+<script type="module">
+import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import{getFirestore,doc,setDoc,collection,onSnapshot}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const app=initializeApp({apiKey:"AIzaSyCzDnRq7_Tfq7uktNfy2r8tFu0qTdrE-88",projectId:"hotelfuturo",appId:"1:349688895596:web:81b1e5f3c993099c9b6049"});
+const db=getFirestore(app);
+
+const urlParams=new URLSearchParams(window.location.search);
+const ROUND=urlParams.get('round')||'1';
+const COL='sardegna_quiz_s'+ROUND;
+const TIMER=10;
+
+document.getElementById('round-badge').textContent='Sessione '+ROUND+' · Quiz live';
+document.getElementById('lb-sess').textContent=ROUND;
+
+const QUESTIONS={
+  '1':[
+    {q:"Qual è il cliente ideale dell'Hotel Futuro a Santa Teresa di Gallura?",a:["Famiglie con bambini che cercano animazione","Coppie 30-55 anni con alto reddito in cerca di privacy","Gruppi universitari in vacanza low-cost","Pensionati in cerca di tutto incluso"],correct:1,why:"Il cliente luxury cerca esclusività, privacy e un'esperienza su misura — non animazione o prezzi bassi."},
+    {q:"Da quali paesi arriva principalmente la clientela luxury in Sardegna?",a:["Solo dall'Italia del Sud","Da Germania, Italia del Nord, UK e Francia","Principalmente da Russia e Cina","Solo dagli USA e dal Canada"],correct:1,why:"I mercati principali sono DACH (Germania, Austria, Svizzera), Italia del Nord, UK e Francia."},
+    {q:"Il cliente luxury preferisce prenotare:",a:["Solo su Booking.com per comodità","Sul sito diretto dopo ricerca approfondita","Su Airbnb per autenticità","Solo per telefono senza internet"],correct:1,why:"Il cliente luxury fa ricerca approfondita poi prenota direttamente — e l'hotel risparmia la commissione del 15%."},
+    {q:"Una suite luxury a Santa Teresa costa €300 a notte. Chi si aspetta di trovarci?",a:["Turisti che confrontano tutti i prezzi","Ospiti che cercano il prezzo più basso","Clienti che valorizzano qualità e servizio","Giovani in cerca di avventura"],correct:2,why:"A €300/notte il cliente non cerca il prezzo — cerca un'esperienza indimenticabile e un servizio impeccabile."},
+    {q:"Qual è la caratteristica più importante per un cliente luxury?",a:["Avere la piscina con scivoli","Privacy, silenzio e servizio personalizzato","Un buffet con molte scelte","L'animazione serale e i giochi"]  ,correct:1,why:"Il lusso discreto si basa su privacy, attenzione al dettaglio e servizio su misura. Non sull'intrattenimento di massa."}
+  ],
+  '2':[
+    {q:"Qual è il canale di vendita più redditizio per l'hotel?",a:["Booking.com perché ha più visibilità","Il sito diretto perché non ha commissioni","Airbnb perché porta clienti diversi","Il tour operator perché garantisce volumi"],correct:1,why:"Il sito diretto = 0% di commissioni. Booking prende il 15%. Ogni prenotazione diretta vale molto di più."},
+    {q:"Quanto prende Booking.com su ogni prenotazione?",a:["Il 5% del totale","Il 10% del totale","Il 15% del totale","Il 25% del totale"],correct:2,why:"Booking applica una commissione del 15% su ogni prenotazione. Su 5 notti a €280 sono €210 di commissione."},
+    {q:"Qual è la piattaforma social più efficace per un hotel di lusso?",a:["Facebook per i post testuali","Instagram per lo storytelling visivo","Twitter per gli aggiornamenti rapidi","LinkedIn per i professionisti"],correct:1,why:"Instagram è il canale del lusso visivo — il tramonto in suite, la SPA, il piatto dello chef. Le immagini vendono."},
+    {q:"La regola 80/20 nel marketing hotel significa:",a:["80% vendite e 20% storytelling","80% emozione e 20% vendita diretta","80% pubblicità pagata e 20% organica","80% social e 20% sito web"],correct:1,why:"Nel luxury non si vende — si fa desiderare. L'80% dei contenuti racconta emozioni, solo il 20% offre promozioni."},
+    {q:"Cosa vuol dire SEO territoriale per Hotel Futuro?",a:["Ottimizzare il sito per il termine 'Hotel Futuro'","Posizionarsi su 'hotel lusso Sardegna' e 'Santa Teresa'","Comprare pubblicità su Google","Essere presenti su tutte le OTA"]  ,correct:1,why:"Il cliente cerca prima il territorio ('hotel lusso Sardegna') — non l'hotel che ancora non conosce. La SEO territoriale intercetta questa ricerca."}
+  ],
+  '3':[
+    {q:"Qual è la voce di costo più alta in un hotel di lusso?",a:["Le commissioni delle OTA","Il personale (40-45%)","L'energia e le utenze","Il food & beverage"],correct:1,why:"Il personale di qualità è il costo principale — receptionist h24, housekeeping, chef, SPA manager. Circa 40-45% dei costi totali."},
+    {q:"Il RevPAR è un KPI che misura:",a:["I ricavi solo dalle suite occupate","I ricavi per camera disponibile (occupata o no)","Il rapporto tra costi e ricavi","Il numero di prenotazioni mensili"],correct:1,why:"RevPAR = ricavi camere / totale camere disponibili. Misura l'efficienza commerciale includendo anche le camere vuote."},
+    {q:"Con 30 suite a €300/notte e 65% di occupazione, il fatturato annuo camere è circa:",a:["500.000 €","1.000.000 €","2.100.000 €","5.000.000 €"],correct:2,why:"30 × €300 × 65% × 365 = circa €2.130.000. Più i ricavi di SPA, ristorante e servizi extra."},
+    {q:"Quale percentuale di occupazione è considerata sana per un hotel luxury?",a:["30-40%","50-55%","65-75%","90-100%"],correct:2,why:"Un hotel luxury tra il 65-75% di occupazione è ben gestito. Il 100% è quasi impossibile e rischioso — elimina la flessibilità."},
+    {q:"Il break-even di un hotel indica:",a:["Il momento in cui si inizia a perdere soldi","Il numero minimo di suite da vendere per coprire i costi","Il massimo fatturato raggiungibile","Il prezzo minimo per notte consentito"],correct:1,why:"Sotto il break-even l'hotel perde denaro. Sopra, genera profitto. È il numero minimo di camere/notti da vendere ogni mese."}
+  ],
+  '4':[
+    {q:"Perché un hotel luxury non dovrebbe abbassare troppo i prezzi in bassa stagione?",a:["Perché i clienti si abituano ai prezzi alti","Perché danneggia la percezione di lusso del brand","Perché costa troppo produrre i servizi","Perché lo vieta la legge greca"],correct:1,why:"Nel luxury il prezzo è parte del valore percepito. Abbassare troppo il prezzo fa pensare al cliente che la qualità sia scesa."},
+    {q:"Cos'è il floor price in una strategia di pricing?",a:["Il prezzo più alto raggiungibile","Il prezzo medio annuale","Il prezzo minimo sotto cui non scendere mai","Il prezzo applicato solo al piano terra"],correct:2,why:"Il floor price protegge il brand. Anche in bassa stagione, Hotel Futuro non scende mai sotto €150/notte — perché sotto quella soglia il lusso non è credibile."},
+    {q:"In bassa stagione (ottobre-maggio) la strategia migliore è:",a:["Chiudere l'hotel e risparmiare","Abbassare il prezzo del 70% per riempire","Creare pacchetti esperienziali a prezzo ridotto","Tenere gli stessi prezzi dell'estate"],correct:2,why:"I pacchetti esperienziali (cooking class, escursioni, SPA retreat) attirano un target diverso in bassa stagione senza svendere il brand."},
+    {q:"Qual è la stagione più difficile da riempire in Sardegna?",a:["Luglio e agosto (peak)","Giugno e settembre (spalla)","Ottobre-maggio (bassa stagione)","Tutte le stagioni sono uguali"],correct:2,why:"Ottobre-maggio è la bassa stagione. Pochi turisti balneari — ma è dove si nasconde l'opportunità con il target giusto."},
+    {q:"Un pacchetto '5 notti paghi 4' è un esempio di:",a:["Sconto diretto sul prezzo","Incentivo alla durata del soggiorno","Promozione last minute","Programma fedeltà"]  ,correct:1,why:"Incentivare soggiorni lunghi aumenta il RevPAR medio e riduce il costo di acquisizione per prenotazione. Il cliente resta di più e spende di più."}
+  ],
+  '5':[
+    {q:"Perché comunicare in tedesco con i clienti DACH è importante?",a:["Perché la legge lo richiede","Perché il tedesco è la lingua più bella","Perché si sentono rispettati e capiti","Perché costa meno del marketing in italiano"],correct:2,why:"I tedeschi apprezzano la precisione e l'attenzione al dettaglio. Comunicare nella loro lingua è un gesto di rispetto che aumenta la fiducia."},
+    {q:"In una email di conferma prenotazione per un cliente britannico, cosa NON deve mai mancare?",a:["Il numero dei follower su Instagram","Distanza dall'aeroporto e istruzioni di arrivo","Il menu completo del ristorante","Il numero di dipendenti dell'hotel"],correct:1,why:"Il cliente straniero vuole sapere come arrivare, cosa aspettarsi al check-in e come contattare l'hotel. Le info logistiche sono fondamentali."},
+    {q:"Una partnership B2B con un tour operator francese offre una commissione del 15%. Quando conviene?",a:["Mai, meglio solo il sito diretto","Sempre, perché porta volumi garantiti","Quando il tour operator porta clienti che non troverei altrimenti","Solo se la commissione scende al 5%"],correct:2,why:"Le commissioni si giustificano quando il tour operator apre mercati nuovi (es. clientela francese) che l'hotel non raggiungerebbe da solo."},
+    {q:"Cosa significa 'commissione scalare' in un contratto B2B?",a:["La commissione aumenta sempre","La commissione varia in base al volume di prenotazioni","La commissione si paga a rate","La commissione include anche i voli"],correct:1,why:"Con la commissione scalare: sotto 30 booking = 12%, sopra 50 booking = 18%. Incentiva il partner a portare più clienti."},
+    {q:"La pagina About Us del sito web di un hotel luxury deve:",a:["Elencare tutti i servizi disponibili","Raccontare l'identità e l'emozione del luogo","Mostrare solo i prezzi delle suite","Spiegare la storia degli azionisti"]  ,correct:1,why:"About Us non è un catalogo — è una storia. Il cliente luxury vuole capire l'anima del posto prima di prenotare."}
+  ],
+  '6':[
+    {q:"Rispondere a una recensione negativa su Booking serve principalmente:",a:["Per difendersi dall'accusa del cliente","Per mostrare agli ALTRI clienti come gestite i problemi","Per aumentare la valutazione media","Per ottenere uno sconto sulle commissioni"],correct:1,why:"La risposta non è per chi ha scritto — è per i migliaia che la leggeranno dopo. Ogni risposta è un'occasione di marketing."},
+    {q:"Il Customer Lifetime Value (CLV) di un cliente fedele che spende €4.000/anno è circa:",a:["€4.000 totali","€8.000 in 2 anni","€20.000-30.000 in 5-7 anni","€1.000 perché potrebbe non tornare"],correct:2,why:"Un cliente fedele che torna ogni anno, porta amici e lascia recensioni positive vale molto più del singolo soggiorno. Il CLV su 5-7 anni supera i €20.000."},
+    {q:"Il programma fedeltà Platinum dovrebbe offrire:",a:["Uno sconto del 5% sul soggiorno","Upgrade automatico e esperienze esclusive non acquistabili","Un gadget con il logo dell'hotel","Colazione gratuita"],correct:1,why:"Il Platinum deve sembrare irraggiungibile ma desiderabile. Non sconti — esperienze uniche che non si trovano da nessun'altra parte."},
+    {q:"Cosa fa un hotel luxury quando un cliente si lamenta per il rumore?",a:["Ignora la lamentela","Offre solo scuse formali","Propone soluzioni concrete e un benefit di compensazione","Chiede al cliente di parlare meno forte"],correct:2,why:"Nel luxury un reclamo gestito bene crea più fedeltà di un soggiorno perfetto. La soluzione concreta + il benefit trasforma il problema in un'opportunità."},
+    {q:"Il customer journey di un ospite inizia:",a:["Al momento del check-in in hotel","3 giorni prima con l'email di benvenuto","Al momento della prenotazione","Quando cerca 'hotel Sardegna' online"]  ,correct:3,why:"Il journey inizia quando il cliente cerca online — ancora prima di conoscere il vostro hotel. SEO, Instagram e recensioni catturano il cliente in questa fase."}
+  ],
+  '7':[
+    {q:"In un hotel da 30 suite, qual è il reparto con più dipendenti?",a:["Front Office (reception)","Housekeeping (pulizie)","F&B (ristorante e cucina)","Direzione e amministrazione"],correct:1,why:"Housekeeping richiede il maggior numero di persone — 30 suite da pulire ogni giorno, anche due volte al giorno per i luxury. Circa 8-10 persone."},
+    {q:"Il check-in perfetto per un ospite luxury inizia:",a:["Quando arriva alla reception","Con una lunga attesa per il documento","24-48 ore prima con email personalizzata","Solo dopo che ha pagato"],correct:2,why:"Il luxury anticipa i bisogni. L'email pre-arrivo raccoglie preferenze, conferma navetta e crea già l'aspettativa dell'esperienza."},
+    {q:"Perché preferire fornitori locali sardi (KM0)?",a:["Solo per ridurre i costi","Per qualità superiore e vantaggio di marketing","Perché la legge lo impone","Solo per ragioni ambientali"],correct:1,why:"Pecorino sardo, bottarga, mirto, Vermentino locale — il fornitore KM0 diventa anche una storia da raccontare agli ospiti. Qualità + marketing."},
+    {q:"La domotica in hotel serve per:",a:["Decorare le camere","Personalizzare luce, clima e servizi in ogni suite","Controllare i dipendenti","Ridurre il personale a zero"],correct:1,why:"La domotica permette all'ospite di personalizzare la sua esperienza — temperatura, luci, tende — dal telefono o con la voce. È il lusso tecnologico discreto."},
+    {q:"Chi è responsabile della domotica e della privacy dei dati in hotel?",a:["Il receptionist di turno","Il tecnico informatico esterno","Il General Manager","Il responsabile housekeeping"]  ,correct:2,why:"La tessera smart contiene dati sensibili. La responsabilità della privacy e della sicurezza tecnologica è del General Manager."}
+  ],
+  '8':[
+    {q:"Un influencer con 500K follower pubblica un video negativo. La prima cosa da fare è:",a:["Bloccare l'influencer sui social","Verificare nei registri se ha davvero soggiornato","Offrire subito un rimborso","Eliminare il profilo social dell'hotel"],correct:1,why:"Prima di rispondere, verificate se l'influencer è mai stato da voi. Se non risulta nei registri, la risposta cambia completamente."},
+    {q:"È agosto, l'hotel è pieno, la suite degli sposi novelli non è pronta. Cosa fare SUBITO?",a:["Dire la verità agli sposi e farli aspettare in reception","Intrattenerli con champagne senza spiegare il problema","Dire che hanno sbagliato data di prenotazione","Chiamare un altro hotel vicino"],correct:1,why:"Mai creare ansia — trasformate l'attesa in un'esperienza. Champagne in lounge privata mentre l'housekeeping lavora in sprint. Il problema non deve esistere per loro."},
+    {q:"In caso di guasto del condizionatore in agosto, cosa costa meno?",a:["Rimborsare tutte le 15 suite (~€15.000)","Noleggiare climatizzatori portatili (~€1.500) + benefit (~€2.000)","Chiudere il piano e non fare nulla","Chiamare il tecnico d'emergenza (~€800)"],correct:1,why:"€3.500 tra climatizzatori + benefit è molto meno di €15.000 di rimborsi. E trasforma la crisi in un'occasione per stupire gli ospiti."},
+    {q:"Nella gestione di una crisi allergene in ristorante, qual è la priorità assoluta?",a:["Documentare l'incidente per il legale","Offrire scuse formali al cliente","La salute dell'ospite — chiamare 118 se necessario","Avvisare i media prima che diffondano la notizia"],correct:2,why:"La salute viene prima di tutto, sempre. Poi scuse, documentazione, azione correttiva. Mai al contrario."},
+    {q:"La risposta pubblica a una recensione da 1 stella su Google serve per:",a:["Difendere il nome dell'hotel","Mostrare professionalità a chi leggerà dopo","Convincere l'autore a cambiare voto","Ottenere uno sconto sulle commissioni di Google"]  ,correct:1,why:"Non risponderete all'autore — risponderete ai migliaia di futuri clienti che leggeranno quella recensione. È marketing puro."}
+  ],
+  '9':[
+    {q:"La sezione più importante della dashboard finale è:",a:["Quella con i grafici più belli","Quella con i dati più accurati e aggiornati","Quella con più testo scritto","Quella realizzata dalla squadra vincitrice"],correct:1,why:"Una dashboard professionale vale per i dati che contiene, non per l'estetica. Accuratezza e aggiornamento sono tutto."},
+    {q:"Il pitch finale di 10 minuti deve iniziare con:",a:["Un elenco di tutti i dati finanziari","Un'apertura che cattura l'attenzione in 60 secondi","Il ringraziamento ai professori","La presentazione dei membri della squadra"],correct:1,why:"I primi 60 secondi decidono se il pubblico ascolta o no. L'apertura deve creare curiosità o stupire — non elencare dati."},
+    {q:"Nel pitch, quando si presenta la sezione Finanza, il dato più importante è:",a:["Il numero totale di dipendenti","Il margine operativo e il break-even point","Il prezzo medio a notte","Il numero di follower sui social"],correct:1,why:"Gli investitori e i professori vogliono sapere: l'hotel guadagna? Quanto? Quando copre i costi? Margine operativo e break-even sono i numeri chiave."},
+    {q:"Cosa distingue un prompt professionale da uno generico?",a:["Il numero di parole scritte","Contesto, dati specifici, obiettivo chiaro","Il livello di inglese usato","Il fatto di essere scritto a mano"],correct:1,why:"Un prompt con contesto (chi sono, dove sono) + dati (30 suite, €300/notte) + obiettivo (calcola il RevPAR) genera risposte precise. Senza questi elementi Claude indovina."},
+    {q:"Questa settimana avete imparato che l'AI:",a:["Sostituisce il vostro lavoro","Amplifica le vostre competenze se la usate bene","Risponde sempre nel modo giusto","È inutile nel mondo del lavoro"]  ,correct:1,why:"L'AI non pensa al posto vostro — amplifica quello che già sapete. Un prompt scarso dà una risposta scadente. Un prompt professionale dà una risposta professionale."}
+  ]
+};
+
+const SQ_NAMES={amm:'Amministrazione',fin:'Finanza',mkt:'Marketing'};
+
+let selectedSquad=null;
+let playerName='';
+let currentQ=0;
+let score=0;
+let correct=0;
+let wrong=0;
+let times=[];
+let timerInterval=null;
+let timeLeft=TIMER;
+let questions=[];
+
+const MEMBERS={
+  amm:['Leyla Panizzon','Salma Lakrafi','Mattia Valberghi','Martina Battiston','Thomas Cadei','Francesco Cau','Giada Brambilla'],
+  fin:['Edoardo Bori','Edoardo Sartori','Giovanni Cilli','Belma Toskaj','Lorenzo Cozzi','Samuele Verducci'],
+  mkt:['Desirè Sabatino','Chiara Reale Ruffino','Dalila Ciresa','Rebecca Piantanida','Andry Plaku','Margherita Puricelli','Alessandro Zeni']
+};
+
+window.selectSquad=function(sq){
+  selectedSquad=sq;
+  document.querySelectorAll('.sq-btn').forEach(b=>{
+    b.className='sq-btn';
+    if(b.dataset.sq===sq) b.className='sq-btn sel-'+sq;
+  });
+  const sel=document.getElementById('inp-name');
+  sel.innerHTML='<option value="">— Seleziona il tuo nome —</option>'+
+    MEMBERS[sq].map(n=>`<option value="${n}">${n}</option>`).join('');
+  document.getElementById('name-wrap').style.display='block';
+  sel.value='';
+  checkReady();
+};
+
+window.checkReady=function(){
+  const name=document.getElementById('inp-name').value;
+  document.getElementById('btn-go').disabled=!name||!selectedSquad;
+};
+
+window.startQuiz=function(){
+  playerName=document.getElementById('inp-name').value;
+  questions=(QUESTIONS[ROUND]||QUESTIONS['1']).slice();
+  showScreen('screen-quiz');
+  showQuestion();
+};
+
+function showQuestion(){
+  if(currentQ>=questions.length){endQuiz();return;}
+  const q=questions[currentQ];
+  document.getElementById('q-counter').textContent=(currentQ+1)+'/'+questions.length;
+  document.getElementById('q-score').textContent=score+' pt';
+  document.getElementById('q-text').textContent=q.q;
+  document.getElementById('feedback').style.display='none';
+  document.getElementById('pts-earned').style.display='none';
+  const ans=document.getElementById('answers');
+  ans.style.display='flex';
+  const letters=['A','B','C','D'];
+  ans.innerHTML=q.a.map((a,i)=>`<button class="ans-btn" onclick="pick(${i})"><span class="ans-letter">${letters[i]}</span>${a}</button>`).join('');
+  startTimer();
+}
+
+function startTimer(){
+  timeLeft=TIMER;
+  clearInterval(timerInterval);
+  const txt=document.getElementById('timer-text');
+  const bar=document.getElementById('timer-bar');
+  txt.className='timer-text';
+  bar.className='timer-bar';
+  txt.textContent=timeLeft;
+  bar.style.width='100%';
+  const start=Date.now();
+  timerInterval=setInterval(()=>{
+    timeLeft--;
+    txt.textContent=timeLeft;
+    bar.style.width=(timeLeft/TIMER*100)+'%';
+    if(timeLeft<=3){txt.className='timer-text danger';bar.className='timer-bar danger';}
+    if(timeLeft<=0){clearInterval(timerInterval);timeout();}
+  },1000);
+}
+
+window.pick=function(i){
+  clearInterval(timerInterval);
+  const q=questions[currentQ];
+  const elapsed=TIMER-timeLeft;
+  times.push(elapsed);
+  const btns=document.querySelectorAll('.ans-btn');
+  btns.forEach((b,j)=>{
+    b.classList.add('disabled');
+    if(j===q.correct) b.classList.add('correct');
+    else if(j===i&&i!==q.correct) b.classList.add('wrong');
+  });
+  const isCorrect=i===q.correct;
+  if(isCorrect){
+    const pts=Math.max(10,Math.round(100*(1-elapsed/TIMER)));
+    score+=pts;
+    correct++;
+    showFeedback('correct','✓ Corretto! '+q.why,'+ '+pts+' punti');
+  } else {
+    wrong++;
+    showFeedback('wrong','✗ Sbagliato. '+q.why,'0 punti');
+  }
+  setTimeout(()=>{currentQ++;showQuestion();},2200);
+};
+
+function timeout(){
+  const q=questions[currentQ];
+  times.push(TIMER);
+  wrong++;
+  const btns=document.querySelectorAll('.ans-btn');
+  btns.forEach((b,j)=>{
+    b.classList.add('disabled');
+    if(j===q.correct) b.classList.add('correct');
+  });
+  showFeedback('timeout','⏱ Tempo! '+q.why,'0 punti');
+  setTimeout(()=>{currentQ++;showQuestion();},2200);
+}
+
+function showFeedback(cls,text,pts){
+  const fb=document.getElementById('feedback');
+  fb.className='feedback '+cls;
+  fb.textContent=text;
+  fb.style.display='block';
+  const pe=document.getElementById('pts-earned');
+  pe.textContent=pts;
+  pe.style.display='block';
+}
+
+async function endQuiz(){
+  const avgTime=times.length?parseFloat((times.reduce((a,b)=>a+b,0)/times.length).toFixed(1)):0;
+  document.getElementById('r-score').textContent=score;
+  document.getElementById('r-correct').textContent=correct;
+  document.getElementById('r-wrong').textContent=wrong;
+  document.getElementById('r-time').textContent=avgTime+'s';
+  showScreen('screen-results');
+  const docRef=doc(db,COL,playerName+'_'+Date.now());
+  await setDoc(docRef,{name:playerName,squad:selectedSquad,score,correct,wrong,avgTime,ts:Date.now()});
+  loadLeaderboard();
+}
+
+function loadLeaderboard(){
+  onSnapshot(collection(db,COL),(snap)=>{
+    const rows=[];
+    snap.forEach(d=>{const s=d.data();if(s.name) rows.push(s);});
+    rows.sort((a,b)=>b.score-a.score);
+    const lb=document.getElementById('leaderboard');
+    const medals=['🥇','🥈','🥉'];
+    lb.innerHTML=rows.map((s,i)=>`<div class="lb-row"><span class="lb-rank">${i<3?medals[i]:i+1}</span><span class="lb-name">${s.name}</span><span class="lb-sq sq-${s.squad}-badge">${SQ_NAMES[s.squad]||s.squad}</span><span class="lb-pts">${s.score}</span></div>`).join('');
+  });
+}
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+</script>
+</body>
+</html>
