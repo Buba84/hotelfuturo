@@ -132,16 +132,16 @@ function buildButtons(){
   for(let i=1;i<=9;i++){
     const btn=document.createElement('button');
     btn.className='round-btn'+(i==currentRound?' active':'');
-    btn.textContent='S'+i;
-    btn.title='S'+i+' — '+(TOPICS[i-1]||'');
+    btn.textContent='R'+i;
+    btn.title='R'+i+' — '+(TOPICS[i-1]||'');
     btn.onclick=()=>{currentRound=''+i;buildButtons();loadRound();};
     sel.appendChild(btn);
   }
 }
 
 function loadRound(){
-  document.getElementById('sec-teams').textContent='Punteggio squadre — Sessione '+currentRound+' · '+(TOPICS[currentRound-1]||'');
-  document.getElementById('sec-podio').textContent='Podio — Sessione '+currentRound;
+  document.getElementById('sec-teams').textContent='Punteggio squadre — Round '+currentRound+' · '+(TOPICS[currentRound-1]||'');
+  document.getElementById('sec-podio').textContent='Podio — Round '+currentRound;
   if(unsubscribe) unsubscribe();
   unsubscribe=onSnapshot(query(collection(db,'sardegna_quiz_s'+currentRound)),snap=>{
     const scores=[];
