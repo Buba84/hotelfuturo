@@ -116,7 +116,7 @@ const db=getFirestore(app);
 const SQN={amm:'Amministrazione',fin:'Finanza',mkt:'Marketing'};
 const SQC={amm:'sq-amm',fin:'sq-fin',mkt:'sq-mkt'};
 const FIN_COEFF=1.17;
-const TOPICS=['Chi è il cliente','Marketing e comunicazione','Budget e KPI','Pricing e stagionalità','Comunicazione internazionale','Gestione clienti','Procedure e organigramma','Simulazione crisi','Dashboard e Pitch'];
+const TOPICS=['Riscaldamento','Budget marketing','Piano social media','Canali di vendita'];
 
 let currentRound='1';
 let unsubscribe=null;
@@ -129,7 +129,7 @@ function buildButtons(){
   btnAll.textContent='Generale';
   btnAll.onclick=()=>{currentRound='all';buildButtons();loadAllRounds();};
   sel.appendChild(btnAll);
-  for(let i=1;i<=9;i++){
+  for(let i=1;i<=TOPICS.length;i++){
     const btn=document.createElement('button');
     btn.className='round-btn'+(i==currentRound?' active':'');
     btn.textContent='R'+i;
@@ -157,7 +157,7 @@ function loadAllRounds(){
   if(unsubscribe) unsubscribe();
   const allScores={};
   let loaded=0;
-  for(let r=1;r<=9;r++){
+  for(let r=1;r<=TOPICS.length;r++){
     onSnapshot(query(collection(db,'sardegna_quiz_s'+r)),snap=>{
       snap.forEach(d=>{
         const s=d.data();
@@ -169,7 +169,7 @@ function loadAllRounds(){
         allScores[k].rounds++;
         allScores[k].totalTime+=(s.avgTime||0);
       });
-      if(++loaded>=9){
+      if(++loaded>=TOPICS.length){
         const scores=Object.values(allScores);
         scores.forEach(s=>s.avgTime=s.rounds>0?parseFloat((s.totalTime/s.rounds).toFixed(1)):0);
         scores.sort((a,b)=>b.score-a.score||(a.avgTime||99)-(b.avgTime||99));

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Setup Quiz Sardegna</title>
+<style>
+body{font-family:sans-serif;background:#0f0e0c;color:#f0ece4;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+.card{background:#1a1916;border:1px solid rgba(201,168,76,.3);border-radius:16px;padding:32px;max-width:500px;width:100%;text-align:center;}
+h2{color:#c9a84c;margin-bottom:16px;font-size:22px;}
+.status{margin-top:12px;padding:12px;border-radius:10px;font-size:15px;line-height:1.6;}
+.ok{background:rgba(76,175,80,.15);color:#4caf50;}
+.loading{background:rgba(201,168,76,.15);color:#c9a84c;}
+.err{background:rgba(229,57,53,.15);color:#e53935;}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>🔑 Caricamento chiavi Round 1-4</h2>
+<div class="status loading" id="status">Caricamento in corso...</div>
+</div>
+<script type="module">
+import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import{getFirestore,doc,setDoc}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+const app=initializeApp({apiKey:"AIzaSyCzDnRq7_Tfq7uktNfy2r8tFu0qTdrE-88",projectId:"hotelfuturo",appId:"1:349688895596:web:81b1e5f3c993099c9b6049"});
+const db=getFirestore(app);
+const KEYS={'1':[1,2,2,1,2],'2':[0,2,0,3,0],'3':[3,2,3,2,2],'4':[1,2,3,2,3]};
+const st=document.getElementById('status');
+try{
+  for(const[r,k]of Object.entries(KEYS)){
+    await setDoc(doc(db,'sardegna_quiz_keys','s'+r),{keys:k,ts:Date.now()});
+  }
+  st.className='status ok';
+  st.innerHTML='✅ Chiavi R1-R4 caricate su Firebase!<br><br>Ora proietta il QR code e fai giocare i ragazzi.<br><br>Puoi chiudere questa pagina.';
+}catch(e){
+  st.className='status err';
+  st.textContent='❌ Errore: '+e.message;
+}
+</script>
+</body>
+</html>

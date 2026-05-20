@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Quiz Sardegna</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0f0e0c;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:40px;font-family:sans-serif;}
+.card{background:#0f0e0c;border:2px solid rgba(201,168,76,.3);border-radius:24px;padding:48px 40px;max-width:440px;width:100%;text-align:center;}
+.logo{font-size:34px;font-weight:700;color:#f0ece4;font-family:Georgia,serif;margin-bottom:4px;}
+.round{font-size:22px;font-weight:700;color:#c9a84c;margin-bottom:4px;}
+.topic{font-size:15px;color:#9a9590;margin-bottom:24px;}
+.qr-box{background:#fff;border-radius:16px;padding:24px;display:inline-block;margin-bottom:20px;}
+.url{font-size:12px;color:#c9a84c;font-family:monospace;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:8px 14px;display:inline-block;margin-bottom:14px;word-break:break-all;}
+.info{font-size:15px;color:#9a9590;line-height:1.7;}
+.info strong{color:#f0ece4;}
+.squads{display:flex;gap:8px;justify-content:center;margin-top:16px;}
+.sq{font-size:13px;font-weight:700;padding:5px 14px;border-radius:20px;}
+.s-amm{background:#1a2d42;color:#4a90d9;}
+.s-fin{background:#3a2510;color:#d4843a;}
+.s-mkt{background:#1a2e10;color:#5aaa3a;}
+.tag{display:inline-block;margin-top:14px;font-size:13px;font-weight:700;padding:6px 16px;border-radius:20px;background:rgba(201,168,76,.1);color:#c9a84c;border:1px solid rgba(201,168,76,.3);}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">🏨 Hotel Futuro</div>
+  <div class="round" id="round-label">Round 1</div>
+  <div class="topic" id="topic">Riscaldamento</div>
+  <div class="qr-box"><div id="qr"></div></div>
+  <br>
+  <div class="url" id="url-display"></div>
+  <div class="info">Inquadra e gioca!<br><strong>5 domande · <span id="timer-info">10</span> secondi · live</strong></div>
+  <div class="tag" id="tag-info">Desirè: font grande + 15 sec automatico</div>
+  <div class="squads">
+    <span class="sq s-amm">🔵 Amm.</span>
+    <span class="sq s-fin">🟡 Fin.</span>
+    <span class="sq s-mkt">🟢 Mkt</span>
+  </div>
+</div>
+<script>
+const TOPICS={
+  '1':'Riscaldamento — recap cliente',
+  '2':'Budget marketing',
+  '3':'Piano social media',
+  '4':'Canali di vendita'
+};
+const round=new URLSearchParams(location.search).get('round')||'1';
+const url='https://buba84.github.io/hotelfuturo/quiz-sardegna.html?round='+round;
+
+document.getElementById('round-label').textContent='Round '+round;
+document.getElementById('topic').textContent=TOPICS[round]||'Quiz';
+document.getElementById('url-display').textContent='quiz-sardegna.html?round='+round;
+
+new QRCode(document.getElementById('qr'),{
+  text:url,
+  width:240,height:240,
+  colorDark:'#0f0e0c',colorLight:'#ffffff',
+  correctLevel:QRCode.CorrectLevel.H
+});
+</script>
+</body>
+</html>
