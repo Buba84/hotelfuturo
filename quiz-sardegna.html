@@ -217,13 +217,38 @@ if(SETUP){
 window.startQuiz=async function(){
   playerName=document.getElementById('inp-name').value;
   if(playerName==='Desirè Sabatino') TIMER=15;
+  
+  // Controlla se ha già giocato questo round
+  const playerDocId=playerName.replace(/\s+/g,'_')+'_r'+ROUND;
+  try{
+    const existing=await getDoc(doc(db,COL,playerDocId));
+    if(existing.exists()){
+      const d=existing.data();
+      score=d.score||0;correctCount=d.correct||0;wrong=d.wrong||0;
+      document.getElementById('r-score').textContent=score;
+      document.getElementById('r-correct').textContent=correctCount;
+      document.getElementById('r-wrong').textContent=wrong;
+      document.getElementById('r-time').textContent=(d.avgTime||0)+'s';
+      showScreen('screen-results');
+      document.querySelector('#screen-results .logo').textContent='⛔ Hai già fatto questo quiz!';
+      loadLeaderboard();
+      return;
+    }
+  }catch(e){}
+  
+  // Carica chiavi
   try{
     const keysDoc=await getDoc(doc(db,'sardegna_quiz_keys','s'+ROUND));
     if(keysDoc.exists()&&keysDoc.data().keys){
       correctKeys=keysDoc.data().keys;
     }else{correctKeys=[1,1,1,1,1];}
   }catch(e){correctKeys=[1,1,1,1,1];}
+  
   questions=(QUESTIONS[ROUND]||QUESTIONS['1']).slice();
+  
+  // Salva subito che ha iniziato (con score 0)
+  await setDoc(doc(db,COL,playerDocId),{name:playerName,squad:selectedSquad,score:0,correct:0,wrong:0,avgTime:0,started:true,completed:false,ts:Date.now()});
+  
   showScreen('screen-quiz');
   showQuestion();
 };
@@ -286,6 +311,10 @@ window.pick=function(i){
     wrong++;
     showFeedback('wrong','✗ Sbagliato. La risposta corretta è evidenziata.','0 punti');
   }
+  // Salva progresso dopo ogni risposta
+  const playerDocId=playerName.replace(/\s+/g,'_')+'_r'+ROUND;
+  const avgT=times.length?parseFloat((times.reduce((a,b)=>a+b,0)/times.length).toFixed(1)):0;
+  setDoc(doc(db,COL,playerDocId),{name:playerName,squad:selectedSquad,score,correct:correctCount,wrong,avgTime:avgT,started:true,completed:false,ts:Date.now()});
   setTimeout(()=>{currentQ++;showQuestion();},2200);
 };
 
@@ -299,6 +328,10 @@ function timeout(){
     if(parseInt(b.dataset.idx)===correct) b.classList.add('correct');
   });
   showFeedback('timeout','⏱ Tempo scaduto! La risposta è evidenziata.','0 punti');
+  // Salva progresso dopo timeout
+  const playerDocId2=playerName.replace(/\s+/g,'_')+'_r'+ROUND;
+  const avgT2=times.length?parseFloat((times.reduce((a,b)=>a+b,0)/times.length).toFixed(1)):0;
+  setDoc(doc(db,COL,playerDocId2),{name:playerName,squad:selectedSquad,score,correct:correctCount,wrong,avgTime:avgT2,started:true,completed:false,ts:Date.now()});
   setTimeout(()=>{currentQ++;showQuestion();},2200);
 }
 
@@ -315,8 +348,8 @@ async function endQuiz(){
   document.getElementById('r-wrong').textContent=wrong;
   document.getElementById('r-time').textContent=avgTime+'s';
   showScreen('screen-results');
-  const docId=playerName.replace(/\s+/g,'_')+'_'+Date.now();
-  await setDoc(doc(db,COL,docId),{name:playerName,squad:selectedSquad,score,correct:correctCount,wrong,avgTime,ts:Date.now()});
+  const playerDocId=playerName.replace(/\s+/g,'_')+'_r'+ROUND;
+  await setDoc(doc(db,COL,playerDocId),{name:playerName,squad:selectedSquad,score,correct:correctCount,wrong,avgTime,started:true,completed:true,ts:Date.now()});
   loadLeaderboard();
 }
 
