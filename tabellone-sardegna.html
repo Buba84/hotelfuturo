@@ -4,456 +4,305 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hotel Futuro · Tabellone Sardegna</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --gold:#c9a84c; --dark:#0a0908; --dark2:#141210; --dark3:#1e1b18;
+:root{
+  --amm:#1A4A7B; --amm-l:#D3E8F5; --amm-b:#6AAAD4;
+  --fin:#7B4F1A; --fin-l:#F5E6D3; --fin-b:#D4956A;
+  --mkt:#2D7B1A; --mkt-l:#E0F5D3; --mkt-b:#6AD46A;
+  --gold:#C8A84B; --dark:#0f0e0c; --dark2:#1a1916; --dark3:#232220;
   --text:#f0ece4; --text2:#9a9590; --text3:#5a5752;
-  --amm:#4a90d9; --amm-l:#0d1f35; --amm-m:#1a2d42;
-  --fin:#d4843a; --fin-l:#2a1508; --fin-m:#3a2510;
-  --mkt:#5aaa3a; --mkt-l:#0e2008; --mkt-m:#1a2e10;
-  --green:#4caf50; --border:rgba(201,168,76,.12);
+  --border:rgba(200,168,75,.15); --green:#4caf50;
 }
-* { box-sizing:border-box; margin:0; padding:0; }
-html, body { height:100%; }
-body {
-  font-family:'DM Sans',sans-serif;
-  background:var(--dark);
-  color:var(--text);
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-}
-
-/* TOP BAR */
-.topbar {
-  background:var(--dark2);
-  border-bottom:1px solid var(--border);
-  padding:14px 36px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  flex-shrink:0;
-  position:relative;
-}
-.topbar::after {
-  content:'';
-  position:absolute;
-  bottom:0; left:0; right:0;
-  height:1px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-}
-.logo { font-family:'Playfair Display',serif; font-size:22px; color:var(--gold); }
-.logo-sub { font-size:11px; color:var(--text3); letter-spacing:.06em; margin-top:1px; }
-.live-pill {
-  display:flex; align-items:center; gap:8px;
-  font-size:12px; color:var(--green);
-  background:rgba(76,175,80,.08);
-  border:1px solid rgba(76,175,80,.2);
-  border-radius:20px; padding:6px 14px;
-}
-.live-dot {
-  width:7px; height:7px; border-radius:50%;
-  background:var(--green);
-  animation:blink 1.5s ease-in-out infinite;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
-
-.session-info {
-  text-align:center;
-  font-size:12px; color:var(--text2);
-}
-.session-info strong { color:var(--gold); font-size:13px; }
-
-/* MAIN LAYOUT */
-.main {
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  padding:20px 36px 16px;
-  gap:16px;
-  min-height:0;
-}
-
-/* PROGRESS BAR */
-.progress-wrap {
-  background:var(--dark2);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:12px 20px;
-  display:flex;
-  align-items:center;
-  gap:16px;
-  flex-shrink:0;
-}
-.prog-label { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--text3); white-space:nowrap; }
-.prog-track {
-  flex:1; height:6px;
-  background:var(--dark3);
-  border-radius:3px; overflow:hidden;
-}
-.prog-fill {
-  height:100%;
-  background:linear-gradient(90deg, var(--gold), #e8c86a);
-  border-radius:3px;
-  transition:width 1s cubic-bezier(.4,0,.2,1);
-}
-.prog-val { font-size:13px; font-weight:700; color:var(--gold); white-space:nowrap; }
-.sess-dots { display:flex; gap:5px; }
-.sdot {
-  width:18px; height:6px;
-  border-radius:3px;
-  background:var(--dark3);
-  transition:background .5s;
-}
-.sdot.done { background:var(--gold); }
-.sdot.cur { background:rgba(201,168,76,.5); animation:pulse-dot .8s ease-in-out infinite alternate; }
-@keyframes pulse-dot { from{opacity:.5} to{opacity:1} }
-
-/* SQUADS */
-.squads { flex:1; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; min-height:0; }
-
-.squad-card {
-  border-radius:20px;
-  display:flex; flex-direction:column;
-  padding:28px 28px 22px;
-  position:relative; overflow:hidden;
-  transition:transform .3s, box-shadow .3s;
-}
-.squad-card.leader {
-  box-shadow:0 0 0 2.5px var(--gold), 0 0 40px rgba(201,168,76,.15);
-  transform:scale(1.01);
-}
-.squad-card::before {
-  content:''; position:absolute;
-  top:0; left:0; right:0; height:3px;
-  opacity:0; transition:opacity .3s;
-}
-.squad-card.leader::before { opacity:1; }
-
-.s-amm { background:linear-gradient(160deg, var(--amm-l), var(--amm-m)); }
-.s-amm::before { background:linear-gradient(90deg, transparent, var(--amm), transparent); }
-.s-fin { background:linear-gradient(160deg, var(--fin-l), var(--fin-m)); }
-.s-fin::before { background:linear-gradient(90deg, transparent, var(--fin), transparent); }
-.s-mkt { background:linear-gradient(160deg, var(--mkt-l), var(--mkt-m)); }
-.s-mkt::before { background:linear-gradient(90deg, transparent, var(--mkt), transparent); }
-
-.crown { position:absolute; top:14px; right:16px; font-size:28px; display:none; animation:crown-bounce .6s ease-in-out infinite alternate; }
-@keyframes crown-bounce { from{transform:translateY(0)} to{transform:translateY(-4px)} }
-.squad-card.leader .crown { display:block; }
-
-.squad-name {
-  font-size:13px; font-weight:700;
-  letter-spacing:.12em; text-transform:uppercase;
-  margin-bottom:4px;
-}
-.s-amm .squad-name { color:var(--amm); }
-.s-fin .squad-name { color:var(--fin); }
-.s-mkt .squad-name { color:var(--mkt); }
-
-.squad-coeff { font-size:10px; color:var(--gold); margin-bottom:16px; letter-spacing:.04em; }
-
-.squad-score {
-  font-family:'Playfair Display',serif;
-  font-size:clamp(64px,8vw,96px);
-  font-weight:700; line-height:1;
-  margin-bottom:4px;
-  transition:transform .2s;
-}
-.s-amm .squad-score { color:var(--amm); }
-.s-fin .squad-score { color:var(--fin); }
-.s-mkt .squad-score { color:var(--mkt); }
-.squad-score.bump { animation:score-bump .3s ease-out; }
-@keyframes score-bump { 0%{transform:scale(1)} 50%{transform:scale(1.08)} 100%{transform:scale(1)} }
-
-.squad-pts-label { font-size:11px; color:var(--text3); text-transform:uppercase; letter-spacing:.08em; margin-bottom:20px; }
-
-/* BAR */
-.bar-wrap { flex:1; display:flex; flex-direction:column; justify-content:flex-end; gap:6px; }
-.bar-row { display:flex; align-items:center; gap:10px; }
-.bar-track { flex:1; height:5px; background:rgba(255,255,255,.06); border-radius:3px; overflow:hidden; }
-.bar-fill { height:100%; border-radius:3px; transition:width 1s cubic-bezier(.4,0,.2,1); }
-.s-amm .bar-fill { background:var(--amm); }
-.s-fin .bar-fill { background:var(--fin); }
-.s-mkt .bar-fill { background:var(--mkt); }
-.bar-pct { font-size:10px; color:var(--text3); width:28px; text-align:right; }
-
-/* MEMBERS */
-.members-wrap { margin-top:16px; border-top:1px solid rgba(255,255,255,.06); padding-top:14px; }
-.members-label { font-size:9px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--text3); margin-bottom:8px; }
-.members-grid { display:flex; flex-wrap:wrap; gap:5px; }
-.member-pill {
-  font-size:10px; padding:3px 9px;
-  border-radius:20px;
-  background:rgba(255,255,255,.05);
-  color:var(--text2);
-  white-space:nowrap;
-}
-
-/* REP */
-.rep-row { margin-top:10px; display:flex; align-items:center; gap:6px; }
-.rep-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
-.s-amm .rep-dot { background:var(--amm); }
-.s-fin .rep-dot { background:var(--fin); }
-.s-mkt .rep-dot { background:var(--mkt); }
-.rep-label { font-size:9px; text-transform:uppercase; letter-spacing:.08em; color:var(--text3); }
-.rep-name { font-size:12px; color:var(--text); font-weight:500; }
-
-/* FOOTER */
-.footer {
-  text-align:center; padding:8px 36px 12px;
-  font-size:10px; color:var(--text3);
-  flex-shrink:0;
-  letter-spacing:.06em;
-}
-.footer span { color:var(--gold); }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+.header{background:var(--dark2);border-bottom:1px solid var(--border);padding:20px 36px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.logo{font-family:'Playfair Display',serif;font-size:28px;color:var(--gold);}
+.logo-sub{font-size:14px;color:var(--text2);margin-top:2px;}
+.header-center{text-align:center;}
+.sess-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--text);}
+.sess-badge{display:inline-block;font-size:14px;font-weight:600;padding:4px 16px;border-radius:20px;margin-top:6px;}
+.mat{background:#1a3a5c;color:#7ab8f0;} .pom{background:#3a250a;color:#f0b040;}
+.header-right{text-align:right;}
+.prog{font-size:20px;font-weight:600;color:var(--gold);}
+.prog-sub{font-size:13px;color:var(--text2);}
+.live-badge{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--green);margin-top:6px;justify-content:flex-end;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 1.5s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.main{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;padding:20px;min-height:0;}
+.sq-card{border-radius:20px;padding:28px 32px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;}
+.sq-card.leader{box-shadow:0 0 0 3px var(--gold);}
+.sq-amm{background:var(--amm-l);border:2px solid var(--amm-b);}
+.sq-fin{background:var(--fin-l);border:2px solid var(--fin-b);}
+.sq-mkt{background:var(--mkt-l);border:2px solid var(--mkt-b);}
+.sq-top{display:flex;align-items:flex-start;justify-content:space-between;}
+.sq-emoji{font-size:36px;}
+.crown{font-size:32px;opacity:0;transition:opacity .3s;animation:crown-bounce .6s ease-in-out infinite alternate;}
+@keyframes crown-bounce{from{transform:translateY(0)}to{transform:translateY(-4px)}}
+.sq-card.leader .crown{opacity:1;}
+.sq-name{font-size:20px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:8px;}
+.sq-amm .sq-name{color:var(--amm);}
+.sq-fin .sq-name{color:var(--fin);}
+.sq-mkt .sq-name{color:var(--mkt);}
+.sq-coeff{font-size:12px;color:var(--gold);margin-top:3px;font-weight:600;}
+.sq-pts{font-family:'Playfair Display',serif;font-size:140px;font-weight:600;line-height:1;text-align:center;flex:1;display:flex;align-items:center;justify-content:center;}
+.sq-amm .sq-pts{color:var(--amm);}
+.sq-fin .sq-pts{color:var(--fin);}
+.sq-mkt .sq-pts{color:var(--mkt);}
+.sq-card.pts-anim .sq-pts{animation:pop .3s ease;}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+.sq-bottom{display:flex;align-items:flex-end;justify-content:space-between;}
+.sq-rep-lbl{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:4px;}
+.sq-rep{font-size:20px;font-weight:500;color:var(--dark);}
+.sq-btns{display:flex;gap:8px;}
+.sq-btn{width:52px;height:52px;border-radius:12px;border:2px solid rgba(0,0,0,.15);background:rgba(0,0,0,.08);cursor:pointer;font-size:22px;font-weight:700;color:var(--dark);transition:all .15s;display:flex;align-items:center;justify-content:center;}
+.sq-btn:hover{background:rgba(0,0,0,.18);}
+.sq-btn:active{transform:scale(.92);}
+.bottom-bar{background:var(--dark2);border-top:1px solid var(--border);padding:16px 36px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.sess-nav{display:flex;align-items:center;gap:10px;}
+.btn-sess{font-size:15px;font-weight:600;padding:10px 22px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;}
+.btn-sess:hover{background:var(--dark3);color:var(--text);}
+.btn-sess.next{background:var(--gold);color:var(--dark);border-color:var(--gold);}
+.sess-counter{font-size:17px;color:var(--text2);padding:0 8px;}
+.bottom-center{flex:1;text-align:center;}
+.challenge-lbl{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
+.challenge-text{font-size:15px;color:var(--text2);}
+.bottom-right{text-align:right;}
+.rep-lbl{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
+.rep-name{font-size:22px;font-weight:600;color:var(--gold);}
+.rep-input{background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:6px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;width:220px;margin-top:6px;}
+.rep-input:focus{border-color:var(--gold);}
+.confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;display:none;}
+.confetti.show{display:block;}
 </style>
 </head>
 <body>
 
-<div class="topbar">
+<div class="header">
   <div>
-    <div class="logo">Hotel Futuro · Tabellone</div>
-    <div class="logo-sub">PCTO AFM · Santa Teresa di Gallura · Sardegna</div>
+    <div class="logo">🏨 Hotel Futuro · Sardegna</div>
+    <div class="logo-sub">PCTO AFM · Santa Teresa di Gallura</div>
   </div>
-  <div class="session-info">
-    <div id="sess-label">In attesa di avvio...</div>
-    <div id="sess-sub" style="margin-top:2px;font-size:11px;color:var(--text3)"></div>
+  <div class="header-center">
+    <div class="sess-title" id="h-title">Premi → per iniziare</div>
+    <div><span class="sess-badge mat" id="h-badge">Mattina</span></div>
   </div>
-  <div class="live-pill">
-    <div class="live-dot"></div>
-    Aggiornamento live
+  <div class="header-right">
+    <div class="prog" id="h-prog">0/9</div>
+    <div class="prog-sub">sessioni</div>
+    <div class="live-badge"><div class="live-dot"></div>Live Firebase</div>
   </div>
 </div>
 
 <div class="main">
 
-  <div class="progress-wrap">
-    <span class="prog-label">Avanzamento</span>
-    <div class="sess-dots" id="sess-dots"></div>
-    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
-    <span class="prog-val" id="prog-val">0 / 27</span>
+  <!-- AMMINISTRAZIONE -->
+  <div class="sq-card sq-amm" id="card-amm">
+    <div class="sq-top">
+      <div>
+        <div class="sq-emoji">🔵</div>
+        <div class="sq-name">Amministrazione</div>
+      </div>
+      <span class="crown">👑</span>
+    </div>
+    <div class="sq-pts" id="pts-amm">0</div>
+    <div class="sq-bottom">
+      <div><div class="sq-rep-lbl">Rappresentante</div><div class="sq-rep" id="rep-amm">—</div></div>
+      <div class="sq-btns">
+        <button class="sq-btn" onclick="addPts('amm',-1)">−</button>
+        <button class="sq-btn" onclick="addPts('amm',1)">+1</button>
+        <button class="sq-btn" onclick="addPts('amm',2)">+2</button>
+        <button class="sq-btn" onclick="addPts('amm',3)">+3</button>
+      </div>
+    </div>
   </div>
 
-  <div class="squads">
-
-    <!-- AMMINISTRAZIONE -->
-    <div class="squad-card s-amm" id="card-amm">
+  <!-- FINANZA -->
+  <div class="sq-card sq-fin" id="card-fin">
+    <div class="sq-top">
+      <div>
+        <div class="sq-emoji">🟡</div>
+        <div class="sq-name">Finanza</div>
+        <div class="sq-coeff">× 1.17 (6 membri)</div>
+      </div>
       <span class="crown">👑</span>
-      <div class="squad-name">🔵 Amministrazione</div>
-      <div class="squad-coeff">7 membri</div>
-      <div class="squad-score" id="score-amm">0</div>
-      <div class="squad-pts-label">punti</div>
-      <div class="bar-wrap">
-        <div class="bar-row">
-          <div class="bar-track"><div class="bar-fill" id="bar-amm" style="width:0%"></div></div>
-          <span class="bar-pct" id="pct-amm">0%</span>
-        </div>
-      </div>
-      <div class="members-wrap">
-        <div class="members-label">Squadra</div>
-        <div class="members-grid">
-          <span class="member-pill">Leyla Panizzon</span>
-          <span class="member-pill">Salma Lakrafi</span>
-          <span class="member-pill">Mattia Valberghi</span>
-          <span class="member-pill">Martina Battiston</span>
-          <span class="member-pill">Thomas Cadei</span>
-          <span class="member-pill">Francesco Cau</span>
-          <span class="member-pill">Giada Brambilla</span>
-        </div>
-      </div>
-      <div class="rep-row">
-        <div class="rep-dot"></div>
-        <span class="rep-label">Rep:&nbsp;</span>
-        <span class="rep-name" id="rep-amm">—</span>
+    </div>
+    <div class="sq-pts" id="pts-fin">0</div>
+    <div class="sq-bottom">
+      <div><div class="sq-rep-lbl">Rappresentante</div><div class="sq-rep" id="rep-fin">—</div></div>
+      <div class="sq-btns">
+        <button class="sq-btn" onclick="addPts('fin',-1)">−</button>
+        <button class="sq-btn" onclick="addPts('fin',1)">+1</button>
+        <button class="sq-btn" onclick="addPts('fin',2)">+2</button>
+        <button class="sq-btn" onclick="addPts('fin',3)">+3</button>
       </div>
     </div>
+  </div>
 
-    <!-- FINANZA -->
-    <div class="squad-card s-fin" id="card-fin">
+  <!-- MARKETING -->
+  <div class="sq-card sq-mkt" id="card-mkt">
+    <div class="sq-top">
+      <div>
+        <div class="sq-emoji">🟢</div>
+        <div class="sq-name">Marketing</div>
+      </div>
       <span class="crown">👑</span>
-      <div class="squad-name">🟡 Finanza</div>
-      <div class="squad-coeff">6 membri · coefficiente ×1.17</div>
-      <div class="squad-score" id="score-fin">0</div>
-      <div class="squad-pts-label">punti effettivi</div>
-      <div class="bar-wrap">
-        <div class="bar-row">
-          <div class="bar-track"><div class="bar-fill" id="bar-fin" style="width:0%"></div></div>
-          <span class="bar-pct" id="pct-fin">0%</span>
-        </div>
-      </div>
-      <div class="members-wrap">
-        <div class="members-label">Squadra</div>
-        <div class="members-grid">
-          <span class="member-pill">Edoardo Bori</span>
-          <span class="member-pill">Edoardo Sartori</span>
-          <span class="member-pill">Giovanni Cilli</span>
-          <span class="member-pill">Belma Toskaj</span>
-          <span class="member-pill">Lorenzo Cozzi</span>
-          <span class="member-pill">Samuele Verducci</span>
-        </div>
-      </div>
-      <div class="rep-row">
-        <div class="rep-dot"></div>
-        <span class="rep-label">Rep:&nbsp;</span>
-        <span class="rep-name" id="rep-fin">—</span>
+    </div>
+    <div class="sq-pts" id="pts-mkt">0</div>
+    <div class="sq-bottom">
+      <div><div class="sq-rep-lbl">Rappresentante</div><div class="sq-rep" id="rep-mkt">—</div></div>
+      <div class="sq-btns">
+        <button class="sq-btn" onclick="addPts('mkt',-1)">−</button>
+        <button class="sq-btn" onclick="addPts('mkt',1)">+1</button>
+        <button class="sq-btn" onclick="addPts('mkt',2)">+2</button>
+        <button class="sq-btn" onclick="addPts('mkt',3)">+3</button>
       </div>
     </div>
+  </div>
 
-    <!-- MARKETING -->
-    <div class="squad-card s-mkt" id="card-mkt">
-      <span class="crown">👑</span>
-      <div class="squad-name">🟢 Marketing</div>
-      <div class="squad-coeff">7 membri</div>
-      <div class="squad-score" id="score-mkt">0</div>
-      <div class="squad-pts-label">punti</div>
-      <div class="bar-wrap">
-        <div class="bar-row">
-          <div class="bar-track"><div class="bar-fill" id="bar-mkt" style="width:0%"></div></div>
-          <span class="bar-pct" id="pct-mkt">0%</span>
-        </div>
-      </div>
-      <div class="members-wrap">
-        <div class="members-label">Squadra</div>
-        <div class="members-grid">
-          <span class="member-pill">Desirè Sabatino</span>
-          <span class="member-pill">Chiara Reale Ruffino</span>
-          <span class="member-pill">Dalila Ciresa</span>
-          <span class="member-pill">Rebecca Piantanida</span>
-          <span class="member-pill">Andry Plaku</span>
-          <span class="member-pill">Margherita Puricelli</span>
-          <span class="member-pill">Alessandro Zeni</span>
-        </div>
-      </div>
-      <div class="rep-row">
-        <div class="rep-dot"></div>
-        <span class="rep-label">Rep:&nbsp;</span>
-        <span class="rep-name" id="rep-mkt">—</span>
-      </div>
-    </div>
+</div>
 
+<div class="bottom-bar">
+  <div class="sess-nav">
+    <button class="btn-sess" onclick="changeSess(-1)">← Prec</button>
+    <span class="sess-counter" id="b-counter">1 / 9</span>
+    <button class="btn-sess next" onclick="changeSess(1)">Succ →</button>
+  </div>
+  <div class="bottom-center">
+    <div class="challenge-lbl">Sfida in corso</div>
+    <div class="challenge-text" id="b-challenge">—</div>
+  </div>
+  <div class="bottom-right">
+    <div class="rep-lbl">Alla postazione</div>
+    <div class="rep-name" id="b-rep">—</div>
+    <input class="rep-input" id="rep-input" placeholder="Nome rappresentante..." oninput="updateRep()">
   </div>
 </div>
 
-<div class="footer">
-  <span>Hotel Futuro · PCTO Sardegna 2026</span> · Powered by Claude AI · Dati live da Firebase
-</div>
+<canvas class="confetti" id="confetti"></canvas>
 
 <script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getFirestore, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import{getFirestore,doc,setDoc,onSnapshot}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCzDnRq7_Tfq7uktNfy2r8tFu0qTdrE-88",
-  authDomain: "hotelfuturo.firebaseapp.com",
-  projectId: "hotelfuturo",
-  storageBucket: "hotelfuturo.firebasestorage.app",
-  messagingSenderId: "349688895596",
-  appId: "1:349688895596:web:81b1e5f3c993099c9b6049"
-};
+const app=initializeApp({apiKey:"AIzaSyCzDnRq7_Tfq7uktNfy2r8tFu0qTdrE-88",projectId:"hotelfuturo",appId:"1:349688895596:web:81b1e5f3c993099c9b6049"});
+const db=getFirestore(app);
+const docRef=doc(db,'corso','sardegna');
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const docRef = doc(db, 'corso', 'sardegna');
-
-const FIN_COEFF = 1.17;
-const TOTAL = 27;
-
-const THEMATIC = [
-  'Kick-off: chi è il cliente',
-  'Marketing e comunicazione',
-  'Budget e KPI',
-  'Pricing e stagionalità',
-  'Comunicazione internazionale',
-  'Gestione clienti e recensioni',
-  'Procedure e organigramma',
-  'Simulazione crisi',
-  'Assemblaggio dashboard e Pitch'
+const SESSIONS=[
+  {time:'mat',title:'S1 — Chi è il cliente?',challenge:'Identikit del cliente luxury, target, provenienza'},
+  {time:'pom',title:'S2 — Marketing e comunicazione',challenge:'Social media, canali di vendita, contenuti bilingui'},
+  {time:'mat',title:'S3 — Budget e KPI',challenge:'Voci di costo, budget annuale, RevPAR, ADR, break-even'},
+  {time:'pom',title:'S4 — Pricing e stagionalità',challenge:'3 fasce prezzi, pacchetti bassa stagione'},
+  {time:'mat',title:'S5 — Comunicazione internazionale',challenge:'Email EN, About Us bilingue, partnership B2B'},
+  {time:'pom',title:'S6 — Gestione clienti e recensioni',challenge:'Risposte recensioni, programma fedeltà, CLV'},
+  {time:'mat',title:'S7 — Procedure e organigramma',challenge:'Organigramma, check-in 6 fasi, fornitori KM0'},
+  {time:'pom',title:'S8 — Simulazione crisi',challenge:'Crisi operative e reputazionali in tempo reale'},
+  {time:'mat',title:'S9 — Dashboard e Pitch finale',challenge:'Assemblaggio dashboard + presentazione ai docenti'},
 ];
 
-function effectivePts(sq, raw) {
-  return sq === 'fin' ? raw * FIN_COEFF : raw;
-}
+const SQ_ORDER=['amm','fin','mkt'];
+const FIN_COEFF=1.17;
 
-function displayPts(sq, raw) {
-  const eff = effectivePts(sq, raw);
-  return sq === 'fin' ? eff.toFixed(1) : Math.round(eff).toString();
-}
+let state={cur:0,pts:{amm:0,fin:0,mkt:0},reps:{amm:'',fin:'',mkt:''}};
 
-let prevPts = { amm: 0, fin: 0, mkt: 0 };
-
-function buildDots(cur) {
-  const container = document.getElementById('sess-dots');
-  container.innerHTML = '';
-  for (let i = 0; i < 9; i++) {
-    const d = document.createElement('div');
-    const done = cur >= (i + 1) * 3;
-    const active = !done && cur >= i * 3;
-    d.className = 'sdot' + (done ? ' done' : active ? ' cur' : '');
-    container.appendChild(d);
+onSnapshot(docRef,snap=>{
+  if(snap.exists()){
+    const d=snap.data();
+    state.cur=d.currentSession??0;
+    state.pts=d.pts??state.pts;
+    state.reps=d.reps??state.reps;
+    render();
   }
+});
+
+async function save(){
+  await setDoc(docRef,{currentSession:state.cur,pts:state.pts,reps:state.reps,updatedAt:Date.now()});
 }
 
-onSnapshot(docRef, (snap) => {
-  if (!snap.exists()) return;
-  const data = snap.data();
+function effPts(sq){
+  const raw=state.pts[sq]||0;
+  return sq==='fin'?Math.round(raw*FIN_COEFF):raw;
+}
 
-  const cur = data.currentSession ?? 0;
-  const pts = data.pts ?? { amm: 0, fin: 0, mkt: 0 };
-  const reps = data.reps ?? { amm: '', fin: '', mkt: '' };
+function render(){
+  const s=SESSIONS[state.cur]||{};
+  document.getElementById('h-title').textContent=s.title||'—';
+  const badge=document.getElementById('h-badge');
+  badge.textContent=s.time==='pom'?'Pomeriggio':'Mattina';
+  badge.className='sess-badge '+(s.time==='pom'?'pom':'mat');
+  document.getElementById('h-prog').textContent=state.cur+'/9';
+  document.getElementById('b-counter').textContent=(state.cur+1)+' / 9';
+  document.getElementById('b-challenge').textContent=s.challenge||'—';
 
-  // Progress
-  const pct = Math.round((cur / TOTAL) * 100);
-  document.getElementById('prog-fill').style.width = pct + '%';
-  document.getElementById('prog-val').textContent = cur + ' / ' + TOTAL;
-  buildDots(cur);
+  // Squadra di turno in base alla sessione (rotazione: amm→fin→mkt→amm...)
+  const sq=SQ_ORDER[state.cur%3];
+  document.getElementById('b-rep').textContent=state.reps[sq]||'—';
 
-  // Session label
-  const sessNum = Math.floor(cur / 3) + 1;
-  const clampedSess = Math.min(sessNum, 9);
-  const domQ = (cur % 3) + 1;
-  document.getElementById('sess-label').textContent =
-    cur >= TOTAL
-      ? '✅ Corso completato!'
-      : 'Sessione ' + clampedSess + '/9 — ' + (THEMATIC[clampedSess - 1] || '');
-  document.getElementById('sess-sub').textContent =
-    cur >= TOTAL ? '' : 'Domanda ' + (cur + 1) + '/27 · Q' + domQ + ' di 3';
-
-  // Effective scores
-  const effAmm = effectivePts('amm', pts.amm || 0);
-  const effFin = effectivePts('fin', pts.fin || 0);
-  const effMkt = effectivePts('mkt', pts.mkt || 0);
-  const maxEff = Math.max(effAmm, effFin, effMkt);
-
-  ['amm', 'fin', 'mkt'].forEach(sq => {
-    const raw = pts[sq] || 0;
-    const eff = effectivePts(sq, raw);
-    const disp = displayPts(sq, raw);
-
-    // Score with bump animation if changed
-    const el = document.getElementById('score-' + sq);
-    if (raw !== prevPts[sq]) {
-      el.classList.remove('bump');
-      void el.offsetWidth;
-      el.classList.add('bump');
-    }
-    el.textContent = disp;
-
-    // Bar
-    const pctVal = maxEff > 0 ? Math.round((eff / maxEff) * 100) : 0;
-    document.getElementById('bar-' + sq).style.width = pctVal + '%';
-    document.getElementById('pct-' + sq).textContent = pctVal + '%';
-
-    // Leader crown
-    document.getElementById('card-' + sq).classList.toggle('leader', eff === maxEff && maxEff > 0);
-
-    // Rep
-    document.getElementById('rep-' + sq).textContent = reps[sq] || '—';
+  ['amm','fin','mkt'].forEach(s=>{
+    document.getElementById('pts-'+s).textContent=effPts(s);
+    document.getElementById('rep-'+s).textContent=state.reps[s]||'—';
   });
 
-  prevPts = { amm: pts.amm || 0, fin: pts.fin || 0, mkt: pts.mkt || 0 };
-});
+  const maxP=Math.max(...['amm','fin','mkt'].map(s=>effPts(s)));
+  ['amm','fin','mkt'].forEach(s=>{
+    document.getElementById('card-'+s).classList.toggle('leader',effPts(s)===maxP&&maxP>0);
+  });
+}
+
+window.addPts=function(sq,n){
+  state.pts[sq]=Math.max(0,(state.pts[sq]||0)+n);
+  const card=document.getElementById('card-'+sq);
+  card.classList.add('pts-anim');
+  setTimeout(()=>card.classList.remove('pts-anim'),300);
+  render();save();
+  if(n>0&&effPts(sq)>=10) launchConfetti();
+};
+
+window.changeSess=function(dir){
+  const next=state.cur+dir;
+  if(next<0||next>=SESSIONS.length) return;
+  state.cur=next;render();save();
+  document.getElementById('rep-input').value='';
+};
+
+window.updateRep=function(){
+  const val=document.getElementById('rep-input').value;
+  const sq=SQ_ORDER[state.cur%3];
+  state.reps[sq]=val;
+  document.getElementById('b-rep').textContent=val||'—';
+  document.getElementById('rep-'+sq).textContent=val||'—';
+  clearTimeout(window._rt);
+  window._rt=setTimeout(save,600);
+};
+
+function launchConfetti(){
+  const canvas=document.getElementById('confetti');
+  const ctx=canvas.getContext('2d');
+  canvas.width=innerWidth;canvas.height=innerHeight;
+  canvas.classList.add('show');
+  const colors=['#C8A84B','#1A4A7B','#7B4F1A','#2D7B1A','#f0ece4'];
+  const pieces=Array.from({length:120},()=>({
+    x:Math.random()*innerWidth,y:-10,r:Math.random()*8+4,
+    color:colors[Math.floor(Math.random()*colors.length)],
+    vx:(Math.random()-.5)*5,vy:Math.random()*4+2,
+    rot:Math.random()*360,vr:(Math.random()-.5)*8
+  }));
+  let frames=0;
+  (function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);
+      ctx.fillStyle=p.color;ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r);
+      ctx.restore();
+      p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;p.vy+=.05;
+    });
+    if(++frames<200) requestAnimationFrame(draw);
+    else{ctx.clearRect(0,0,canvas.width,canvas.height);canvas.classList.remove('show');}
+  })();
+}
+
+render();
 </script>
 </body>
 </html>
