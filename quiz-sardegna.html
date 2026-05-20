@@ -148,7 +148,27 @@ const QUESTIONS={
   {q:"Quanto prende Booking di commissione su ogni prenotazione?",a:["Solo 2 euro fissi per ogni prenotazione","Il 75 percento del totale soggiorno","Circa il 15 percento del totale soggiorno","Zero euro perché è un servizio gratuito"]},
   {q:"Perché usare le OTA anche se costano commissioni?",a:["Perché sono gratuite e non costano nulla","Perché la legge obbliga tutti gli hotel","Perché il sito diretto non funziona mai","Danno visibilità a clienti che non ti conoscono"]},
   {q:"L'obiettivo per le prenotazioni dirette entro l'anno 2 è...",a:["Restare al 100 percento su Booking sempre","Eliminare completamente tutte le OTA subito","Raggiungere il 50 percento di prenotazioni dirette","Avere solo il 5 percento di dirette"]},
-  {q:"Se 5 notti costano 1400 euro quanto perde l'hotel su Booking?",a:["Circa 1400 euro perché prende tutto","Zero euro perché Booking è gratuito","Solo 5 euro di commissione totali","Circa 210 euro di commissione persi"]}]
+  {q:"Se 5 notti costano 1400 euro quanto perde l'hotel su Booking?",a:["Circa 1400 euro perché prende tutto","Zero euro perché Booking è gratuito","Solo 5 euro di commissione totali","Circa 210 euro di commissione persi"]}],
+'5':[{q:"Quanto budget marketing dovrebbe investire un hotel luxury all'anno?",a:["Esattamente il 3 percento e non oltre","Tra l'8 e il 10 percento del fatturato","Meno dell'1 percento del fatturato","Oltre il 50 percento del fatturato"]},
+  {q:"Su quale canale conviene investire la parte maggiore del budget?",a:["Solo su cartelloni stradali autostradali","Esclusivamente su spot radiofonici","Sito web e SEO per il traffico diretto","Solo su volantini cartacei locali"]},
+  {q:"La regola 80/20 nel social media marketing significa...",a:["80 percento video e 20 percento audio","80 percento emozione e 20 percento vendita","80 percento sconti e 20 percento prezzo","80 percento testo e 20 percento foto"]},
+  {q:"Quale piattaforma social è la principale per hotel luxury?",a:["Reddit per discussioni con i viaggiatori","Instagram per contenuti visivi emozionali","LinkedIn per contatti con aziende business","Twitter per aggiornamenti testuali rapidi"]},
+  {q:"Quando conviene concentrare la spesa pubblicitaria?",a:["Esclusivamente nelle festività natalizie","Solo ad agosto quando è già tutto pieno","Prima della bassa stagione per riempirla","Mai perché la pubblicità non serve"]}],
+'6':[{q:"Cos'è il RevPAR di un hotel?",a:["Il costo medio per pulizia camera","Il numero di recensioni per anno","Il ricavo medio per camera disponibile","Il ricavo medio per cliente registrato"]},
+  {q:"L'ADR (Average Daily Rate) misura...",a:["La tariffa media giornaliera per camera venduta","Il costo medio del personale giornaliero","La distanza media dall'aeroporto più vicino","Il numero medio di arrivi al giorno"]},
+  {q:"Un tasso di occupazione del 65 percento significa che...",a:["Tutte e 30 le suite sono sempre piene","Solo 5 suite su 30 sono occupate","L'hotel è chiuso per il 65 percento anno","Circa 20 suite su 30 sono occupate ogni notte"]},
+  {q:"Quale KPI controlla il direttore per primo ogni mattina?",a:["Il numero di follower su Instagram hotel","La temperatura esterna e il meteo locale","Occupazione del giorno e arrivi previsti","Il colore della biancheria nelle suite"]},
+  {q:"Se il RevPAR scende sotto il target cosa significa?",a:["Le recensioni online sono tutte positive","Il personale è troppo numeroso in hotel","L'hotel sta vendendo poche camere o a prezzi bassi","L'hotel sta andando benissimo e cresce"]}],
+'7':[{q:"Qual è la voce di costo più pesante di un hotel luxury?",a:["Il personale con circa il 40 45 percento","Il costo della biancheria e asciugamani","L'energia elettrica e il gas naturale","Le commissioni delle piattaforme OTA"]},
+  {q:"Quanto pesa il food and beverage sui costi totali?",a:["Meno dell'1 percento del totale costi","Oltre il 60 percento del totale costi","Esattamente il 50 percento dei costi","Circa il 12 15 percento del totale"]},
+  {q:"I costi di struttura e manutenzione pesano circa...",a:["Meno del 2 percento del totale costi","Esattamente l'1 percento dei costi","Tra il 15 e il 18 percento del totale","Oltre il 70 percento del totale costi"]},
+  {q:"Il marketing e la distribuzione pesano circa...",a:["Zero percento perché sono gratuiti","Oltre il 50 percento del totale costi","Tra il 10 e il 12 percento del totale","Meno dello 0,5 percento dei costi"]},
+  {q:"Con un fatturato di 2,1 milioni quale margine è sano?",a:["Il margine non esiste negli hotel","Tra il 25 e il 30 percento operativo","Meno dell'1 percento è già ottimo","Oltre il 90 percento è nella norma"]}],
+'8':[{q:"What is the estimated annual revenue of Hotel Futuro?",a:["Approximately 100 thousand euros per year","Approximately 2.3 million euros per year","Approximately 500 euros per year total","Approximately 20 million euros per year"]},
+  {q:"What is the break-even point for a 30-suite hotel?",a:["Only 1 suite per month is enough","About 16 suites occupied every single day","All 30 suites must be full every day","Break-even does not apply to hotels"]},
+  {q:"Which extra revenue source is most important besides rooms?",a:["Restaurant and SPA services combined together","Charging extra for air conditioning use","Parking fees for cars and motorbikes","Selling souvenirs at the front desk"]},
+  {q:"If occupancy drops from 65 to 40 percent what happens?",a:["Nothing changes because profit stays the same","The hotel falls below break-even and loses money","The hotel earns more money with fewer guests","Occupancy does not affect revenue at all"]},
+  {q:"Why is the budget split between rooms and extra services?",a:["Extra services are not important at all","The law requires splitting the budget equally","Rooms alone cannot reach the 2 million target","Rooms always cover all costs by themselves"]}]
 };
 
 const MEMBERS={
@@ -198,7 +218,7 @@ window.checkReady=function(){
 
 // Chiavi cifrate — visibili solo a Firebase, non ispezionabili dai ragazzi
 const KEYS_ENC={
-'1':[1,2,2,1,2],'2':[0,2,0,3,0],'3':[3,2,3,2,2],'4':[1,2,3,2,3]
+'1':[1,2,2,1,2],'2':[0,2,0,3,0],'3':[3,2,3,2,2],'4':[1,2,3,2,3],'5':[1,2,1,1,2],'6':[2,0,3,2,2],'7':[0,3,2,2,1],'8':[1,1,0,1,2]
 };
 const SETUP=urlParams.get('setup')==='true';
 
