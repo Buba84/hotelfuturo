@@ -232,7 +232,7 @@ const QUESTIONS={
 {q:"What is GOP margin target for luxury hotels?",a:["Less than one percent is already great","Between twenty five and thirty percent margin","Margin does not exist in hotel business","Over ninety five percent is the target"]}]
 };
 
-const KEYS_ENC={'1':[1,1,2,2,0,0,1,3,0,2],'2':[0,3,3,3,1,2,0,2,1,1],'3':[3,2,1,1,2,0,0,0,1,3],'4':[0,1,2,3,1,2,3,3,0,2],'5':[0,2,3,0,3,1,0,1,3,1],'6':[1,1,3,0,0,2,3,1,2,0],'7':[3,3,2,1,1,1,0,2,2,3],'8':[2,1,2,1,3,2,0,3,1,0],'9':[1,0,0,1,3,2,0,2,2,1],'10':[1,2,0,1,0,3,3,2,1,2],'11':[1,1,0,2,1,3,2,3,2,0],'12':[2,0,2,0,0,3,3,3,2,1]};
+// keys loaded from Firebase only
 
 const MEMBERS={
   amm:['Leyla Panizzon','Salma Lakrafi','Mattia Valberghi','Martina Battiston','Thomas Cadei','Francesco Cau','Giada Brambilla'],
@@ -240,6 +240,11 @@ const MEMBERS={
   mkt:['Desirè Sabatino','Chiara Reale Ruffino','Dalila Ciresa','Rebecca Piantanida','Andry Plaku','Margherita Puricelli','Alessandro Zeni']
 };
 const SQ_NAMES={amm:'Amministrazione',fin:'Finanza',mkt:'Marketing'};
+
+// Ogni studente vede domande e risposte in ordine diverso
+function nameToSeed(name){let h=0;for(let i=0;i<name.length;i++){h=((h<<5)-h)+name.charCodeAt(i);h|=0;}return Math.abs(h);}
+function seededRandom(seed){return function(){seed=(seed*16807+0)%2147483647;return(seed-1)/2147483646;};}
+function shuffleWithSeed(arr,rng){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 let selectedSquad=null;let playerName='';let currentQ=0;let score=0;let correctCount=0;let wrong=0;let times=[];let timerInterval=null;let timeLeft=TIMER;let questions=[];let correctKeys=[];
 
 window.selectSquad=function(sq){
@@ -284,9 +289,27 @@ window.startQuiz=async function(){
   try{
     const keysDoc=await getDoc(doc(db,'sardegna_quiz_keys','s'+ROUND));
     if(keysDoc.exists()&&keysDoc.data().keys){correctKeys=keysDoc.data().keys;}
-    else{correctKeys=KEYS_ENC[ROUND]||[0,0,0,0,0,0,0,0,0,0];}
-  }catch(e){correctKeys=KEYS_ENC[ROUND]||[0,0,0,0,0,0,0,0,0,0];}
-  questions=(QUESTIONS[ROUND]||QUESTIONS['1']).slice();
+    else{correctKeys=[0,0,0,0,0,0,0,0,0,0];}
+  }catch(e){correctKeys=[0,0,0,0,0,0,0,0,0,0];}
+  const rawQs=(QUESTIONS[ROUND]||QUESTIONS['1']).slice();
+  const rawKeys=correctKeys.slice();
+  // Mescola domande per ogni studente
+  const seed=nameToSeed(playerName+ROUND);
+  const rng=seededRandom(seed);
+  const indices=[...Array(rawQs.length).keys()];
+  const shuffledIdx=shuffleWithSeed(indices,rng);
+  // Riordina domande e chiavi
+  questions=shuffledIdx.map(i=>rawQs[i]);
+  correctKeys=shuffledIdx.map(i=>rawKeys[i]);
+  // Mescola anche le risposte per ogni domanda
+  const rng2=seededRandom(seed+7919);
+  for(let qi=0;qi<questions.length;qi++){
+    const q=questions[qi];
+    const correctAnswer=q.a[correctKeys[qi]];
+    const shuffledAnswers=shuffleWithSeed(q.a,rng2);
+    questions[qi]={q:q.q,a:shuffledAnswers};
+    correctKeys[qi]=shuffledAnswers.indexOf(correctAnswer);
+  }
   await setDoc(doc(db,COL,playerDocId),{name:playerName,squad:selectedSquad,score:0,correct:0,wrong:0,avgTime:0,started:true,completed:false,ts:Date.now()});
   showScreen('screen-quiz');showQuestion();
 };
@@ -335,8 +358,13 @@ function pick(i){
     else b.classList.add('disabled');
   });
   if(i===correct){
-    const pts=Math.max(10,Math.round(100*(1-elapsed/TIMER)));score+=pts;correctCount++;
-    showFeedback('correct','✓ Corretto!','+ '+pts+' punti');
+    if(elapsed<2){
+      const pts=0;
+      showFeedback('wrong','⚠️ Troppo veloce! Minimo 2 secondi.','0 punti — leggi prima!');
+    }else{
+      const pts=Math.max(10,Math.round(100*(1-elapsed/TIMER)));score+=pts;correctCount++;
+      showFeedback('correct','✓ Corretto!','+ '+pts+' punti');
+    }
   }else{wrong++;showFeedback('wrong','✗ Sbagliato.','0 punti');}
   const pid=playerName.replace(/\s+/g,'_')+'_r'+ROUND;
   const avgT=times.length?parseFloat((times.reduce((a,b)=>a+b,0)/times.length).toFixed(1)):0;
