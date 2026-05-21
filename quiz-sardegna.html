@@ -86,7 +86,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);m
 </div>
 
 <div class="screen" id="screen-quiz">
-  <div class="quiz-header"><span class="q-counter" id="q-counter">1/5</span><span class="q-score" id="q-score">0 punti</span></div>
+  <div class="quiz-header"><span class="q-counter" id="q-counter">1/10</span><span class="q-score" id="q-score">0 punti</span></div>
   <div class="timer-text" id="timer-text">Leggi...</div>
   <div class="timer-bar-w"><div class="timer-bar" id="timer-bar" style="width:100%"></div></div>
   <div class="question-card"><div class="question-text" id="q-text">—</div></div>
@@ -129,46 +129,86 @@ document.getElementById('lb-sess').textContent=ROUND;
 // DOMANDE — le risposte corrette NON sono qui, sono su Firebase
 // Tutte le opzioni hanno lunghezza simile per non dare vantaggi
 const QUESTIONS={
-'1':[{q:"Qual è il target principale dell'Hotel Futuro in Sardegna?",a:["Gruppi di studenti in viaggio studio","Coppie e professionisti con alto reddito","Famiglie numerose con bambini piccoli","Pensionati in cerca di tutto incluso"]},
-  {q:"Quanto spende in media a notte un cliente luxury?",a:["Meno di 30 euro a notte","Tra 800 e 1200 euro a notte","Tra 250 e 400 euro a notte","Tra 50 e 80 euro a notte"]},
-  {q:"Da quali mercati arrivano i clienti luxury in Sardegna?",a:["Esclusivamente dagli Stati Uniti America","Solo dalla Russia e dal Medio Oriente","Germania Italia del Nord UK e Francia","Solo dal Sud Italia e dalla Sicilia"]},
-  {q:"Cosa cerca il cliente luxury in un hotel?",a:["Animazione serale e discoteca in hotel","Privacy relax e servizio personalizzato","Buffet abbondante e piscina con scivoli","Prezzo basso e posizione centrale città"]},
-  {q:"Per quante notti soggiorna in media un cliente luxury?",a:["Almeno 30 notti come minimo assoluto","Solo una notte di passaggio veloce","Tra 4 e 7 notti di soggiorno","Esattamente 2 notti ogni volta sempre"]}],
-'2':[{q:"Quanto budget marketing dovrebbe investire un hotel luxury?",a:["Tra l'8 e il 10 percento del fatturato","Oltre il 50 percento del fatturato","Esattamente il 3 percento e non oltre","Meno dell'1 percento del fatturato annuo"]},
-  {q:"Su quale canale va investito il budget maggiore?",a:["Esclusivamente su cartelloni stradali autostrada","Solo su spot televisivi nazionali greci","Sito web e ottimizzazione SEO territoriale","Solo su volantini cartacei e giornali"]},
-  {q:"Quando conviene concentrare la spesa marketing?",a:["Prima della bassa stagione per riempirla","Esclusivamente a Natale e Capodanno festivo","Mai perché il marketing non serve","Solo durante l'alta stagione di agosto"]},
-  {q:"Il fatturato stimato dell'Hotel Futuro è circa...",a:["Circa 100 mila euro all'anno totali","Meno di 50 mila euro all'anno","Oltre 20 milioni di euro all'anno","Circa 2 milioni di euro all'anno"]},
-  {q:"Le commissioni delle OTA come Booking pesano circa...",a:["Il 15 percento su ogni prenotazione","Il 75 percento su ogni prenotazione","Zero percento le OTA sono gratuite","Solo 1 euro fisso per prenotazione"]}],
-'3':[{q:"Qual è la piattaforma social principale per un hotel luxury?",a:["LinkedIn per contatti con professionisti aziendali","TikTok per balletti e video divertenti","Twitter per aggiornamenti rapidi e notizie","Instagram per lo storytelling visivo emozionale"]},
-  {q:"La regola 80/20 nel marketing hotel significa...",a:["80 percento testo e 20 percento immagini","80 percento sconti e 20 percento prezzo","80 percento emozione e 20 percento vendita","80 percento pubblicità e 20 percento prodotto"]},
-  {q:"Quanti post a settimana servono su Instagram?",a:["Almeno 50 post ogni giorno della settimana","Zero post perché Instagram non funziona","Un solo post al mese è sufficiente","Circa 4 post e 3 stories a settimana"]},
-  {q:"Che tipo di contenuto funziona meglio per il luxury?",a:["Foto del parcheggio e della reception","Tabelle con i prezzi e gli sconti","Foto emozionali della suite al tramonto","Screenshot delle fatture e dei documenti"]},
-  {q:"Cos'è l'human touch nel social media marketing?",a:["Copiare i post degli hotel concorrenti","Non pubblicare mai foto delle persone","Mostrare il personale e la vita vera","Usare solo robot e messaggi automatici"]}],
-'4':[{q:"Qual è il canale di vendita più redditizio per l'hotel?",a:["Booking perché prende solo l'1 percento","Il sito diretto perché zero commissioni","Airbnb perché è completamente gratuito","I volantini nelle agenzie di viaggio"]},
-  {q:"Quanto prende Booking di commissione su ogni prenotazione?",a:["Solo 2 euro fissi per ogni prenotazione","Il 75 percento del totale soggiorno","Circa il 15 percento del totale soggiorno","Zero euro perché è un servizio gratuito"]},
-  {q:"Perché usare le OTA anche se costano commissioni?",a:["Perché sono gratuite e non costano nulla","Perché la legge obbliga tutti gli hotel","Perché il sito diretto non funziona mai","Danno visibilità a clienti che non ti conoscono"]},
-  {q:"L'obiettivo per le prenotazioni dirette entro l'anno 2 è...",a:["Restare al 100 percento su Booking sempre","Eliminare completamente tutte le OTA subito","Raggiungere il 50 percento di prenotazioni dirette","Avere solo il 5 percento di dirette"]},
-  {q:"Se 5 notti costano 1400 euro quanto perde l'hotel su Booking?",a:["Circa 1400 euro perché prende tutto","Zero euro perché Booking è gratuito","Solo 5 euro di commissione totali","Circa 210 euro di commissione persi"]}],
-'5':[{q:"Quanto budget marketing dovrebbe investire un hotel luxury all'anno?",a:["Esattamente il 3 percento e non oltre","Tra l'8 e il 10 percento del fatturato","Meno dell'1 percento del fatturato","Oltre il 50 percento del fatturato"]},
-  {q:"Su quale canale conviene investire la parte maggiore del budget?",a:["Solo su cartelloni stradali autostradali","Esclusivamente su spot radiofonici","Sito web e SEO per il traffico diretto","Solo su volantini cartacei locali"]},
-  {q:"La regola 80/20 nel social media marketing significa...",a:["80 percento video e 20 percento audio","80 percento emozione e 20 percento vendita","80 percento sconti e 20 percento prezzo","80 percento testo e 20 percento foto"]},
-  {q:"Quale piattaforma social è la principale per hotel luxury?",a:["Reddit per discussioni con i viaggiatori","Instagram per contenuti visivi emozionali","LinkedIn per contatti con aziende business","Twitter per aggiornamenti testuali rapidi"]},
-  {q:"Quando conviene concentrare la spesa pubblicitaria?",a:["Esclusivamente nelle festività natalizie","Solo ad agosto quando è già tutto pieno","Prima della bassa stagione per riempirla","Mai perché la pubblicità non serve"]}],
-'6':[{q:"Cos'è il RevPAR di un hotel?",a:["Il costo medio per pulizia camera","Il numero di recensioni per anno","Il ricavo medio per camera disponibile","Il ricavo medio per cliente registrato"]},
-  {q:"L'ADR (Average Daily Rate) misura...",a:["La tariffa media giornaliera per camera venduta","Il costo medio del personale giornaliero","La distanza media dall'aeroporto più vicino","Il numero medio di arrivi al giorno"]},
-  {q:"Un tasso di occupazione del 65 percento significa che...",a:["Tutte e 30 le suite sono sempre piene","Solo 5 suite su 30 sono occupate","L'hotel è chiuso per il 65 percento anno","Circa 20 suite su 30 sono occupate ogni notte"]},
-  {q:"Quale KPI controlla il direttore per primo ogni mattina?",a:["Il numero di follower su Instagram hotel","La temperatura esterna e il meteo locale","Occupazione del giorno e arrivi previsti","Il colore della biancheria nelle suite"]},
-  {q:"Se il RevPAR scende sotto il target cosa significa?",a:["Le recensioni online sono tutte positive","Il personale è troppo numeroso in hotel","L'hotel sta vendendo poche camere o a prezzi bassi","L'hotel sta andando benissimo e cresce"]}],
-'7':[{q:"Qual è la voce di costo più pesante di un hotel luxury?",a:["Il personale con circa il 40 45 percento","Il costo della biancheria e asciugamani","L'energia elettrica e il gas naturale","Le commissioni delle piattaforme OTA"]},
-  {q:"Quanto pesa il food and beverage sui costi totali?",a:["Meno dell'1 percento del totale costi","Oltre il 60 percento del totale costi","Esattamente il 50 percento dei costi","Circa il 12 15 percento del totale"]},
-  {q:"I costi di struttura e manutenzione pesano circa...",a:["Meno del 2 percento del totale costi","Esattamente l'1 percento dei costi","Tra il 15 e il 18 percento del totale","Oltre il 70 percento del totale costi"]},
-  {q:"Il marketing e la distribuzione pesano circa...",a:["Zero percento perché sono gratuiti","Oltre il 50 percento del totale costi","Tra il 10 e il 12 percento del totale","Meno dello 0,5 percento dei costi"]},
-  {q:"Con un fatturato di 2,1 milioni quale margine è sano?",a:["Il margine non esiste negli hotel","Tra il 25 e il 30 percento operativo","Meno dell'1 percento è già ottimo","Oltre il 90 percento è nella norma"]}],
-'8':[{q:"What is the estimated annual revenue of Hotel Futuro?",a:["Approximately 100 thousand euros per year","Approximately 2.3 million euros per year","Approximately 500 euros per year total","Approximately 20 million euros per year"]},
-  {q:"What is the break-even point for a 30-suite hotel?",a:["Only 1 suite per month is enough","About 16 suites occupied every single day","All 30 suites must be full every day","Break-even does not apply to hotels"]},
-  {q:"Which extra revenue source is most important besides rooms?",a:["Restaurant and SPA services combined together","Charging extra for air conditioning use","Parking fees for cars and motorbikes","Selling souvenirs at the front desk"]},
-  {q:"If occupancy drops from 65 to 40 percent what happens?",a:["Nothing changes because profit stays the same","The hotel falls below break-even and loses money","The hotel earns more money with fewer guests","Occupancy does not affect revenue at all"]},
-  {q:"Why is the budget split between rooms and extra services?",a:["Extra services are not important at all","The law requires splitting the budget equally","Rooms alone cannot reach the 2 million target","Rooms always cover all costs by themselves"]}]
+'1':[{q:"Qual è il target principale dell\'Hotel Futuro?",a:["Gruppi di studenti in vacanza economica","Pensionati italiani in cerca tutto incluso","Famiglie numerose con molti bambini piccoli","Coppie e professionisti con reddito elevato"]},
+  {q:"Quanto spende in media a notte un cliente luxury?",a:["Tra i 800 e i 1200 euro","Tra i 250 e i 400 euro","Tra i 30 e i 50 euro","Meno di 20 euro ogni singola notte"]},
+  {q:"Da quali mercati arrivano i clienti luxury?",a:["Solo dalla Russia e Medio Oriente","Esclusivamente da Stati Uniti America","Solo dal Sud Italia e Sicilia","Germania Italia del Nord UK Francia"]},
+  {q:"Cosa cerca il cliente luxury in hotel?",a:["Animazione serale e discoteca interna","Prezzo basso e posizione vicino centro","Privacy relax e servizio su misura","Buffet abbondante e piscina con scivoli"]},
+  {q:"Quante notti soggiorna in media il cliente luxury?",a:["Tra le 4 e le 7 notti","Almeno 30 notti come minimo assoluto","Esattamente 2 notti ogni singola volta","Solo una notte di passaggio veloce"]},
+  {q:"L\'età media del cliente luxury ideale è...",a:["Sotto i 16 anni con genitori sempre","Oltre gli 80 anni esclusivamente sempre","Tra i 30 e i 55 anni","Tra i 18 e i 22 anni"]},
+  {q:"Il cliente luxury sceglie l\'hotel in base a...",a:["Il numero di stelle sulla facciata","Solo il prezzo più basso trovato","Recensioni qualità e unicità dell\'esperienza","La vicinanza al centro commerciale vicino"]},
+  {q:"Santa Teresa di Gallura attrae turisti per...",a:["I centri commerciali e outlet vicini","Le grandi industrie e fabbriche locali","Le piste da sci e neve invernale","Mare cristallino e paesaggi naturali unici"]},
+  {q:"Un hotel da 30 suite si definisce...",a:["Grande resort con migliaia di stanze","Ostello per viaggiatori con zaino spalla","Boutique hotel di dimensioni contenute","Catena alberghiera internazionale molto grande"]},
+  {q:"Il cliente luxury prenota di solito con...",a:["Il giorno stesso senza prenotare prima","Non prenota mai e arriva direttamente","Almeno 3 anni prima della partenza","Da 2 a 6 mesi di anticipo"]}],
+'2':[{q:"Quanto budget marketing dovrebbe investire l\'hotel?",a:["Oltre il cinquanta percento del fatturato","Esattamente il tre percento non oltre","Tra otto e dieci percento del fatturato","Meno dell\'uno percento del fatturato annuo"]},
+  {q:"Su quale canale va investita la quota maggiore?",a:["Sito web e ottimizzazione SEO territoriale","Solo su volantini cartacei e giornali","Esclusivamente su spot televisivi nazionali","Solo su cartelloni stradali nelle autostrade"]},
+  {q:"Quando conviene concentrare la spesa marketing?",a:["Esclusivamente durante le festività natalizie","Prima della bassa stagione per riempirla","Solo ad agosto quando tutto è pieno","Mai perché la pubblicità non funziona"]},
+  {q:"Il fatturato stimato dell\'Hotel Futuro è circa...",a:["Circa due milioni di euro all\'anno","Meno di cinquantamila euro all\'anno","Circa centomila euro totali all\'anno","Oltre venti milioni di euro all\'anno"]},
+  {q:"Le commissioni OTA come Booking pesano circa...",a:["Il quindici percento su ogni prenotazione","Solo un euro fisso per ogni prenotazione","Il settantacinque percento su ogni prenotazione","Zero percento perché le OTA sono gratuite"]},
+  {q:"Il marketing digitale per hotel luxury include...",a:["Solo passaparola tra amici e parenti","Esclusivamente spot televisivi e radiofonici","Solo manifesti pubblicitari appesi sui muri","SEO social media e campagne Google Ads"]},
+  {q:"Il marketing annuo dell\'Hotel Futuro costa circa...",a:["Circa centottantamila euro stimati all\'anno","Meno di cinquecento euro totali all\'anno","Oltre cinque milioni di euro all\'anno","Esattamente dieci euro al mese soltanto"]},
+  {q:"Le PR e influencer dovrebbero avere circa...",a:["Zero percento perché non servono affatto","Il quindici percento del budget marketing","Solo cinque euro all\'anno di investimento","Il novanta percento di tutto il budget"]},
+  {q:"Google Ads serve per un hotel luxury perché...",a:["Google non è più utilizzato nel 2026","Intercetta chi cerca hotel lusso Sardegna","Solo le pizzerie usano Google Ads oggi","Nessuno usa Google per cercare hotel"]},
+  {q:"Investire in marketing in bassa stagione serve per...",a:["Attirare clienti quando l\'hotel è vuoto","Sprecare soldi perché nessuno viaggia mai","Chiudere l\'hotel e risparmiare sulle spese","Licenziare il personale che è in eccesso"]}],
+'3':[{q:"Quale piattaforma social è principale per hotel luxury?",a:["Instagram per lo storytelling visivo emozionale","LinkedIn per contatti con aziende e business","Reddit per discussioni con viaggiatori online","Twitter per aggiornamenti rapidi e testuali"]},
+  {q:"La regola 80/20 nel marketing hotel significa...",a:["Ottanta percento testo e venti immagini","Ottanta percento sconti e venti prezzo","Ottanta percento emozione e venti vendita","Ottanta percento pubblicità e venti prodotto"]},
+  {q:"Quanti post a settimana servono su Instagram?",a:["Circa quattro post e tre stories settimanali","Un solo post al mese è sufficiente","Almeno cinquanta post ogni singolo giorno","Zero post perché Instagram non funziona"]},
+  {q:"Che tipo di contenuto funziona meglio nel luxury?",a:["Tabelle con tutti i prezzi e sconti","Foto del parcheggio e della reception","Screenshot delle fatture e dei documenti","Foto emozionali della suite al tramonto"]},
+  {q:"Cos\'è l\'human touch nel social media marketing?",a:["Copiare i post degli hotel concorrenti","Usare solo robot e messaggi automatici","Mostrare il personale e la vita vera","Non pubblicare mai foto delle persone"]},
+  {q:"TikTok per un hotel luxury serve per...",a:["Mostrare le fatture inviate ai fornitori","Video brevi e virali dietro le quinte","Fare videochiamate con il proprio commercialista","Pubblicare solo documenti contabili interni"]},
+  {q:"Pinterest per un hotel luxury serve a...",a:["Gestire le prenotazioni dirette dei clienti","Generare traffico SEO a lungo termine","Vendere direttamente le camere ai clienti","Sostituire completamente il sito web ufficiale"]},
+  {q:"Facebook per un hotel luxury è utile per...",a:["Solo per ragazzi sotto i 18 anni","Pubblicare solo meme e video divertenti","Offerte e target sulle coppie mature","Gestire la contabilità interna dell\'hotel"]},
+  {q:"Il contenuto luxury non deve mai sembrare...",a:["Un catalogo di prodotti con prezzi","Una esperienza visiva e sensoriale completa","Un racconto emozionante ed esclusivo unico","Un invito personale e raffinato speciale"]},
+  {q:"Lo storytelling nel marketing hotel significa...",a:["Elencare tutti i servizi uno per uno","Mostrare solo i numeri del fatturato","Copiare le descrizioni direttamente da Booking","Raccontare storie che generano emozioni forti"]}],
+'4':[{q:"Qual è il canale di vendita più redditizio?",a:["Booking che prende solo uno percento","Airbnb perché è completamente gratuito sempre","Il sito diretto con zero commissioni","I volantini distribuiti nelle agenzie viaggio"]},
+  {q:"Quanto prende Booking di commissione a prenotazione?",a:["Circa il quindici percento del totale","Solo due euro fissi per ogni prenotazione","Zero euro perché il servizio è gratuito","Il settantacinque percento del totale soggiorno"]},
+  {q:"Perché usare le OTA anche se costano?",a:["Danno visibilità a chi non ti conosce","Perché la legge obbliga tutti gli hotel","Perché sono gratuite e non costano nulla","Perché il sito diretto non funziona bene"]},
+  {q:"L\'obiettivo prenotazioni dirette entro anno 2 è...",a:["Eliminare completamente tutte le OTA subito","Restare al cento percento su Booking","Avere solo il cinque percento dirette","Raggiungere il cinquanta percento di dirette"]},
+  {q:"Se 5 notti costano 1400 euro su Booking si perde...",a:["Zero euro perché Booking è totalmente gratuito","Circa duecentodieci euro di commissione persa","Solo cinque euro di commissione in totale","Circa millequattrocento euro perché prende tutto"]},
+  {q:"Airbnb Luxe è utile per raggiungere il mercato...",a:["Esclusivamente turisti provenienti dal Giappone","Solo pensionati italiani della zona centro","Solo studenti universitari europei giovani","Americano con clienti ad alto budget"]},
+  {q:"Un tour operator luxury prende una commissione di...",a:["Oltre il novanta percento del soggiorno","Zero percento perché lavora sempre gratis","Tra il dieci e il quindici percento","Solo un euro fisso per ogni cliente"]},
+  {q:"Mr and Mrs Smith è una piattaforma per...",a:["Solo bed and breakfast in zona campagna","Esclusivamente campeggi e bungalow sulla spiaggia","Solo ostelli economici destinati ai giovani","Hotel boutique e clienti di alto livello"]},
+  {q:"La strategia ideale per i canali è un...",a:["Solo il passaparola senza usare internet","Usare solo Booking e nient\'altro mai","Mix di diretto OTA e tour operator","Affidarsi esclusivamente ai volantini cartacei"]},
+  {q:"Se il 50 percento va su Booking il costo annuo è...",a:["Meno di cento euro totali all\'anno","Circa centotrenta mila euro commissioni anno","Zero euro perché le commissioni non esistono","Oltre dieci milioni di euro all\'anno"]}],
+'5':[{q:"Il budget marketing ideale per un hotel luxury è...",a:["Oltre il sessanta percento del fatturato","Tra otto e dieci percento del fatturato","Esattamente il due percento non oltre","Meno dell\'uno percento del fatturato totale"]},
+  {q:"Il canale con il maggior ritorno è...",a:["Esclusivamente spot televisivi e radiofonici","Il sito diretto senza commissioni OTA","Solo passaparola tra vicini di casa","Solo volantini cartacei nelle piazze locali"]},
+  {q:"La regola fondamentale del marketing luxury è...",a:["Ottanta percento sconti venti percento prezzo","Ottanta percento spam venti percento email","Ottanta percento volantini venti percento social","Ottanta percento emozione venti percento vendita"]},
+  {q:"Il social media principale per hotel luxury è...",a:["Instagram per le immagini e le emozioni","Twitter per i testi brevi e rapidi","LinkedIn per i contatti professionali business","Reddit per le discussioni tra viaggiatori"]},
+  {q:"La spesa marketing va concentrata soprattutto...",a:["Prima della bassa stagione per riempirla","Solo durante il periodo natalizio festivo","Mai perché il marketing non serve","Solo in agosto quando è tutto esaurito"]},
+  {q:"Le prenotazioni dirette devono arrivare al...",a:["Cento percento eliminando tutte le OTA","Cinquanta percento del totale entro anno due","Zero percento tutto deve passare da Booking","Solo il tre percento e non oltre"]},
+  {q:"Lo storytelling luxury significa in pratica...",a:["Scrivere lunghe liste di prezzi stanza","Raccontare emozioni invece di elencare servizi","Pubblicare solo foto del parcheggio hotel","Copiare testi da Wikipedia ogni settimana"]},
+  {q:"Le OTA sono costose perché prendono...",a:["Il quindici percento su ogni prenotazione fatta","Il novantanove percento del totale soggiorno","Solo un centesimo per ogni prenotazione","Zero percento sono completamente gratuite sempre"]},
+  {q:"I contenuti social settimanali devono essere circa...",a:["Un solo contenuto all\'anno è sufficiente","Almeno duecento contenuti ogni singolo giorno","Tra i dodici e i quindici in totale","Zero contenuti perché i social non servono"]},
+  {q:"La SEO territoriale significa farsi trovare su...",a:["Solo il nome esatto dell\'hotel proprietario","Ricerche come hotel lusso Sardegna online","Ricerche di ristoranti fast food Milano","Parole chiave sui treni regionali italiani"]}],
+'6':[{q:"Cos\'è il RevPAR di un hotel?",a:["Il ricavo medio per camera disponibile totale","Il numero di recensioni ricevute per anno","Il ricavo medio per ogni cliente registrato","Il costo medio per pulizia singola camera"]},
+  {q:"L\'ADR misura in un hotel...",a:["La distanza media dall\'aeroporto più vicino","La tariffa media giornaliera per camera venduta","Il numero medio di arrivi ogni giorno","Il costo medio del personale al giorno"]},
+  {q:"Un\'occupazione del 65 percento significa che...",a:["Circa venti suite su trenta sono occupate","L\'hotel è chiuso per il sessantacinque percento","Tutte le trenta suite sono sempre piene","Solo cinque suite su trenta sono occupate"]},
+  {q:"Quale KPI controlla il direttore ogni mattina?",a:["La temperatura esterna e il meteo locale","Occupazione del giorno e arrivi previsti oggi","Il colore della biancheria nelle suite","Il numero di follower su Instagram hotel"]},
+  {q:"Se il RevPAR scende sotto il target significa...",a:["Le recensioni online sono tutte molto positive","L\'hotel sta andando benissimo e sta crescendo","L\'hotel vende poche camere o a prezzi bassi","Il personale è troppo numeroso nell\'hotel"]},
+  {q:"Il tasso di occupazione ottimale per un luxury è...",a:["Sempre il cento percento ogni giorno anno","Tra il cinque e il dieci percento","Tra il dieci e il venti percento","Tra il sessantacinque e il settantacinque percento"]},
+  {q:"Il break-even indica quante suite servono per...",a:["Coprire tutti i costi fissi dell\'hotel","Assumere nuovi dipendenti in reception","Ottenere il massimo numero di recensioni","Decorare tutte le stanze del piano"]},
+  {q:"Se l\'ADR è 280 euro e l\'occupazione 65 percento il RevPAR è...",a:["Circa dieci euro per camera disponibile","Oltre mille euro per camera disponibile","Circa centottantadue euro per camera disponibile","Zero euro perché non si può calcolare"]},
+  {q:"Il mix canali è un KPI che misura...",a:["Il colore delle pareti in ogni camera","La percentuale di prenotazioni per ogni canale","La quantità di asciugamani usati al giorno","Il numero di cocktail serviti al bar"]},
+  {q:"Un hotel con RevPAR in crescita significa che...",a:["Non ha più camere disponibili per nessuno","Sta perdendo clienti e chiuderà presto","Il personale sta lavorando troppo male","Sta migliorando ricavi e occupazione insieme"]}],
+'7':[{q:"Quale voce di costo pesa di più in hotel?",a:["L\'energia elettrica e il gas naturale","Il costo della biancheria e asciugamani","Il personale con circa quaranta quarantacinque percento","Le commissioni delle piattaforme OTA sole"]},
+  {q:"Quanto pesa il food and beverage sui costi?",a:["Oltre il sessanta percento del totale costi","Esattamente il cinquanta percento dei costi","Meno dell\'uno percento del totale costi","Circa il dodici quindici percento del totale"]},
+  {q:"I costi di struttura e manutenzione pesano...",a:["Tra il quindici e il diciotto percento","Oltre il settanta percento del totale costi","Esattamente l\'uno percento dei costi totali","Meno del due percento del totale costi"]},
+  {q:"Marketing e distribuzione pesano circa...",a:["Oltre il cinquanta percento del totale costi","Zero percento perché sono sempre gratuiti","Tra il dieci e il dodici percento","Meno dello zero virgola cinque percento"]},
+  {q:"Con un fatturato di 2,1 milioni il margine sano è...",a:["Tra il venticinque e il trenta percento","Oltre il novanta percento è nella norma","Meno dell\'uno percento è già ottimo","Il margine non esiste negli hotel luxury"]},
+  {q:"I costi totali dell\'Hotel Futuro sono circa...",a:["Esattamente cento euro al mese soltanto","Un milione e seicentomila euro all\'anno","Oltre dieci milioni di euro all\'anno","Meno di mille euro totali all\'anno"]},
+  {q:"Il costo del personale per 32 dipendenti è circa...",a:["Solo cinquanta euro al mese complessivi","Meno di mille euro all\'anno totali","Oltre cinque milioni di euro all\'anno","Circa settecentoventimila euro all\'anno totali"]},
+  {q:"La navetta e i servizi extra pesano circa...",a:["Oltre il cinquanta percento dei costi","Tra il cinque e il sette percento","Meno dello zero virgola uno percento","Zero percento sono completamente gratuiti sempre"]},
+  {q:"Il margine operativo lordo si chiama anche...",a:["ZIP cioè Zero Investment Profit hotel","TAX cioè Total Annual Expenses hotel","REV cioè Revenue Extra Value hotel","GOP cioè Gross Operating Profit hotel"]},
+  {q:"Per aumentare il margine l\'hotel dovrebbe...",a:["Aumentare le prenotazioni dirette senza OTA","Licenziare tutto il personale dell\'hotel","Abbassare i prezzi al minimo possibile","Chiudere il ristorante e la SPA"]}],
+'8':[{q:"What is the estimated annual revenue of Hotel Futuro?",a:["Approximately five hundred euros per year","Approximately two point three million euros","Approximately one hundred thousand euros total","Approximately twenty million euros per year"]},
+  {q:"What is the break-even point for this hotel?",a:["All thirty suites must be full always","About sixteen suites occupied every single day","Only one suite per month is enough","Break-even does not apply to luxury hotels"]},
+  {q:"Which extra revenue source is most important?",a:["Parking fees for all cars and motorbikes","Restaurant and SPA services combined together","Charging guests extra for air conditioning","Selling souvenirs at the front desk"]},
+  {q:"If occupancy drops to 40 percent what happens?",a:["The hotel falls below break-even loses money","The hotel earns more with fewer guests","Nothing changes because profit stays same","Occupancy rate does not affect revenue"]},
+  {q:"Why must revenue include rooms and extra services?",a:["Rooms alone cannot reach the revenue target","Rooms always cover all costs by themselves","The law requires splitting budget equally","Extra services are not important at all"]},
+  {q:"What percentage does the staff cost represent?",a:["Exactly five percent and nothing more","Less than one percent of total costs","Between forty and forty five percent total","Over ninety percent of all total costs"]},
+  {q:"What is the ideal occupancy rate for luxury?",a:["Between one and three percent occupancy","Always one hundred percent every single day","Between five and ten percent occupancy","Between sixty five and seventy five percent"]},
+  {q:"How much does Booking take as commission?",a:["Seventy five percent of the total stay","Only two euros fixed per each booking","Zero percent because the service is free","Approximately fifteen percent per each booking"]},
+  {q:"What does RevPAR measure in a hotel?",a:["Cost per room cleaning service provided","Revenue per available room including empty ones","Revenue per guest who checks in today","Number of online reviews received per year"]},
+  {q:"What is the GOP margin target for luxury?",a:["Between twenty five and thirty percent margin","Less than one percent is already great","Over ninety five percent is the target","Margin does not exist in hotel business"]}]
 };
 
 const MEMBERS={
@@ -218,7 +258,7 @@ window.checkReady=function(){
 
 // Chiavi cifrate — visibili solo a Firebase, non ispezionabili dai ragazzi
 const KEYS_ENC={
-'1':[1,2,2,1,2],'2':[0,2,0,3,0],'3':[3,2,3,2,2],'4':[1,2,3,2,3],'5':[1,2,1,1,2],'6':[2,0,3,2,2],'7':[0,3,2,2,1],'8':[1,1,0,1,2]
+'1':[3,1,3,2,0,2,2,3,2,3],'2':[2,0,1,0,0,3,0,1,1,0],'3':[0,2,0,3,2,1,1,2,0,3],'4':[2,0,0,3,1,3,2,3,2,1],'5':[1,1,3,0,0,1,1,0,2,1],'6':[0,1,0,1,2,3,0,2,1,3],'7':[2,3,0,2,0,1,3,1,3,0],'8':[1,1,1,0,0,2,3,3,1,0]
 };
 const SETUP=urlParams.get('setup')==='true';
 
@@ -261,8 +301,8 @@ window.startQuiz=async function(){
     const keysDoc=await getDoc(doc(db,'sardegna_quiz_keys','s'+ROUND));
     if(keysDoc.exists()&&keysDoc.data().keys){
       correctKeys=keysDoc.data().keys;
-    }else{correctKeys=[1,1,1,1,1];}
-  }catch(e){correctKeys=[1,1,1,1,1];}
+    }else{correctKeys=[1,1,1,1,1,1,1,1,1,1];}
+  }catch(e){correctKeys=[1,1,1,1,1,1,1,1,1,1];}
   
   questions=(QUESTIONS[ROUND]||QUESTIONS['1']).slice();
   

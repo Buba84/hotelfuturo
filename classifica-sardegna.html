@@ -205,7 +205,7 @@ function renderAll(scores,isGeneral){
     '<div class="p-name">'+s.name+'</div>'+
     '<span class="p-sq '+SQC[s.squad]+'">'+SQN[s.squad]+'</span>'+
     '<div class="p-pts">'+s.score+'</div>'+
-    '<div class="p-det">'+s.correct+(isGeneral?'':'/5')+' corrette · '+(s.avgTime||0)+'s</div>'+
+    '<div class="p-det">'+s.correct+(isGeneral?'':'/10')+' corrette · '+(s.avgTime||0)+'s</div>'+
     '</div>'
   ).join('');
 
@@ -215,7 +215,7 @@ function renderAll(scores,isGeneral){
     '<span class="lb-rank">'+(i<3?medals2[i]:i+1)+'</span>'+
     '<span class="lb-name">'+s.name+'</span>'+
     '<span class="lb-sq '+SQC[s.squad]+'">'+SQN[s.squad]+'</span>'+
-    '<span class="lb-cor">'+s.correct+(isGeneral?'':'/5')+'</span>'+
+    '<span class="lb-cor">'+s.correct+(isGeneral?'':'/10')+'</span>'+
     '<span class="lb-time">'+(s.avgTime||0)+'s</span>'+
     '<span class="lb-pts">'+s.score+'</span>'+
     '</div>'
