@@ -23,7 +23,7 @@ import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-ap
 import{getFirestore,doc,setDoc}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 const app=initializeApp({apiKey:"AIzaSyCzDnRq7_Tfq7uktNfy2r8tFu0qTdrE-88",projectId:"hotelfuturo",appId:"1:349688895596:web:81b1e5f3c993099c9b6049"});
 const db=getFirestore(app);
-const KEYS={'1':[3,1,3,2,0,2,2,3,2,3],'2':[2,0,1,0,0,3,0,1,1,0],'3':[0,2,0,3,2,1,1,2,0,3],'4':[2,0,0,3,1,3,2,3,2,1],'5':[1,1,3,0,0,1,1,0,2,1],'6':[0,1,0,1,2,3,0,2,1,3],'7':[2,3,0,2,0,1,3,1,3,0],'8':[1,1,1,0,0,2,3,3,1,0],'9':[3,2,3,1,1,2,3,0,2,2],'10':[2,2,0,3,3,2,3,2,0,2],'11':[1,1,3,1,2,2,2,1,1,1],'12':[1,1,0,1,1,0,1,2,0,2]};
+const KEYS={'1':[3,1,3,2,0,2,2,3,2,3],'2':[2,0,1,0,0,3,0,1,1,0],'3':[0,2,0,3,2,1,1,2,0,3],'4':[2,0,0,3,1,3,2,3,2,1],'5':[1,1,3,0,0,1,1,0,2,1],'6':[0,1,0,1,2,3,0,2,1,3],'7':[2,3,0,2,0,1,3,1,3,0],'8':[1,1,1,0,0,2,3,3,1,0],'9':[3,3,1,1,2,2,0,3,1,2],'10':[0,0,1,3,0,3,1,1,3,2],'11':[3,1,2,1,3,2,1,0,2,0],'12':[0,1,0,2,0,3,1,2,3,1]};
 const st=document.getElementById('status');
 try{
   for(const[r,k]of Object.entries(KEYS)){
